@@ -1,0 +1,8 @@
+movie_to_animation_input.mp4
+./dmovie
+dmovie_output
+png
+192
+192
+5
+4

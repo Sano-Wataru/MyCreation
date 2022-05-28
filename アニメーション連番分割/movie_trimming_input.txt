@@ -1,0 +1,4 @@
+movie_trimming_input.mp4
+movie_trimming_output.mp4
+0
+1.5
