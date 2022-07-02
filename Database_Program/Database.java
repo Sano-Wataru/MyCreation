@@ -3,7 +3,7 @@ import java.sql.*;
 
 class Database {
     private static final String DRIVER_NAME = "org.sqlite.JDBC";
-    private static final String JDBC_URL = "jdbc:sqlite:D:\\ProgramFile\\DataBase\\sqlite3\\sqlite-tools-win32-x86-3380500\\user.sqlite3";
+    private static final String JDBC_URL = "jdbc:sqlite:./user.sqlite3";
 
     Connection connection = null;
     Statement statement = null;
