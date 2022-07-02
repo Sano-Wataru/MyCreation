@@ -1,0 +1,306 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let G_obj_frame = 0;
+   let G_obj_gage = 0;
+   let LifeP = 0;
+   let LifeMax = 250;
+    @Initialize
+    {
+        let imgEnemy= GetCurrentScriptDirectory~"img\enemy_all.png";
+       SetLife(LifeMax);
+    SetTexture(imgEnemy);
+    SetGraphicRect(71, 86 ,133 ,134);
+    SetGraphicAngle(0, 0, 0);
+    SetGraphicScale(0.6, 0.6);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+       MainShot; BossGage;
+  }
+    @MainLoop
+    {
+  let x_min = 0; let y_min = 15; let x_max = 500; let y_max = 30;
+    LifeP = GetLife/LifeMax; OutputDebugString(2, "", LifeP);
+
+       //当たり判定//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+
+         Obj_SetPosition( G_obj_frame, GetX, GetY - 40  );
+         Obj_SetPosition( G_obj_gage, GetX, GetY - 40  );
+
+        ObjEffect_SetVertexUV( G_obj_gage, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage, 0, x_min - x_max/2, (y_min -7) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 1, x_min - x_max/2, (y_max -7) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 2, x_max * LifeP - x_max/2, (y_min -7) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 3, x_max * LifeP - x_max/2, (y_max -7) - y_max/2);
+
+       yield;
+  }
+    @Finalize
+    {
+  let angle = 0;
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+
+      SetCommonData("MPowerAmount", 2);
+      SetCommonData("PowerAmount", 12);
+      SetCommonData("ShieldAmount", rand(10,13));
+      SetCommonData("K_ShieldAmount", rand(3,5));
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt", GetX, GetY, 0, 90, 0);
+     DeleteEnemyShot(ALL);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task ChargeTask{
+  loop(50){
+       Effect_Charge(GetX, GetY, GetX+rand(-200,200), GetY+rand(-200,200), rand(10,20));
+    loop(2){
+       Effect_Charge_Line(GetX, GetY, GetX+rand(-200,200), GetY+rand(-200,200), rand(5,10));
+         }
+     yield;
+    }
+}
+
+ task MainShot{
+
+ loop(2){
+  let angle = GetAngleToPlayer;
+  let angle2 = GetAngleToPlayer;
+   Wait(60);
+   loop(80){
+    CreateShot02(GetX+rand(-30,30), GetY, 0.1, angle, 0.05, 3, 2, 10);
+    CreateShot02(GetX+rand(-30,30), GetY, 0.1, angle2, 0.05, 3, 2, 10);
+       angle += 360/10.5;
+       angle2 -= 360/10-0.5;
+        yield;
+     }
+
+   angle = rand(0,360); angle2 = rand(0,360);
+
+   loop(80){
+    CreateShot02(GetX, GetY+rand(-30,30), 6, angle, -0.1, 1, 2, 10);
+    CreateShot02(GetX, GetY+rand(-30,30), 6, angle2, -0.1, 1, 2, 10);
+       angle += 360/10+0.5;
+       angle2 -= 360/10-0.5;
+        yield;
+     }
+  ChargeTask;
+   Wait(50);
+    angle = GetAngleToPlayer;
+      loop(10){
+       CreateLaserB(0, 150, 40, 8, 30);
+       SetLaserDataB(0, 0, 0, 0, 1, angle, 0, angle, 0);
+       SetShotKillTime(0, 400);
+       FireShot(0);
+              angle += 360/10;
+          }
+   }
+     Wait(50);
+    MainShot2;
+ }
+
+ task MainShot2{
+     let angle = 0;
+  loop(30){
+   CreateShotA(0, GetX + 20 * cos(angle), GetY + 20 * sin(angle), 0);
+   SetShotDataA(0, 0, 1, GetAngleToPlayer + angle, 0.7, 0.1, 3, 25);
+   FireShot(0);
+        angle += 360/30;
+     }
+    Wait(40);
+  loop(30){
+   CreateShotA(0, GetX + 20 * cos(angle), GetY + 20 * sin(angle), 0);
+   SetShotDataA(0, 0, 1, GetAngleToPlayer + angle, -0.7, 0.1, 3, 25);
+   FireShot(0);
+        angle -= 360/30;
+     }
+    Wait(40);
+  loop(30){
+   CreateShotA(0, GetX + 20 * cos(angle), GetY + 20 * sin(angle), 0);
+   SetShotDataA(0, 0, 1, GetAngleToPlayer + angle, 0.7, 0.1, 3, 25);
+   FireShot(0);
+        angle += 360/30;
+     }
+      Wait(100);
+   if(GetLife > 125){
+     MainShot;
+        }else{
+     SecondShot;
+     }
+ }
+
+ task SecondShot{
+   let a = 0;
+   let angle = [0,0,0,0,0,0]; let n = 0;
+   let angle2 = GetAngleToPlayer; let i = 0;
+ 
+  RoundTask;
+    task RoundTask{
+          loop(15){
+            loop(4){
+              RoundShot01(GetX, GetY, 3, angle2+i, 31, 10, 5);
+           i += 10;
+          }
+            angle2 += 20;
+          Wait(10);
+        }
+
+          Wait(60);
+
+          loop(15){
+            loop(4){
+              RoundShot01(GetX, GetY, 3, angle2+i, 31, 10, 5);
+           i -= 10;
+          }
+            angle2 -= 20;
+          Wait(10);
+        }
+
+    }//RoundTask_end
+
+     Wait(150);
+
+   loop(6){
+     ShotIndo02(GetX, GetY, GetAngleToPlayer+a, 120, 30, 10, 0.4, 3);
+      angle[n] = GetAngleToPlayer+a;
+         n ++;
+       a += 360/6;
+    }
+     n = 0;
+      Wait(60);
+    loop(6){
+      CreateLaserC(n, GetX, GetY, 35, 34, 14, 0);
+      SetLaserDataC(n, 0, 2, angle[n], 0, 1, 20);
+        FireShot(n);
+       n++;
+     }
+
+   Wait(200);
+ let angle3 = GetAngleToPlayer;
+
+  ShotIndo01(GetX, GetY, angle3, 1);
+    Wait(40);
+  ReflectLaser(GetX, GetY, 2, 1, 20, angle3, 18, 0, 35, 34);
+    Wait(250);
+  
+  ChargeTask;
+   Wait(100);
+    SecondShot;
+
+ }
+
+task BossGage{ 
+  let x_min = 0; let y_min = 0; let x_max = 500; let y_max = 15; let size = 0.4;
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BossGage.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj, 0, x_min - x_max/2, y_min - y_max/2);
+        ObjEffect_SetVertexXY( obj, 1, x_min - x_max/2, y_max - y_max/2);
+        ObjEffect_SetVertexXY( obj, 2, x_max - x_max/2, y_min - y_max/2);
+        ObjEffect_SetVertexXY( obj, 3, x_max - x_max/2, y_max - y_max/2);
+
+         ObjEffect_SetScale( obj, size, size);
+         Obj_SetPosition( obj, GetX, GetY - 40 );
+         ObjEffect_SetLayer( obj, 5 );
+
+  x_min = 0; y_min = 15; x_max = 500; y_max = 30;
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BossGage.png";//パス
+
+        ObjEffect_SetTexture( obj2, path);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj2, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj2, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj2, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj2, 0, x_min - x_max/2, (y_min -7) - y_max/2);
+        ObjEffect_SetVertexXY( obj2, 1, x_min - x_max/2, (y_max -7) - y_max/2);
+        ObjEffect_SetVertexXY( obj2, 2, x_max - x_max/2, (y_min -7) - y_max/2);
+        ObjEffect_SetVertexXY( obj2, 3, x_max - x_max/2, (y_max -7) - y_max/2);
+
+         ObjEffect_SetScale( obj2, size, size);
+         ObjEffect_SetRenderState( obj2, ADD);
+         Obj_SetPosition( obj2, GetX, GetY - 40  );
+         ObjEffect_SetLayer( obj2, 5 );
+
+    G_obj_frame = obj; G_obj_gage = obj2;
+ }
+
+function RoundShot01(X,Y,Speed,Angle,Color,Delay,Way) {
+    // X     X座標
+    // Y     Y座標
+    // Speed 弾速
+    // Angle 角度
+    // Color 弾の色
+    // Delay ディレイ
+    // Way   弾の数
+    loop(Way) {
+        CreateShot01(X,Y,Speed,Angle,Color,Delay);
+        Angle += 360/Way;
+    }
+}
+
+task ReflectLaser(x, y, speed, ssp, smax, angle, color, delay, len, wid){
+   let obj = Obj_Create(OBJ_SINUATE_LASER);
+      Obj_SetPosition(obj, x, y);
+      Obj_SetSpeed(obj, speed);
+      Obj_SetAngle(obj, angle);
+      ObjShot_SetDelay(obj, delay);
+      ObjShot_SetGraphic(obj, color);
+      ObjSinuateLaser_SetLength(obj, len);
+      ObjSinuateLaser_SetWidth(obj, wid);
+
+   while(Obj_BeDeleted(obj) == false){
+
+    if(Obj_GetX(obj) < GetClipMinX){
+         loop(20){
+      CreateShot12(Obj_GetX(obj), Obj_GetY(obj), rand(1,8), rand(-1,1), rand(-0.07, 0.07), rand(-0.07, 0.07), rand(-2, 2), rand(-2, 2), 39, 10);
+         }
+     }
+
+    if(Obj_GetX(obj) > GetClipMaxX){
+         loop(20){
+      CreateShot12(Obj_GetX(obj), Obj_GetY(obj), rand(-1,-8), rand(-1,1), rand(-0.07, 0.07), rand(-0.07, 0.07), rand(-2, 2), rand(-2, 2), 39, 10);
+         }
+     }
+
+    if(Obj_GetY(obj) < GetClipMinY){
+         loop(20){
+      CreateShot12(Obj_GetX(obj), Obj_GetY(obj), rand(-1,1), rand(1,8), rand(-0.07, 0.07), rand(-0.07, 0.07), rand(-2, 2), rand(-2, 2), 39, 10);
+         }
+     }
+
+    if(Obj_GetY(obj) > GetClipMaxY){
+         loop(20){
+      CreateShot12(Obj_GetX(obj), Obj_GetY(obj), rand(-1,1), rand(-1,-8), rand(-0.07, 0.07), rand(-0.07, 0.07), rand(-2, 2), rand(-2, 2), 39, 10);
+         }
+     }
+
+   if((speed < smax && smax > 0) || (speed > smax && smax < 0)){
+  Obj_SetSpeed(obj, speed);
+     speed += ssp;
+      }
+    yield;
+  }
+
+}
+
+     #include_function".\task_Effect.txt"
+}

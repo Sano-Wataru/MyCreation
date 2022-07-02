@@ -1,0 +1,57 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let range = 12;
+   let speed = -2;
+   let vanish = false;
+    @Initialize{
+        let imgEnemy = gcsd~"img\Point_Item.png";
+       SetLife(10);
+      SetTexture(imgEnemy);
+      SetGraphicRect(1, 48, 23, 69);
+      SetGraphicScale(1, 1);
+      SetAngle(90);
+    }
+
+    @MainLoop{
+     if(OnPlayerMissed == false){
+
+       if(GetX - range < GetPlayerX && GetX + range > GetPlayerX && GetY - range < GetPlayerY && GetY + range > GetPlayerY && vanish == false){
+        ExtendPlayer(1);
+        Life_up; Effect_Life_up;
+        SetAlpha(0);
+         vanish = true;
+         EndTask;
+      }
+
+   }
+
+       SetSpeed(speed);
+       if(GetSpeed < 1.5){
+          speed += 0.05;
+        }
+
+       if(GetClipMaxY + 100 < GetY){
+          VanishEnemy;
+        }
+      yield;
+    }
+
+    @Finalize{
+    }
+
+    @DrawLoop{
+     DrawGraphic(GetX,GetY);
+    }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task EndTask{
+   Wait(80);
+  VanishEnemy;
+}
+
+     #include_function".\task_Effect.txt"
+}

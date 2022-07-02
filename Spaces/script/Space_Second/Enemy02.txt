@@ -1,0 +1,64 @@
+script_enemy_main//三方向レーザー
+{
+   let gcsd = GetCurrentScriptDirectory;
+    @Initialize
+    {
+        let imgEnemy= GetCurrentScriptDirectory~"img\enemy_all.png";
+       SetLife(10);
+    SetTexture(imgEnemy);
+    SetGraphicRect(123, 24 ,185 ,52);
+    SetGraphicAngle(0, 180, 0);
+    SetGraphicScale(0.6, 0.6);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+
+  MainShot;
+
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+       yield;
+  }
+    @Finalize
+    {
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(0,1));
+      SetCommonData("ShieldAmount", rand(1,3));
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task MainShot
+  {
+    loop(4){
+       Wait(50);
+   let angle = GetAngleToPlayer;
+   let cnt = 0;
+    loop(10){
+       loop(3){
+     CreateShot01(GetX, GetY, 3, angle + cnt, 8, 0);
+         cnt += 120;
+           }
+       Wait(10);
+       } 
+
+ loop(3){
+     CreateLaserA(0, GetX, GetY, 800, 10, 2, 0);
+     SetLaserDataA(0, 0, angle + cnt, 0, 0, 0, 0);
+     SetShotKillTime(0, 40);
+     FireShot(0);
+       cnt += 120;
+   }
+
+     }
+  }
+
+}

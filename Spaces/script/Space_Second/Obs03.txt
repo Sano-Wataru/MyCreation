@@ -1,0 +1,99 @@
+script_enemy_main//è·äQï®//
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let imgEnemy= gcsd~"img\Obs01.png";
+   let cnt = 0;
+    @Initialize
+    {
+       SetLife(320);    
+    SetTexture(imgEnemy);
+    SetGraphicRect(344, 2 ,418 ,76);
+    SetGraphicScale(1, 1);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+    MainTask;
+  }
+
+   @MainLoop
+   {
+    SetCollisionA(GetX,GetY,40);
+    SetCollisionB(GetX,GetY,40);
+     if(GetX < GetCenterX){
+        cnt = 0.35;
+       }
+     if(GetX >= GetCenterX){
+        cnt = -0.35;
+       }
+
+     if(GetX < GetClipMinX - 350 || GetX > GetClipMaxX + 350 || GetY < GetClipMinY - 350 || GetY > GetClipMaxY + 350){
+        VanishEnemy;
+      }
+
+     if(GetX < GetClipMinX - 50 || GetX > GetClipMaxX + 50 || GetY < GetClipMinY - 50 || GetY > GetClipMaxY + 50){
+     SetDamageRate(0, 0);
+      }else{
+     SetDamageRate(100, 100);
+      }
+
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 350 || GetX > GetClipMaxX + 350 || GetY < GetClipMinY - 350 || GetY > GetClipMaxY + 350){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(2,5));
+      SetCommonData("ShieldAmount", rand(1,4));
+     loop(rand(5,8)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetX, GetY, 0, 0, 1);
+      }
+
+     loop(rand(1,2)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetX, GetY, 0, 0, 1);
+      }
+    }
+   }
+
+   @DrawLoop
+   {//ï`âÊ
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task MainTask{
+   while(GetY < GetClipMinY + 40){
+     yield;
+   }
+    let angle = 0; let n = 0;
+
+   while(GetY < GetClipMaxY){
+    angle = GetAngleToPlayer + 45;
+
+  loop(4){
+     CreateLaserB(n, 700, 20, 2, 100);
+     SetLaserDataB(n, 0, 0, 0, 0, angle+90*(n-1), cnt, angle+90*(n-1), cnt);
+    SetShotKillTime(n, 250);
+    FireShot(n);
+      n ++;
+    }
+
+ Wait(250);
+ n = 0; angle -= 20;
+
+  loop(4){
+     CreateLaserB(n, 700, 20, 1, 100);
+     SetLaserDataB(n, 0, 0, 0, 0, angle-90*(n-1), -cnt, angle-90*(n-1), -cnt);
+    SetShotKillTime(n, 250);
+    FireShot(n);
+      n ++;
+    }
+
+     Wait(600);
+   }
+ }
+
+}

@@ -1,0 +1,55 @@
+script_enemy_main//ŽG‹›‘D
+{
+    let gcsd = GetCurrentScriptDirectory;
+   @Initialize
+    {
+        let imgEnemy= gcsd~"img\enemy_all.png";
+       SetLife(1);
+    SetTexture(imgEnemy);
+    SetGraphicRect(194, 8 ,236 ,58);
+    SetGraphicScale(0.7, 0.7);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+    
+    MainTask;
+   }
+   
+   @MainLoop
+   {
+       //“–‚½‚è”»’è//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+    SetGraphicAngle(0, 0, GetAngle - 90);
+
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+        VanishEnemy;
+      }
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(0,1));
+      SetCommonData("ShieldAmount", 1);
+    }
+   }
+
+   @DrawLoop
+   {//•`‰æ
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+  task MainTask{
+   loop{
+      CreateLaser01(GetX, GetY, 5, GetAngle + rand(-30, 30), 50, 5, 15, 0);
+     Wait(15);
+   }
+ }
+}

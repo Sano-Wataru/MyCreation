@@ -1,0 +1,69 @@
+script_enemy_main
+{//Enemy09(Gun)
+  //直進 全方位(5way)
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(200);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(208,0,232,20);
+    SetGraphicAngle(0,180,0);
+    LoadUserShotData(GetCurrentScriptDirectory~"ShotData.txt");
+     StartMove;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(0,2)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+   task StartMove{
+   if(GetArgument == 0){
+   SetMovePosition03(GetCenterX-50,GetCenterY-80,10,8);
+             }
+   if(GetArgument == 1){
+   SetMovePosition03(GetCenterX+50,GetCenterY-80,10,8);
+             }
+   Wait(100);
+   MainShot;
+      }
+  task MainShot{
+   let angle = GetAngleToPlayer;
+   loop(3){
+      WayShot01(GetX,GetY,10,angle,10,0,5,10);
+      Wait(10);
+        }
+    Wait(50);
+    MainShot;
+  }
+    
+function WayShot01(X,Y,Speed,Angle,Color,Delay,Way,Gap) {
+//弾を複数の方向に打つ関数です　いわゆるWay弾です
+//WayShot01(X位置,Y位置,速度,中心角度,色,延長,数,弾と弾の間);
+	Angle -= (Way-1)/2*Gap;
+	loop(Way) {
+		CreateShot01(X,Y,Speed,Angle,Color,Delay);
+		Angle += Gap;
+	}
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

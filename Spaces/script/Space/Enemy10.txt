@@ -1,0 +1,83 @@
+script_enemy_main
+{//Enemy10(Gun)
+  //直進 三連弾(3way)
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(100);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(418,0,442,23);
+    SetGraphicAngle(0,180,0);
+     StartMove;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(1,5)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }      
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+         task StartMove{
+      //最初の位置まで待機
+    LoadUserShotData(GetCurrentScriptDirectory~"ShotData.txt");
+      if(GetArgument == 0){
+      SetMovePosition03(GetX,GetY+200,10,4);
+     }
+
+     Wait(80);
+
+        ShotMain;
+
+       Wait(500);
+
+        if(GetArgument == 0){
+           SetSpeed(3);
+           SetAngle(90);
+         }
+
+      }
+         task ShotMain{
+    let angle = 0;
+
+       CreateShot02(GetX, GetY, 10, GetAngleToPlayer, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 9, GetAngleToPlayer, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 8, GetAngleToPlayer, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 7, GetAngleToPlayer, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 6, GetAngleToPlayer, -0.1, 4, 12, 0);
+
+       CreateShot02(GetX, GetY, 10, GetAngleToPlayer+2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 9, GetAngleToPlayer+2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 8, GetAngleToPlayer+2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 7, GetAngleToPlayer+2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 6, GetAngleToPlayer+2, -0.1, 4, 12, 0);
+
+       CreateShot02(GetX, GetY, 10, GetAngleToPlayer-2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 9, GetAngleToPlayer-2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 8, GetAngleToPlayer-2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 7, GetAngleToPlayer-2, -0.1, 4, 12, 0);
+       CreateShot02(GetX, GetY, 6, GetAngleToPlayer-2, -0.1, 4, 12, 0);
+
+        Wait(100);
+
+        ShotMain;
+        }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

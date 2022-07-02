@@ -1,0 +1,441 @@
+#東方弾幕風[Stage]
+#Title[Space_Second]
+#Text[]
+#Image[]
+#BackGround[]
+#Player[.\Player_Ship\Player_Main.txt]
+#ScriptVersion[3]
+#System[]
+
+    script_stage_main
+   {
+
+    let gcsd = GetCurrentScriptDirectory;
+    let PlayerMiss = true;
+    let PowerData = 0;
+
+    let fannel = 0;
+
+    let x_min = 0;
+    let x_max = 420;
+    let y_min = 0;
+    let y_max = 488;
+    let MoveX = 0;
+    let MoveX_2 = 0;
+    let MoveY = 0;
+    let MoveY_2 = 0;
+    let setx = 0;
+    let BG_frame = 0;
+    let BGT_frame = 0;
+    let ST_frame = 1;
+    let G_obj = [0, 0, 0];
+    let S_obj = [0, 0];
+    let G_obj_health = [0,0,0,0,0,0];
+    let G_obj_bomb = [0,0,0,0,0,0];
+    let G_obj_score = [0,0,0,0,0,0,0,0,0];
+    let G_obj_graze = [0,0,0,0];
+    let G_obj_power = [0,0,0,0];
+    let G_health_n = [0,0,0,0,0,0];
+    let G_health_x = [0,0,0,0,0,0];
+    let G_bomb_n = [0,0,0,0,0,0];
+    let G_bomb_x = [0,0,0,0,0,0];
+    let H_frame = 0;
+
+    let TitleStart = false; //タイトルスタート==true//
+    let Title_frame = 0;
+    let GameOver = false; //ゲームオーバー//
+
+    let maxV = 500; //シールドゲージ上限//
+
+    let life_score = 0;
+
+    //共通データ//
+    let Shield_Gage = 0;
+
+      function Wait(let frame)
+      {//待機関数
+       loop(frame){yield;}
+      }
+
+     @Initialize()
+     {
+    SetRenderFrame(false);
+    SetDefaultStatusVisible(false);
+    ExpertEx(false,0,4);
+
+    CreateDebugWindow;
+    SetCommonData("シールドゲージ", 0); AddPoint(0);AddGraze(0);
+    SetCommonData("ファンネル", 0);
+    SetCommonData("最大ファンネル", 3);
+    SetCommonData("ボス死亡", 0);
+
+       LoadGraphic(GetCurrentScriptDirectory~"img\enemy_all.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\meteor.png"); 
+       LoadGraphic(GetCurrentScriptDirectory~"img\FrameMeteor.png"); 
+       LoadGraphic(GetCurrentScriptDirectory~"img\Obs01.png");     
+       LoadGraphic(GetCurrentScriptDirectory~"img\Point_Item.png");     
+       LoadGraphic(GetCurrentScriptDirectory~"img\Health.png");    
+       LoadGraphic(GetCurrentScriptDirectory~"img\Bomb.png");  
+       LoadGraphic(GetCurrentScriptDirectory~"img\Enemy_Appear.png");     
+       LoadGraphic(GetCurrentScriptDirectory~"img\Enemy_Appear2.png");    
+       LoadGraphic(GetCurrentScriptDirectory~"img\figure.png");     
+       LoadGraphic(GetCurrentScriptDirectory~"img\ShieldGage01.png");   
+       LoadGraphic(GetCurrentScriptDirectory~"img\ShieldGage02.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\ShieldGage03.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\Explosion.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\White.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\WhiteRing.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\WhiteRing2.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\lifeup.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\energyup.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\shiplevelup.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\Triangle01.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\Triangle02.png");
+       LoadGraphic(GetCurrentScriptDirectory~"img\BossGage.png");
+
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy06.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy07.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy08.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy09.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy10.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy11.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy12.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy14.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"EnemyA.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"EnemyB.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Boss01.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Boss02.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Boss_Appear.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"EnemyDeath01.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"EnemyDeath02.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Meteor01.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Meteor01(Fire).txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Meteor02(Fire).txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Meteor03(Fire).txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"FrameMeteor.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Obs01.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Obs02.txt");
+       CompileEnemyFromFile(GetCurrentScriptDirectory~"Obs03.txt");
+         ItemLoop;
+     }
+
+     @MainLoop()
+     {
+OutputDebugString(3, "", GetCommonData("PowerX"));
+  if(GetCommonDataDefault("シールドゲージ", 0) >= 500){
+     SetCommonData("シールドゲージ", 500);
+  }
+
+  if(GetPlayerLife > 6){
+    ExtendPlayer(-1);
+  }
+
+  //タイトル画面移動禁止//
+  if(TitleStart == false){
+   SetPlayerX(GetCenterX);
+   SetPlayerY(GetCenterY+150);
+    ForbidShot(true);
+    ForbidBomb(true);
+     }
+  //ここまで//
+
+  //スコア別処理//
+    if(GetScore > 200000 && life_score == 0){
+        AddBomb(1);
+        Energy_up; Effect_Level_up;
+      life_score = 1;
+
+    loop(rand(5,10)){
+      ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+    if(GetScore > 800000 && life_score == 1){
+        ExtendPlayer(1);
+        Life_up; Effect_Level_up;
+      life_score = 2;
+
+    loop(rand(10,20)){
+      ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+    if(GetScore > 2000000 && life_score == 2){
+        AddBomb(1);
+        Energy_up; Effect_Level_up;
+      life_score = 3;
+    fannel ++;
+    SetCommonData("ファンネル", fannel);
+  Level_up; Effect_Level_up;
+
+    loop(rand(20,25)){
+      ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+    loop(rand(2,4)){
+      K_ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+    if(GetScore > 4000000 && life_score == 3){
+        ExtendPlayer(1);
+        Life_up; Effect_Level_up;
+      life_score = 4;
+
+    loop(rand(15,18)){
+      ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+    loop(rand(5,8)){
+      K_ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+    if(GetScore > 8000000 && life_score == 4){
+        AddBomb(1);
+        Energy_up; Effect_Level_up;
+      life_score = 5;
+
+    loop(rand(10,13)){
+      ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+    loop(rand(8,12)){
+      K_ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+
+    if(GetScore > 20000000 && life_score == 5){
+        ExtendPlayer(1);
+        Life_up; Effect_Level_up;
+      life_score = 6;
+    fannel ++;
+    SetCommonData("ファンネル", fannel);
+  Level_up; Effect_Level_up;
+
+    loop(rand(3,8)){
+      ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+    loop(rand(12,16)){
+      K_ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+
+    if(GetScore > 80000000 && life_score == 5){
+        ExtendPlayer(1);
+        Life_up; Effect_Level_up;
+      life_score = 6;
+    fannel ++;
+    SetCommonData("ファンネル", fannel);
+  Level_up; Effect_Level_up;
+
+    loop(rand(20,23)){
+      K_ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+    loop(rand(3,5)){
+      M_ShieldItem(GetPlayerX+rand(-40,40), GetPlayerY+rand(-40,40));
+      }
+
+    }
+  //スコア別処理//ここまで
+
+  //ゲームオーバー処理//
+   if(GetPlayerLife <= 1 && GameOver == false){
+     GameOverTask;
+    GameOver = true;
+    ForbidBomb(true);
+    ForbidShot(true);
+  }
+  //ここまで//
+
+  //シールド//
+    OutputDebugString(0, "シールドゲージ", GetCommonDataDefault("シールドゲージ", 0));
+  //シールドここまで//
+    OutputDebugString(1, "敵の数", GetEnemyNum);
+
+   if(OnPlayerMissed == true && PlayerMiss == true){//プレイヤー死亡時処理//
+      //死亡時パワーばら撒き//
+   let range_x = 50;
+   let range_y = 50;
+
+       CreateEnemyFromFile(gcsd~"PlayerDeath01.txt", GetPlayerX, GetPlayerY, 0, 0, 0);
+        if(GetPoint > 0){
+      PowerData = GetPoint;
+         AddPoint(-PowerData / 4);
+      PowerData = PowerData / 4;
+
+      WhiteSpread(GetPlayerX, GetPlayerY-120);
+     while(PowerData > 100){
+     GPower(GetPlayerX + rand(-range_x, range_x), GetPlayerY-120 + rand(-range_y, range_y));
+          PowerData -= 50;
+    }
+
+     while(PowerData > 20){
+     MPower(GetPlayerX + rand(-range_x, range_x), GetPlayerY-120 + rand(-range_y, range_y));
+          PowerData -= 10;
+    }
+
+     while(PowerData > 0){
+     Power(GetPlayerX + rand(-range_x, range_x), GetPlayerY-120 + rand(-range_y, range_y));
+          PowerData -= 1;
+    }
+
+       }
+      //死亡時パワーばら撒きここまで//
+
+       PlayerMiss = false;
+        }//プレイヤー死亡時処理ここまで//
+
+   if(OnPlayerMissed == false){//プレイヤー初期化//
+       PlayerMiss = true;
+        }
+ Draw_Health;
+ Draw_Bomb;
+ Draw_Score;
+ Draw_Graze;
+ Draw_Power;
+
+    H_frame ++;
+   if(H_frame > 40){
+     H_frame = 0;
+  }
+
+          yield;
+     }//MainLoopここまで
+
+     @Finalize
+     {
+     }
+
+     @BackGround
+     {
+  //背景処理//
+      if(BG_frame == 0){//初めに一度だけ実行//
+     Reset_BackGround;
+
+       }
+
+  //背景処理//ここまで
+
+  //背景衛星処理//ここから
+  if(ST_frame == 0){//一度だけ実行//
+ Reset_Satelite;
+
+}
+ //背景衛星処理//ここまで
+
+     }//@BackGround
+
+     @DrawTopObject
+     {
+       if(BGT_frame == 0){
+     TitleTask;
+
+             BGT_frame = 1;
+          }
+
+       if(TitleStart == true && Title_frame == 0){
+         Title_frame = 1;
+   Reset_Status;
+   DrawShield_G;
+    StageTask;
+      }
+
+   yield;
+     }//@DrawTopObject
+
+ task ItemLoop{
+  loop{
+    while(GetCommonDataDefault("DeathX", 0) != 0 && GetCommonDataDefault("DeathY", 0) != 0){
+
+     loop(GetCommonData("ShieldAmount")){
+     ShieldItem(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+
+     loop(GetCommonData("K_ShieldAmount")){
+     K_ShieldItem(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+
+     loop(GetCommonData("M_ShieldAmount")){
+     M_ShieldItem(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+
+     loop(GetCommonData("G_ShieldAmount")){
+     G_ShieldItem(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+
+     loop(GetCommonData("PowerAmount")){
+     Power(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+
+     loop(GetCommonData("MPowerAmount")){
+     MPower(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+
+     loop(GetCommonData("GPowerAmount")){
+     GPower(GetCommonData("DeathX")+rand(-40,40), GetCommonData("DeathY")+rand(-40,40));
+       }
+      yield;
+    SetCommonData("DeathX", 0);    SetCommonData("DeathY", 0);
+        ResetTask;
+
+       task ResetTask{
+   //初期化//
+   SetCommonData("ShieldAmount", 0);
+   SetCommonData("K_ShieldAmount", 0);
+   SetCommonData("M_ShieldAmount", 0);
+   SetCommonData("G_ShieldAmount", 0);
+   SetCommonData("PowerAmount", 0);
+   SetCommonData("MPowerAmount", 0);
+   SetCommonData("GPowerAmount", 0);
+      }
+
+    }//loop
+
+  yield;
+  }
+
+}
+
+ task WhiteSpread(x, y){
+   let obj = Obj_Create(OBJ_EFFECT);
+   let path = gcsd ~ "img\WhiteRing2.png";
+
+     ObjEffect_SetTexture( obj, path);
+     ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLEFAN);
+     ObjEffect_CreateVertex( obj, 4);
+     ObjEffect_SetVertexUV( obj, 0, 0, 0);
+     ObjEffect_SetVertexUV( obj, 1, 120, 0);
+     ObjEffect_SetVertexUV( obj, 2, 120, 120);
+     ObjEffect_SetVertexUV( obj, 3, 0, 120);
+     ObjEffect_SetVertexXY( obj, 0, 0-120/2, 0-120/2);
+     ObjEffect_SetVertexXY( obj, 1, 120-120/2, 0-120/2);
+     ObjEffect_SetVertexXY( obj, 2, 120-120/2, 120-120/2);
+     ObjEffect_SetVertexXY( obj, 3, 0-120/2, 120-120/2);
+     Obj_SetPosition( obj, x, y );
+     ObjEffect_SetLayer( obj, 3 );
+
+   let size = 0;
+      loop(90){
+          ObjEffect_SetScale( obj, size, size);
+       size += 10/90;
+      yield;
+   }
+   Obj_Delete(obj);
+ }
+
+#include_function".\Function_PointItem.txt"
+#include_function".\Function_Stage.txt"
+#include_function".\Function_Status.txt"
+#include_function".\Function_BackGround.txt"
+#include_function".\Function_TitleTask.txt"
+#include_function".\Function_TopObject.txt"
+   }//script_stage_mainここまで

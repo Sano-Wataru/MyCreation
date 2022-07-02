@@ -1,0 +1,178 @@
+script_enemy Family{
+
+   let gcsd = GetCurrentScriptDirectory;
+   let distance = 120;
+   let distance2 = 120;
+   let cspeed = 1;
+
+  //シールドに必要な変数定義// 
+   let G_obj = 0;
+   let cnt = 0;
+   let Life = 160; //敵本体のライフ
+   let ShieldLife = 100; //シールドのライフ
+  //ここまで//
+
+ @Initialize{
+        let imgEnemy= gcsd~"img\enemy_all.png";
+       SetLife(Life + ShieldLife);//シールドに必要なもの//
+    SetTexture(imgEnemy);
+    SetGraphicRect(53, 193, 91, 259);
+    SetGraphicScale(0.5, 0.5);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+   ShieldMiniTask(0.7, 23, 32);//シールドに必要なもの//
+   MoveTask;
+ }
+
+ @MainLoop{
+       //当たり判定は消す//
+         Obj_SetPosition( G_obj, GetX, GetY );
+
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+        VanishEnemy;
+      }
+   OutputDebugString(3, "", GetEnemyLife);
+       yield;
+ }
+
+ @DrawLoop{
+   DrawGraphic(GetX, GetY);
+ }
+
+ @Finalize{
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("Power", rand(4,7));
+      SetCommonData("Shield_Item", rand(7,8));
+    }
+ }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task MoveTask{
+   SetCoordinateType(COODINATE_TYPE_PARENT);
+  let angle = GetArgument;
+     SetMovePosition03(120*cos(angle), 120*sin(angle), 15, 4);
+   Wait(60);
+ MainTask;
+   loop{
+    loop{
+      SetX(distance*cos(angle));
+      SetY(distance2*sin(angle));
+     angle += cspeed;
+   yield;
+     }
+   }
+
+}
+
+ task Cdistance(cnt, time){
+   loop(time){
+     distance += cnt;
+   yield;
+    }
+}
+
+ task Cdistance2(cnt, time){
+   loop(time){
+     distance2 += cnt;
+   yield;
+    }
+}
+
+ task Cspeed(cnt, time){
+   loop(time){
+    cspeed += cnt;
+    yield;
+   }
+}
+
+ task MainTask{
+ let angle = GetArgument;
+
+  Cdistance(-0.1, 500);
+  Cdistance2(-0.1, 500);
+ loop(2){
+    angle = GetArgument;
+  loop(10){
+   CreateShot01(GetX+30*cos(angle), GetY+30*sin(angle), 2, angle, 40, 10);
+      angle += 13;
+     Wait(2);
+   }
+    angle += 30;
+  Wait(50);
+  loop(10){
+   CreateShot01(GetX+30*cos(angle), GetY+30*sin(angle), 2, angle, 40, 10);
+      angle -= 13;
+     Wait(2);
+   }
+    angle += 30;
+  Wait(50);
+  }
+ Wait(100);
+
+  loop(2){
+  angle = GetAngleToPlayer;
+   loop(7){
+  CreateLaser01(GetX+50*cos(angle), GetY+50*sin(angle), 3, angle, 70, 4, 50, 10);
+       angle += 10;
+      Wait(3);
+    }
+   Wait(80);
+  angle = GetAngleToPlayer;
+ loop(7){
+  CreateLaser01(GetX+50*cos(angle), GetY+50*sin(angle), 3, angle, 70, 4, 50, 10);
+       angle -= 10;
+      Wait(3);
+    }
+   Wait(80);
+  }
+
+   Wait(350);
+    angle = 0;
+  Cdistance(0.1, 500);
+  Cdistance2(-0.1, 250);
+  Cspeed(0.01, 100);
+  loop(50){
+    CreateShot01(GetX, GetY, 1.8, GetAngle+angle, 79, 10);
+      Wait(6);
+    CreateShot01(GetX, GetY, 1.85, GetAngle+angle+10, 74, 10);
+    CreateShot01(GetX, GetY, 1.85, GetAngle+angle-10, 74, 10);
+      angle += 1;
+      Wait(6);
+   }
+   Wait(200);
+  Cdistance(0.1, 500);
+  Cspeed(0.01, 100);
+  loop(50){
+    CreateShot01(GetX, GetY, 1.8, GetAngle+angle, 79, 10);
+      Wait(6);
+    CreateShot01(GetX, GetY, 1.85, GetAngle+angle+10, 74, 10);
+    CreateShot01(GetX, GetY, 1.85, GetAngle+angle-10, 74, 10);
+      angle += 1;
+      Wait(6);
+   }
+   Wait(200);
+
+  Cdistance(-0.2, 500);
+  Cdistance2(0.1, 250);
+  Cspeed(-0.02, 100);
+  loop(50){
+    CreateShot01(GetX, GetY, 1.8, GetAngle+angle, 79, 10);
+      Wait(6);
+    CreateShot01(GetX, GetY, 1.85, GetAngle+angle+10, 74, 10);
+    CreateShot01(GetX, GetY, 1.85, GetAngle+angle-10, 74, 10);
+      angle += 1;
+      Wait(6);
+   }
+  Wait(100);
+   SetLife(0);
+
+}
+
+#include_function".\Function_ShieldMini.txt"
+#include_function".\task_Effect.txt"
+}

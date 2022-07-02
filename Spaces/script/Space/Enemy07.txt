@@ -1,0 +1,39 @@
+script_enemy_main
+{//Enemy07(Gun)
+  //Ž©”š
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(10);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(239,0,261,22);
+    SetGraphicAngle(0,180,0);
+    LoadUserShotData(GetCurrentScriptDirectory~"ShotData.txt");
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(40){
+         CreateShot02(GetX,GetY,rand(8,11),rand(0,360),-0.2,rand(1,2),1,0);
+      }
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+    
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

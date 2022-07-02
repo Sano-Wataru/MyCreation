@@ -1,0 +1,512 @@
+#PlayerShotData
+       ShotImage= ".\img\Shot01.png"
+
+        ShotData{//ê‘ÉåÅ[ÉUÅ[íe
+        id = 1
+        render = ADD
+        delay_color = (255, 128, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 8, 56, 14, 65)
+                 animation_data = (8, 18, 56, 24, 65)
+                 animation_data = (8, 28, 56, 34, 65)
+                 animation_data = (8, 38, 56, 44, 65)
+           }
+       }
+
+        ShotData{//ê¬ÉåÅ[ÉUÅ[íe
+        id = 2
+        render = ADD
+        delay_color = (128, 128, 255)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 48, 56, 55, 65)
+                 animation_data = (8, 58, 56, 65, 65)
+                 animation_data = (8, 68, 56, 75, 65)
+                 animation_data = (8, 78, 56, 85, 65)
+           }
+       }
+
+        ShotData{//óŒÉåÅ[ÉUÅ[íe
+        id = 3
+        render = ADD
+        delay_color = (128, 255, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 88, 56, 95, 65)
+                 animation_data = (8, 98, 56, 105, 65)
+                 animation_data = (8, 108, 56, 115, 65)
+                 animation_data = (8, 118, 56, 125, 65)
+           }
+       }
+
+        ShotData{//ê‘ñÓàÛíe
+        id = 7
+        render = ADD
+        delay_color = (255, 128, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 8, 200, 17, 210)
+                 animation_data = (8, 19, 200, 28, 210)
+                 animation_data = (8, 30, 200, 39, 210)
+                 animation_data = (8, 41, 200, 50, 210)
+           }
+       }
+
+        ShotData{//ê¬ñÓàÛíe
+        id = 8
+        render = ADD
+        delay_color = (128, 128, 255)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 8, 182, 17, 192)
+                 animation_data = (8, 19, 182, 28, 192)
+                 animation_data = (8, 30, 182, 39, 192)
+                 animation_data = (8, 41, 182, 50, 192)
+           }
+       }
+
+        ShotData{//óŒñÓàÛíe
+        id = 9
+        render = ADD
+        delay_color = (128, 255, 128)
+         AnimationData
+           {
+                 animation_data = (8, 88, 200, 97, 210)
+                 animation_data = (8, 99, 200, 108, 210)
+                 animation_data = (8, 110, 200, 119, 210)
+                 animation_data = (8, 121, 200, 130, 210)
+           }
+       }
+
+        ShotData{//ê‘ç◊íe
+        id = 13
+        render = ADD
+        delay_color = (255, 128, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 607, 172, 614, 197)
+                 animation_data = (8, 616, 172, 623, 197)
+           }
+       }
+
+        ShotData{//ê¬ç◊íe
+        id = 14
+        render = ADD
+        delay_color = (128, 128, 255)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 629, 172, 636, 197)
+                 animation_data = (8, 638, 172, 645, 197)
+           }
+       }
+
+        ShotData{//óŒç◊íe
+        id = 15
+        render = ADD
+        delay_color = (128, 255, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 651, 172, 658, 197)
+                 animation_data = (8, 660, 172, 667, 197)
+           }
+       }
+
+        ShotData{//ûÚç◊íe
+        id = 16
+        render = ADD
+        delay_color = (255, 255, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 673, 172, 680, 197)
+                 animation_data = (8, 682, 172, 689, 197)
+           }
+       }
+
+        ShotData{//éáç◊íe
+        id = 17
+        render = ADD
+        delay_color = (255, 128, 255)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 695, 172, 702, 197)
+                 animation_data = (8, 704, 172, 711, 197)
+           }
+       }
+
+        ShotData{//ê¬éáç◊íe
+        id = 18
+        render = ADD
+        delay_color = (255, 170, 255)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (8, 717, 172, 724, 197)
+                 animation_data = (8, 726, 172, 734, 197)
+           }
+        }
+
+        ShotData{//ê‘âäíe
+        id = 19
+        render = ADD
+        delay_color = (255, 128, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (4, 8, 160, 16, 174)
+                 animation_data = (4, 18, 160, 26, 174)
+                 animation_data = (4, 28, 160, 36, 174)
+                 animation_data = (4, 38, 160, 46, 174)
+                 animation_data = (4, 48, 160, 56, 174)
+                 animation_data = (4, 58, 160, 66, 174)
+           }
+        }
+
+        ShotData{//ê¬âäíe
+        id = 20
+        render = ADD
+        delay_color = (128, 128, 255)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (4, 8, 138, 16, 152)
+                 animation_data = (4, 18, 138, 26, 152)
+                 animation_data = (4, 28, 138, 36, 152)
+                 animation_data = (4, 38, 138, 46, 152)
+                 animation_data = (4, 48, 138, 56, 152)
+                 animation_data = (4, 58, 138, 66, 152)
+           }
+        }
+
+        ShotData{//ûÚâäíe
+        id = 21
+        render = ADD
+        delay_color = (255, 145, 128)
+        alpha = 255
+         AnimationData
+           {
+                 animation_data = (4, 88, 138, 96, 152)
+                 animation_data = (4, 98, 138, 106, 152)
+                 animation_data = (4, 108, 138, 116, 152)
+                 animation_data = (4, 118, 138, 126, 152)
+                 animation_data = (4, 128, 138, 136, 152)
+                 animation_data = (4, 138, 138, 146, 152)
+           }
+        }
+
+        ShotData{//ê‘çLíe
+        id = 24
+        render = ADD
+        delay_color = (255, 128, 128)
+         AnimationData
+           {
+                 animation_data = (4, 494, 244, 512, 264)
+                 animation_data = (4, 514, 244, 532, 264)
+                 animation_data = (4, 534, 244, 552, 264)
+           }
+       }
+
+        ShotData{//ê¬çLíe
+        id = 25
+        render = ADD
+        delay_color = (128, 128, 255)
+         AnimationData
+           {
+                 animation_data = (4, 494, 220, 512, 240)
+                 animation_data = (4, 514, 220, 532, 240)
+                 animation_data = (4, 534, 220, 552, 240)
+           }
+       }
+
+        ShotData{//ê‘É}Éãíe
+        id = 31
+        render = ADD
+        delay_color = (255, 128, 128)
+         AnimationData
+           {
+                 animation_data = (4, 8, 404, 22, 418)
+                 animation_data = (4, 24, 404, 38, 418)
+                 animation_data = (4, 40, 404, 54, 418)
+                 animation_data = (4, 56, 404, 68, 418)
+           }
+       }
+
+        ShotData{//ê¬É}Éãíe
+        id = 32
+        render = ADD
+        delay_color = (128, 128, 255)
+         AnimationData
+           {
+                 animation_data = (4, 8, 426, 22, 440)
+                 animation_data = (4, 24, 426, 38, 440)
+                 animation_data = (4, 40, 426, 54, 440)
+                 animation_data = (4, 56, 426, 68, 440)
+           }
+       }
+
+        ShotData{//óŒÉ}Éãíe
+        id = 33
+        render = ADD
+        delay_color = (128, 255, 128)
+         AnimationData
+           {
+                 animation_data = (4, 87, 404, 101, 418)
+                 animation_data = (4, 103, 404, 117, 418)
+                 animation_data = (4, 119, 404, 133, 418)
+                 animation_data = (4, 135, 404, 149, 418)
+           }
+       }
+
+        ShotData{//ê‘åıíe
+        id = 37
+        render = ADD
+        rect = (264, 274, 291, 301)
+        delay_color = (255, 128, 128)
+       }
+
+        ShotData{//óŒåıíe
+        id = 38
+        render = ADD
+        rect = (294, 274, 321, 301)
+        delay_color = (128, 255, 128)
+       }
+
+        ShotData{//ê¬åıíe
+        id = 39
+        render = ADD
+        rect = (324, 274, 351, 301)
+        delay_color = (128, 128, 255)
+       }
+
+        ShotData{//â©åıíe
+        id = 40
+        render = ADD
+        rect = (354, 274, 381, 301)
+        delay_color = (255, 255, 128)
+       }
+
+        ShotData{//éáåıíe
+        id = 42
+        render = ADD
+        rect = (384, 274, 411, 301)
+        delay_color = (255, 255, 128)
+       }
+
+        ShotData{//êÖêFåıíe
+        id = 43
+        render = ADD
+        rect = (414, 274, 441, 301)
+        delay_color = (128, 200, 255)
+       }
+
+        ShotData{//ûÚåıíe
+        id = 44
+        render = ADD
+        rect = (444, 274, 471, 301)
+        delay_color = (255, 200, 128)
+       }
+
+        ShotData{//ûÚåıíe
+        id = 45
+        render = ADD
+        rect = (474, 274, 501, 301)
+        delay_color = (255, 200, 128)
+       }
+
+        ShotData{//ê¬éáíe
+        id = 46
+        render = ADD
+        rect = (504, 274, 531, 301)
+        delay_color = (200, 128, 255)
+       }
+
+        ShotData{//ê¬îííe
+        id = 47
+        render = ADD
+        rect = (534, 274, 561, 301)
+        delay_color = (170, 170, 255)
+       }
+
+        ShotData{//îííe
+        id = 48
+        render = ADD
+        rect = (564, 274, 591, 301)
+        delay_color = (255, 255, 255)
+       }
+
+        ShotData{//ê‘ç◊è¨íe
+        id = 49
+        render = ADD
+        delay_color = (255, 128, 128)
+         AnimationData
+           {
+                 animation_data = (4, 10, 218, 14, 237)
+                 animation_data = (4, 20, 218, 24, 237)
+                 animation_data = (4, 30, 218, 34, 237)
+                 animation_data = (4, 40, 218, 44, 237)
+           }
+       }
+
+        ShotData{//ê¬ç◊è¨íe
+        id = 50
+        render = ADD
+        delay_color = (128, 128, 255)
+         AnimationData
+           {
+                 animation_data = (4, 50, 218, 54, 237)
+                 animation_data = (4, 60, 218, 64, 237)
+                 animation_data = (4, 70, 218, 74, 237)
+                 animation_data = (4, 80, 218, 84, 237)
+           }
+       }
+
+        ShotData{//óŒç◊è¨íe
+        id = 51
+        render = ADD
+        delay_color = (128, 255, 128)
+         AnimationData
+           {
+                 animation_data = (4, 90, 218, 94, 237)
+                 animation_data = (4, 100, 218, 104, 237)
+                 animation_data = (4, 110, 218, 114, 237)
+                 animation_data = (4, 120, 218, 124, 237)
+           }
+       }
+
+        ShotData{//ûÚç◊è¨íe
+        id = 52
+        render = ADD
+        delay_color = (255, 200, 128)
+         AnimationData
+           {
+                 animation_data = (4, 130, 218, 134, 237)
+                 animation_data = (4, 140, 218, 144, 237)
+                 animation_data = (4, 150, 218, 154, 237)
+                 animation_data = (4, 160, 218, 164, 237)
+           }
+       }
+
+        ShotData{//éáç◊è¨íe
+        id = 53
+        render = ADD
+        delay_color = (255, 128, 255)
+         AnimationData
+           {
+                 animation_data = (4, 170, 218, 174, 237)
+                 animation_data = (4, 180, 218, 184, 237)
+                 animation_data = (4, 190, 218, 194, 237)
+                 animation_data = (4, 200, 218, 204, 237)
+           }
+       }
+
+        ShotData{//ê¬éáç◊è¨íe
+        id = 54
+        render = ADD
+        delay_color = (200, 128, 255)
+         AnimationData
+           {
+                 animation_data = (4, 210, 218, 214, 237)
+                 animation_data = (4, 220, 218, 224, 237)
+                 animation_data = (4, 230, 218, 234, 237)
+                 animation_data = (4, 240, 218, 244, 237)
+           }
+       }
+        ShotData{//ãêê‘íe
+        id = 55
+        render = ADD
+        rect = (252, 314, 310, 372)
+        delay_color = (255, 128, 128)
+       }
+
+        ShotData{//ãêê‘íe
+        id = 56
+        render = ADD
+        rect = (312, 314, 370, 372)
+        delay_color = (255, 200, 128)
+       }
+
+        ShotData{//ãêê¬íe
+        id = 60
+        render = ADD
+        rect = (552, 314, 610, 372)
+        delay_color = (128, 128, 255)
+       }
+
+        ShotData{//ê‘ë»â~
+        id = 63
+        render = ADD
+        delay_color = (255, 128, 128)
+         AnimationData
+           {
+                 animation_data = (4, 8, 448, 22, 472)
+                 animation_data = (4, 24, 448, 38, 472)
+                 animation_data = (4, 40, 448, 54, 472)
+                 animation_data = (4, 56, 448, 70, 472)
+           }
+      }
+
+        ShotData{//óŒÉ}Éãè¨íe
+        id = 70
+        render = ADD
+        delay_color = (128, 255, 128)
+         AnimationData
+           {
+                 animation_data = (4, 88, 74, 96, 82)
+                 animation_data = (4, 98, 74, 106, 82)
+                 animation_data = (4, 108, 74, 116, 82)
+                 animation_data = (4, 118, 74, 126, 82)
+                 animation_data = (4, 128, 74, 136, 82)
+                 animation_data = (4, 138, 74, 146, 82)
+           }
+      }
+
+        ShotData{//éáÉ}Éãè¨íe
+        id = 71
+        render = ADD
+        delay_color = (255, 128, 230)
+         AnimationData
+           {
+                 animation_data = (4, 168, 74, 176, 82)
+                 animation_data = (4, 178, 74, 186, 82)
+                 animation_data = (4, 188, 74, 196, 82)
+                 animation_data = (4, 198, 74, 206, 82)
+                 animation_data = (4, 208, 74, 216, 82)
+                 animation_data = (4, 218, 74, 226, 82)
+           }
+      }
+
+        ShotData{//ê¬éáÉ}Éãè¨íe
+        id = 74
+        render = ADD
+        delay_color = (230, 128, 255)
+         AnimationData
+           {
+                 animation_data = (4, 168, 90, 176, 98)
+                 animation_data = (4, 178, 90, 186, 98)
+                 animation_data = (4, 188, 90, 196, 98)
+                 animation_data = (4, 198, 90, 206, 98)
+                 animation_data = (4, 208, 90, 216, 98)
+                 animation_data = (4, 218, 90, 226, 98)
+           }
+      }
+
+        ShotData{//éáìÅíe
+        id = 79
+        render = ADD
+        delay_color = (255, 128, 230)
+         AnimationData
+           {
+                 animation_data = (4, 408, 176, 424, 192)
+                 animation_data = (4, 426, 176, 442, 192)
+           }
+      }

@@ -1,0 +1,62 @@
+script_enemy_main//è·äQï®//
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let imgEnemy= gcsd~"img\Obs01.png";
+    @Initialize
+    {
+       SetLife(400);    
+    SetTexture(imgEnemy);
+    SetGraphicRect(1, 1 ,77 ,77);
+    SetGraphicScale(1, 1);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+  }
+
+   @MainLoop
+   {
+    SetCollisionA(GetX,GetY,40);
+    SetCollisionB(GetX,GetY,40);
+
+     if(GetX < GetClipMinX - 350 || GetX > GetClipMaxX + 350 || GetY < GetClipMinY - 350 || GetY > GetClipMaxY + 350){
+        VanishEnemy;
+      }
+
+     if(GetX < GetClipMinX - 50 || GetX > GetClipMaxX + 50 || GetY < GetClipMinY - 50 || GetY > GetClipMaxY + 50){
+     SetDamageRate(0, 0);
+      }else{
+     SetDamageRate(100, 100);
+      }
+
+ OutputDebugString(3, "", GetLife);
+
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 350 || GetX > GetClipMaxX + 350 || GetY < GetClipMinY - 350 || GetY > GetClipMaxY + 350){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(2,5));
+      SetCommonData("ShieldAmount", rand(1,4));
+
+     loop(rand(5,8)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetX, GetY, 0, 0, 1);
+      }
+
+     loop(rand(1,2)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetX, GetY, 0, 0, 1);
+      }
+
+    }
+   }
+
+   @DrawLoop
+   {//ï`âÊ
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

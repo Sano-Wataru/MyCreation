@@ -1,0 +1,237 @@
+script_enemy_main
+{//BossA(射撃型)
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(2000);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(89,0,112,22);
+    SetGraphicAngle(0,180,0);
+    SetGraphicScale(1.2,1.2);
+    LoadUserShotData(GetCurrentScriptDirectory~"\ShotData");
+     StartMove;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+       yield;
+  }
+    @Finalize
+    {
+    let angle = 0;
+      DeleteEnemyShotImmediatelyInCircle(ALL,GetX,GetY,700);
+       loop(10){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+40*cos(angle),GetY+40*sin(angle),0,0,0);
+             angle += 360/10
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect02.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+   task StartMove{
+  SetMovePosition03(GetX,GetY+100,20,5);
+   Wait(80);
+      MainShot;
+    }
+    task MainShot{
+    let angle = GetAngleToPlayer;
+    let way = 2;
+    let gap = 5;
+   loop(15){
+   WayShot01(GetX, GetY, 5, angle, 8, 0, way, gap);
+         Wait(3);
+       way += 2;
+       gap += 5;
+       }
+    Wait(100);
+    loop(15){
+      WayShot01(GetX, GetY, 5, angle, 8, 0, way, gap);
+          Wait(3);
+       way += 2;
+       gap += 5;
+       }
+     Wait(100);
+   loop(30){
+         angle = GetAngleToPlayer;
+      WayShot01(GetX, GetY, 7, angle, 13, 0, 3, 20);
+      WayShot01(GetX, GetY, 7, angle+10, 13, 20, 3, 20);
+      WayShot01(GetX, GetY, 7, angle-10, 13, 20, 3, 20);
+        Wait(5);
+          }
+   Wait(100);
+     SecondShot;
+      ThirdShot;
+    }
+     task SecondShot{
+      let Shot = 0;
+      let angle = 0;
+      let loopcnt = 30;
+   loop(5){
+      angle = rand(0,360);
+    loop(loopcnt){
+     CreateShotA(Shot,GetX+100*cos(angle),GetY+100*sin(angle),rand(0,10));
+     SetShotDataA(Shot,0,2,angle,0,-0.2,-1,4);
+     SetShotDataA(Shot,60,NULL,angle,0,0.1,12,4);
+     FireShot(Shot);
+      angle += 360/loopcnt;
+           }
+      Wait(40);
+         }
+    }
+      task ThirdShot{
+      //オブジェクトショット//
+ loop(5){
+  let angle = GetAngleToPlayer;
+  let s = 0;
+    loop(20){
+       loop(5){
+    CreateSinewaveShot(GetX, GetY, 7, angle+s, 40, 15, 0, 10, 10);
+    CreateSinewaveShot(GetX, GetY, 7, angle+s, 40, -15, 0, 10, 10);
+         angle += 360/5;
+           }
+       Wait(4);
+         }
+    Wait(20);
+ }
+   ForthShot;
+   FiveShot
+    }
+   task ForthShot{
+    loop(200){
+     loop(2){
+   CreateShot01(GetX,GetY,3,rand(0,360),1,10);
+    }
+   Wait(1);
+         }
+    loop(200){
+       CreateShot01(GetX,GetY,3,rand(0,360),1,10);
+       CreateShotA(0,GetX,GetY,10);
+       SetShotDataA(0,0,rand(1,4),rand(0,360),rand(-0.3,0.3),0,0,2);
+         FireShot(0);
+   Wait(1);
+    }
+    Wait(150);
+  }
+   task FiveShot{
+      CreateEnemyFromScript("Laser",GetX,GetY,0,0,0);
+      CreateEnemyFromScript("Laser",GetX,GetY,0,0,1);
+      CreateEnemyFromScript("Laser",GetX,GetY,0,0,2);
+    Wait(600);
+   MainShot;
+  }
+
+function WayShot01(X,Y,Speed,Angle,Color,Delay,Way,Gap) {
+//弾を複数の方向に打つ関数です　いわゆるWay弾です
+//WayShot01(X位置,Y位置,速度,中心角度,色,延長,数,弾と弾の間);
+	Angle -= (Way-1)/2*Gap;
+	loop(Way) {
+		CreateShot01(X,Y,Speed,Angle,Color,Delay);
+		Angle += Gap;
+	}
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+  	//amp:振幅, om:角速度, arg:位相
+	task CreateSinewaveShot(let x, let y, let speed, let angle,
+				let amp, let om, let arg, let graphic, let delay) {
+	    
+		let t = 0;
+		let px = speed*t;
+		let py = amp*sin(om*t + arg);
+		let a = amp*om*3.1415926/(180*speed);
+	    
+		//オブジェクト弾の作成
+		let obj = Obj_Create(OBJ_SHOT);
+	    
+		//パラメータの設定
+		Obj_SetPosition(obj, x + px*cos(angle) - py*sin(angle),
+								 y + px*sin(angle) + py*cos(angle));
+		Obj_SetSpeed(obj, 0);
+		Obj_SetAngle(obj, angle + atan(a*cos(om*t + arg)));
+		ObjShot_SetGraphic(obj, graphic);
+		ObjShot_SetDelay(obj, delay);
+	    
+		loop(delay){ yield; }
+		
+		while(!Obj_BeDeleted(obj))
+		{
+			//(px,py)座標での弾の位置を計算
+			px=speed*t;
+			py=amp*sin(om*t + arg);
+			//回転・平行移動して実際の位置に
+			Obj_SetPosition(obj, x + px*cos(angle) - py*sin(angle),
+									 y + px*sin(angle) + py*cos(angle));
+			//弾の方向にもangleを足す
+			Obj_SetAngle(obj, angle + atan(a*cos(om*t + arg)));
+	        
+			t++;
+			yield;
+		}
+	}
+}
+          script_enemy Laser
+         {
+           @Initialize
+           {
+    let imgEnemy="script\Space\img\Equip.png";
+       SetLife(100);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(55,5,70,21);
+      StartTask;
+           }
+           @MainLoop
+           {
+         yield;
+           }
+           @DrawLoop
+           {
+            DrawGraphic(GetX,GetY);
+           }
+           @Finalize
+           {
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+           }
+    task StartTask{
+    if(GetArgument==0){
+     SetMovePositionHermite(GetX,GetY+50,100,0,0,0,120);
+       }
+    if(GetArgument==1){
+     SetMovePositionHermite(GetX-50,GetY-25,100,90,0,0,120);
+       }
+    if(GetArgument==2){
+     SetMovePositionHermite(GetX+50,GetY-25,100,290,0,0,120);
+       }
+      Wait(160);
+     MainTask;
+   }
+
+    task MainTask{
+  let angle = 90;
+   loop(4){
+    CreateLaserB(0,500,50,6,300);
+    SetLaserDataB(0,0,0,10,0,angle,0,angle,0);
+    SetShotKillTime(0, 100);
+    FireShot(0);
+   Wait(50);
+       CreateLaser01(GetX,GetY,10,angle,150,50,9,0);
+      Wait(50);
+        angle = GetAngleToPlayer;
+     }
+    SetLife(0);
+  }
+
+function Wait(let x){
+    loop(x){yield;}
+        }
+                 
+  }

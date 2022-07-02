@@ -1,0 +1,139 @@
+script_enemy Family2{
+
+  let gcsd = GetCurrentScriptDirectory;
+  let ParentLife = 0;
+  let ParentLifeMax = 0;
+
+   let distance = 0;
+   let distance2 = 0;
+   let cangle = 0;
+   let cangle2 = 0;
+
+  //シールドに必要な変数定義// 
+   let G_obj = 0;
+   let cnt = 0;
+   let Life = 160; //敵本体のライフ
+   let ShieldLife = 100; //シールドのライフ
+  //ここまで//
+
+ @Initialize{
+        let imgEnemy= gcsd~"img\enemy_all.png";
+       SetLife(Life + ShieldLife);//シールドに必要なもの//
+    SetTexture(imgEnemy);
+    SetGraphicRect(53, 193, 91, 259);
+    SetGraphicScale(0.5, 0.5);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+   ShieldMiniTask(0.7, 23, 32);//シールドに必要なもの//
+   MoveTask;
+   MainTask;
+  }
+
+ @MainLoop{
+   ParentLife = GetCommonDataDefault("Boss02Life", 0);
+   ParentLifeMax = GetCommonDataDefault("Boss02LifeMax", 0);
+
+       //当たり判定は消す//
+         Obj_SetPosition( G_obj, GetX, GetY );
+
+     if(GetX < GetClipMinX - 150 || GetX > GetClipMaxX + 150 || GetY < GetClipMinY - 150 || GetY > GetClipMaxY + 150){
+        VanishEnemy;
+      }
+       yield;
+  }
+
+ @DrawLoop{
+   DrawGraphic(GetX, GetY);
+  }
+
+ @Finalize{
+     if(GetX < GetClipMinX - 150 || GetX > GetClipMaxX + 150 || GetY < GetClipMinY - 150 || GetY > GetClipMaxY + 150){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("Power", rand(4,7));
+      SetCommonData("Shield_Item", rand(7,8));
+    }
+  }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task MoveTask{
+   SetCoordinateType(COODINATE_TYPE_PARENT);
+     let angle = GetArgument;
+    loop(140){
+      SetX(distance*cos(angle));
+      SetY(distance2*sin(angle));
+        angle += 1;
+      distance += 1; distance2 += 0.5;
+      yield;
+    }
+
+   loop{
+      SetX(distance*cos(angle+cangle));
+      SetY(distance2*sin(angle+cangle2));
+        angle ++;
+     yield;
+   }
+
+}
+
+ task Cangle01(time, cnt){
+  loop(time){
+     cangle += cnt;
+    yield;
+   }
+}
+
+ task Cangle02(time, cnt){
+  loop(time){
+     cangle2 += cnt;
+    yield;
+   }
+}
+
+ task Dtask01(time, cnt){
+  loop(time){
+     distance += cnt;
+    yield;
+   }
+}
+
+ task Dtask02(time, cnt){
+  loop(time){
+     distance2 += cnt;
+    yield;
+   }
+}
+
+ task MainTask{
+  let angle = GetArgument;
+     Wait(120);
+   loop{
+
+   if(ParentLife <= ParentLifeMax*3/5 && ParentLife >= ParentLifeMax*2/5){
+
+     loop(100){
+       CreateShot01(GetX+10*cos(angle), GetY+10*sin(angle), 2.4, angle, 20, 10);
+           angle += 8;
+    Wait(6);
+          }
+     loop(100){
+       CreateShot01(GetX+10*cos(angle), GetY+10*sin(angle), 1.1, angle, 21, 10);
+           angle -= 8;
+    Wait(5);
+          }
+    Cangle01(100, 0.6);
+    Cangle02(100, 0.3);
+      Wait(300);
+
+        }else{
+         SetLife(0);
+      }
+    yield;
+  }//loop
+}
+
+#include_function".\Function_ShieldMini.txt"
+}

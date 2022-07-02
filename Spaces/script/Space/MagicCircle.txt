@@ -1,0 +1,42 @@
+script_enemy_main
+{//MagicCircle
+    @Initialize
+    {
+        let imgPath=GetCurrentScriptDirectory~"\img\effect.png";
+       SetLife(200);
+    LoadGraphic(imgPath);
+    SetTexture(imgPath);
+    SetGraphicRect(144, 128, 176, 160);
+    MainTask;
+  }
+    @MainLoop
+    {
+
+       yield;
+  }
+    @Finalize
+    {
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+
+task MainTask {
+let size = 1;
+let alpha = 255;
+ loop(10){ 
+   SetAlpha(alpha);
+   SetGraphicScale(size,size);
+    size += 0.5;
+    alpha -= 255/10;
+  Wait(1);
+   }
+    VanishEnemy;
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

@@ -1,0 +1,939 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+ <HEAD>
+  <TITLE>東方弾幕風サンプル</TITLE>
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/html;charset=Shift_JIS">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/css">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/lavascript">
+  <LINK REL="stylesheet"HREF="style.css"TYPE="text/css">
+ </HEAD>
+
+
+
+ <BODY BGCOLOR="#FFFFFF" LINK="#0000ff" ALINK="#ff00ff" VLINK="#222288">
+ <P><FONT color="#800040"><A name="TOP"><STRONG>サンプル</STRONG></A></FONT></P>
+ <P>以下で、なるべくコメントを付けながらサンプルを紹介します。<BR>
+    各サンプルはコピーペーストで貼り付けても動作するので、<BR>
+	いろいろ試してみてください。<BR>
+ </P>
+ <P>
+  <TABLE border="1" width="480">
+   <TR><TD bgcolor="#dcdcdc" width="16">Sample.A</TD><TD bgcolor="#dcdcdc">弾幕風の組み込み関数のみを用いた弾操作サンプル</TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">A01</TD><TD><A href="#A01">弾を真下に出す</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">A02</TD><TD><A href="#A02">自機方向へ5WAY</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">A03</TD><TD><A href="#A03">一定時間で自機方向へ角度を変える弾</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">A04</TD><TD><A href="#A04">分裂する弾</A></TD></TR>
+   <TR><TD colspan="2"> </TD></TR>
+   <TR><TD bgcolor="#e0ffe0" width="16">Sample.B</TD><TD bgcolor="#e0ffe0">弾スクリプトを用いた弾操作サンプル</TD></TR>
+   <TR><TD bgcolor="#e0ffe0" width="16">B01</TD><TD><A href="#B01">ホーミング弾</A></TD></TR>         
+   <TR><TD colspan="2"> </TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Sample.C</TD><TD bgcolor="#e0ffff">オブジェクト操作関数を用いた弾操作サンプル</TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">C01</TD><TD><A href="#C01">オブジェクト操作関数を用いた弾作製</A></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">C02</TD><TD><A href="#C02">ホーミング弾(マイクロスレッド版)</A></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">C03</TD><TD><A href="#C03">特定の弾(A)に触れた弾(B)から、弾を出現させる</A></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">C04</TD><TD><A href="#C04">レーザーに当たった弾の軌道を変える</A></TD></TR>
+  </TABLE>
+ </P>
+ <BR>
+
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="2"><A name="A01">A01 弾を真下に出す</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleA01.jpg" ALT="SampleA01"></TD>
+   <TD valign="TOP">弾を真下に出すサンプルです。<BR>
+       60フレーム(1秒)間隔で赤色の弾を真下に向かって出しつづけます。
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleA01]
+	#Text[SampleA01：弾を真下に出す]
+	#Image[]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count;
+		<FONT color="#0000FF">let</FONT> cx;
+		@Initialize
+		{
+			count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数;</FONT>
+			cx=GetCenterX();<FONT color="#008040">//変数cxに真ん中の座標を代入;	</FONT>
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//script\img\ExRumia.jpgをテクスチャに読みこみ</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,60)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">60</FONT>)
+			{<FONT color="#008040">//countが60になったら実行される部分</FONT>
+				<FONT color="#008040">//敵の座標から真下に向かって弾を発射する</FONT>
+				<FONT color="#008040">//速度：1フレームに3</FONT>
+				<FONT color="#008040">//角度：90 (真下)</FONT>
+				<FONT color="#008040">//遅延時間：30フレーム</FONT>
+				CreateShot01(GetX(),GetY(),<FONT color="#FF0000">3</FONT>,<FONT color="#FF0000">90</FONT>,RED01,<FONT color="#FF0000">30</FONT>);
+			
+				count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出したらcountを0にする</FONT>
+			}
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+		}
+		
+		@DrawLoop
+		{
+			SetTexture(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//描画元テクスチャを設定</FONT>
+			DrawGraphic(GetX(),GetY());<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize
+		{
+			DeleteGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//読みこんだテクスチャを破棄</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P><BR>
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="2"><A name="A02">A02 自機方向へ5WAY</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleA02.jpg" ALT="SampleA02"></TD>
+   <TD valign="TOP">自機方向へ5WAYを発射するサンプルです。<BR>
+       60フレーム(1秒)間隔で青色の5WAYを自機へ向かって出しつづけます。<BR>
+	   <BR>
+	   SetShotDirectionType(PLAYER);<BR>
+	   で弾の角度を自機基準に変更したあと、<BR>
+	   whileでループして5WAYにしています。
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleA02]
+	#Text[SampleA02：自機方向へ<FONT color="#FF0000">5</FONT>WAY]
+	#Image[]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count;<FONT color="#008040">//弾を出す間隔を制御するための変数;</FONT>
+		<FONT color="#0000FF">let</FONT> cx;<FONT color="#008040">//変数cxに真ん中の座標を代入;</FONT>
+		@Initialize
+		{
+			count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数;</FONT>
+			cx=GetCenterX();<FONT color="#008040">//変数cxに真ん中の座標を代入;</FONT>
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//script\img\ExRumia.jpgをテクスチャに読みこみ</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,60)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">60</FONT>)
+			{<FONT color="#008040">//countが60になったら実行される部分</FONT>
+				SetShotDirectionType(PLAYER);<FONT color="#008040">//弾の角度を自機基準に変更</FONT>
+				
+				<FONT color="#008040">//angleを-30から15ずつ増加させ5WAYにする</FONT>
+				<FONT color="#0000FF">let</FONT> angle=-<FONT color="#FF0000">30</FONT>;
+				<FONT color="#0000FF">while</FONT>(angle&lt;=<FONT color="#FF0000">30</FONT>)
+				{<FONT color="#008040">//(angle=-30, -15, 0, 15, 30)</FONT>
+					<FONT color="#008040">//敵の座標から自機に向かって5WAY弾を発射する</FONT>
+					<FONT color="#008040">//速度：1フレームに3</FONT>
+					<FONT color="#008040">//角度：angle</FONT>
+					<FONT color="#008040">//遅延時間：30フレーム</FONT>
+					CreateShot01(GetX(),GetY(),<FONT color="#FF0000">3</FONT>,angle,BLUE11,<FONT color="#FF0000">30</FONT>);
+					angle+=<FONT color="#FF0000">15</FONT>;
+				}
+				count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出したらcountを0にする</FONT>
+			}
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+		}
+		
+		@DrawLoop
+		{
+			SetTexture(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//描画元テクスチャを設定</FONT>
+			DrawGraphic(GetX(),GetY())<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize
+		{
+			DeleteGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//読みこんだテクスチャを破棄</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P><BR>
+ 
+ <P>
+  <TABLE border="1" width="480">
+  <TR><TD bgcolor="#dcdcdc" colspan="3"><A name="A03">A03 一定時間で自機方向へ角度を変える弾</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleA03a.jpg" ALT="SampleA03a"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleA03b.jpg" ALT="SampleA03b"></TD>
+  </TR>
+  <TR>
+   <TD valign="TOP" colspan="3">一定時間で自機方向へ角度を変える全方位弾を発射します。<BR>
+	   <BR>
+	   CreateShotAで弾を作製し、ShotShotDataAを使うことで、角度を変化させます。
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleA03]
+	#Text[SampleA03：一定時間で自機方向へ角度を変える弾]
+	#Image[]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count;
+		<FONT color="#0000FF">let</FONT> cx;
+		@Initialize
+		{
+			count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数;</FONT>
+			cx=GetCenterX();<FONT color="#008040">//変数cxに真ん中の座標を代入;</FONT>
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//script\img\ExRumia.jpgをテクスチャに読みこみ</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">120</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,120)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">180</FONT>)
+			{<FONT color="#008040">//countが180になったら実行される部分	</FONT>
+				<FONT color="#0000FF">let</FONT> angle=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">while</FONT>(angle&lt;<FONT color="#FF0000">360</FONT>)
+				{<FONT color="#008040">//(angle：15°間隔で0～360まで)</FONT>
+					<FONT color="#008040">//一定時間で自機方向へ角度を変える弾</FONT>
+					<FONT color="#0000FF">let</FONT> shot=<FONT color="#FF0000">0</FONT>;
+					CreateShotA(shot,GetX(),GetY(),<FONT color="#FF0000">30</FONT>);
+					SetShotDirectionType(ABSOLUTE);<FONT color="#008040">//弾の角度を絶対角度に変更</FONT>
+					SetShotDataA(shot,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">5</FONT>,angle,<FONT color="#FF0000">0</FONT>,-<FONT color="#FF0000">0.15</FONT>,<FONT color="#FF0000">1</FONT>,BLUE11);<FONT color="#008040">//0フレームでの弾データ設定(初期設定)</FONT>
+					SetShotDirectionType(PLAYER);<FONT color="#008040">//弾の角度を自機基準に変更</FONT>
+					SetShotDataA(shot,<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">3</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">3</FONT>,BLUE11);<FONT color="#008040">//60フレーム目で自機方向へ角度を変える</FONT>
+					FireShot(shot);<FONT color="#008040">//弾を発射</FONT>
+					angle+=<FONT color="#FF0000">15</FONT>;
+				}
+				count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出したらcountを0にする</FONT>
+			}
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+		}
+		
+		@DrawLoop
+		{
+			SetTexture(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//描画元テクスチャを設定</FONT>
+			DrawGraphic(GetX(),GetY())<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize
+		{
+			DeleteGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//読みこんだテクスチャを破棄</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P><BR> 
+ 
+ <P>
+  <TABLE border="1" width="640">
+  <TR><TD bgcolor="#dcdcdc" colspan="5"><A name="A04">A04 分裂する弾</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleA04a.jpg" ALT="SampleA04a"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleA04b.jpg" ALT="SampleA04b"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleA04c.jpg" ALT="SampleA04c"></TD>
+  </TR>
+   <TD valign="TOP" colspan="5">AddShotを使った分裂する弾です。<BR>
+      自機方向への3WAY(青)が、<BR>
+	  それぞれ自機と逆方向への3WAY(赤)に分裂し、<BR>
+      さらに自機方向への5WAY(紫)に分裂します。<BR>
+   </TD>
+  </TR>
+  </TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleA04]
+	#Text[SampleA04：分裂する弾]
+	#Image[]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count;
+		<FONT color="#0000FF">let</FONT> cx;
+		@Initialize
+		{
+			count=<FONT color="#FF0000">300</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数;</FONT>
+			cx=GetCenterX();<FONT color="#008040">//変数cxに真ん中の座標を代入;</FONT>
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//script\img\ExRumia.jpgをテクスチャに読みこみ</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">120</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,120)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">360</FONT>)
+			{<FONT color="#008040">//countが360になったら実行される部分</FONT>
+				SetShotDirectionType(PLAYER);<FONT color="#008040">//弾の角度を自機基準に変更</FONT>
+				<FONT color="#0000FF">let</FONT> i=-<FONT color="#FF0000">20</FONT>;
+				<FONT color="#0000FF">while</FONT>(i&lt;=<FONT color="#FF0000">20</FONT>)
+				{<FONT color="#008040">//(i=-20 ,0 ,20)の3WAY</FONT>
+					<FONT color="#0000FF">let</FONT> shot1=<FONT color="#FF0000">1</FONT>;
+					CreateShotA(shot1,GetX(),GetY(),<FONT color="#FF0000">30</FONT>);<FONT color="#008040">//shot1作製</FONT>
+					SetShotDataA(shot1,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">4</FONT>,i,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,BLUE21);<FONT color="#008040">//弾データ設定(shot1)</FONT>
+					
+					<FONT color="#0000FF">let</FONT> j=-<FONT color="#FF0000">15</FONT>;
+					<FONT color="#0000FF">while</FONT>(j&lt;=<FONT color="#FF0000">15</FONT>)
+					{<FONT color="#008040">//(j=-15 ,0 ,15)の3WAY</FONT>
+						<FONT color="#0000FF">let</FONT> shot2=<FONT color="#FF0000">2</FONT>;
+						CreateShotA(shot2,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">10</FONT>);<FONT color="#008040">//shot2作製</FONT>
+						SetShotDataA(shot2,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">3</FONT>,<FONT color="#FF0000">180</FONT>+j,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,RED21);<FONT color="#008040">//弾データ設定(shot2)</FONT>
+	
+						<FONT color="#0000FF">let</FONT> k=-<FONT color="#FF0000">30</FONT>;
+						<FONT color="#0000FF">while</FONT>(k&lt;=<FONT color="#FF0000">30</FONT>)
+						{<FONT color="#008040">//(k=-30, -15 , 0 , 15, 30)の5WAY</FONT>
+							<FONT color="#0000FF">let</FONT> shot3=<FONT color="#FF0000">3</FONT>;
+							CreateShotA(shot3,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">10</FONT>);<FONT color="#008040">//shot3作製</FONT>
+							SetShotDataA(shot3,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">2</FONT>,k,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,PURPLE21);<FONT color="#008040">//弾データ設定(shot3)</FONT>
+							AddShot(<FONT color="#FF0000">60</FONT>,shot2,shot3,<FONT color="#FF0000">0</FONT>);<FONT color="#008040">//shot2にshot3を追加(60フレームでshot3放出)</FONT>
+							k+=<FONT color="#FF0000">15</FONT>;
+						}
+						SetShotKillTime(shot2,<FONT color="#FF0000">61</FONT>);<FONT color="#008040">//分裂直後に消滅</FONT>
+						AddShot(<FONT color="#FF0000">45</FONT>,shot1,shot2,<FONT color="#FF0000">0</FONT>);<FONT color="#008040">//shot1にshot2を追加(60フレームでshot2放出)	</FONT>
+						j+=<FONT color="#FF0000">15</FONT>;
+					}
+					SetShotKillTime(shot1,<FONT color="#FF0000">46</FONT>);<FONT color="#008040">//分裂直後に消滅</FONT>
+					FireShot(shot1);<FONT color="#008040">//弾(shot1)を発射</FONT>
+					i+=<FONT color="#FF0000">20</FONT>;
+				}
+				count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出したらcountを0にする</FONT>
+			}
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+		}
+		
+		@DrawLoop
+		{
+			SetTexture(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//描画元テクスチャを設定</FONT>
+			DrawGraphic(GetX(),GetY())<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize
+		{
+			DeleteGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//読みこんだテクスチャを破棄</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P><BR>  
+ 
+ <P>
+ 
+  <TABLE border="1" width="480">
+  <TR><TD bgcolor="#e0ffe0" colspan="3"><A name="B01">B01 ホーミング弾</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleB01a.jpg" ALT="SampleB01a"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleB01b.jpg" ALT="SampleB01b"></TD>
+  </TR>
+  <TR>
+   <TD valign="TOP" colspan="3">自機へ向かってのホーミング弾です。<BR>
+	   <BR>
+	   script_shotを使って実現します。<BR>
+	   画面外にでても勝手に消えないので、300フレームで消えるようにしておきます。<BR>
+	   script_shotは重いので注意してください。<BR>
+   </TD>
+  </TR></TABLE> 
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleB01]
+	#Text[SampleB01：ホーミング弾]
+	#Image[]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count;
+		<FONT color="#0000FF">let</FONT> cx;
+		@Initialize
+		{
+			count=<FONT color="#FF0000">300</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数;</FONT>
+			cx=GetCenterX();<FONT color="#008040">//変数cxに真ん中の座標を代入;	</FONT>
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//script\img\ExRumia.jpgをテクスチャに読みこみ</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,60)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">360</FONT>)
+			{<FONT color="#008040">//ホーミング弾作製</FONT>
+				CreateShotFromScript(<FONT color="#FF0000">"Homing"</FONT>,GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer()-<FONT color="#FF0000">90</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>);
+				CreateShotFromScript(<FONT color="#FF0000">"Homing"</FONT>,GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer(),<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>);
+				CreateShotFromScript(<FONT color="#FF0000">"Homing"</FONT>,GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer()+<FONT color="#FF0000">90</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>);
+				count=<FONT color="#FF0000">0</FONT>;
+			}
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+		}
+		
+		@DrawLoop
+		{
+			SetTexture(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//描画元テクスチャを設定</FONT>
+			DrawGraphic(GetX(),GetY());<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize
+		{
+			DeleteGraphic(<FONT color="#FF0000">"script\img\ExRumia.jpg"</FONT>);<FONT color="#008040">//読みこんだテクスチャを破棄</FONT>
+		}
+	}
+	  
+	script_shot Homing
+	{<FONT color="#008040">//ホーミング弾を定義</FONT>
+		<FONT color="#0000FF">let</FONT> count=<FONT color="#FF0000">0</FONT>;
+		<FONT color="#0000FF">let</FONT> angle=GetAngle();<FONT color="#008040">//進行角度取得</FONT>
+		@Initialize
+		{
+			count=<FONT color="#FF0000">0</FONT>;
+			angle=GetAngle();<FONT color="#008040">//進行角度取得</FONT>
+			SetDefault(BLUE21);<FONT color="#008040">//組み込みの弾をセット</FONT>
+		}
+		@MainLoop
+		{
+			<FONT color="#0000FF">let</FONT> toAngle=GetAngleToPlayer();<FONT color="#008040">//自機方向の角度取得</FONT>
+			<FONT color="#008040">//dAngle：1フレームあたりの角度変化量限界</FONT>
+			<FONT color="#008040">//dAngleを増加させるほどホーミング性能が増す</FONT>
+			<FONT color="#0000FF">let</FONT> dAngle=<FONT color="#FF0000">2</FONT>;
+			<FONT color="#0000FF">let</FONT> ret=toAngle-angle;
+			<FONT color="#0000FF">if</FONT>((ret&gt;<FONT color="#FF0000">0</FONT>&&ret&lt;=<FONT color="#FF0000">180</FONT>)||(ret&lt;<FONT color="#FF0000">0</FONT>&&ret&lt;=-<FONT color="#FF0000">180</FONT>)){angle+=dAngle;}
+			<FONT color="#0000FF">else</FONT> <FONT color="#0000FF">if</FONT>((ret&gt;<FONT color="#FF0000">0</FONT>&&ret&gt;<FONT color="#FF0000">180</FONT>)||(ret&lt;<FONT color="#FF0000">0</FONT>&&ret&gt;-<FONT color="#FF0000">180</FONT>)){angle-=dAngle;}
+			<FONT color="#0000FF">if</FONT>(angle&gt;=<FONT color="#FF0000">360</FONT>){angle-=<FONT color="#FF0000">360</FONT>;}<FONT color="#008040">//360°以上なら0～360内に補正</FONT>
+			<FONT color="#0000FF">if</FONT>(angle&lt;<FONT color="#FF0000">0</FONT>){angle+=<FONT color="#FF0000">360</FONT>;}<FONT color="#008040">//0°未満なら0～360内に補正</FONT>
+			SetAngle(angle);
+			SetCollisionBDefault();<FONT color="#008040">//組み込みの弾の当たり判定を登録</FONT>
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">300</FONT>){End();}<FONT color="#008040">//300フレームで消滅</FONT>
+			count++;	
+		}
+		@DrawLoop
+		{
+			DrawGraphicDefault();<FONT color="#008040">//組み込みの弾を描画</FONT>
+		}
+		@Finalize
+		{
+	
+		}	
+	}
+  </PRE></TD></TABLE>
+ </P><BR>
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="2"><A name="C01">C01 オブジェクト操作関数を用いた弾作製</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleC01.jpg" ALT="SampleC01"></TD>
+   <TD valign="TOP">マイクロスレッドを用いてオブジェクト操作を行うサンプルです。<BR>
+                    単に直進する弾を発射しているだけですが、多少ややこしいのでサンプルを作製しておきます。<BR>
+					この弾操作法も半スクリプト動作なので軽くはありません。<BR>
+					しかしながら、弾と弾の当り判定をとったりもでき、
+					多彩な弾幕を作製できます。<BR>
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleC01]
+	#Text[SampleC01：オブジェクト操作関数を用いた弾作製]
+	#Image[]
+	#BackGround[User]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数</FONT>
+		<FONT color="#0000FF">let</FONT> cx=GetCenterX();<FONT color="#008040">//変数cxに中心x座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> cy=GetCenterY();<FONT color="#008040">//変数cxに中心y座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> imgExRumia=GetCurrentScriptDirectory~<FONT color="#FF0000">"img\ExRumia.png"</FONT>;
+		@Initialize()
+		{
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に設定</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(imgExRumia);<FONT color="#008040">//画像「img\ExRumia.png」を読みこむ		</FONT>
+			SetMovePosition02(cx,cy,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,cy)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop()
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">300</FONT>)
+			{
+				<FONT color="#0000FF">let</FONT> angle=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">while</FONT>(angle&lt;<FONT color="#FF0000">360</FONT>)
+				{<FONT color="#008040">//10°間隔で全方位に弾を発射</FONT>
+				    <FONT color="#008040">//弾タスク起動</FONT>
+					ShotObject(GetX(),GetY(),<FONT color="#FF0000">2</FONT>,angle,ORANGE21,<FONT color="#FF0000">10</FONT>);
+					angle+=<FONT color="#FF0000">10</FONT>;
+				}
+				count=<FONT color="#FF0000">0</FONT>;
+			}
+			
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+			<FONT color="#0000FF">yield</FONT>;<FONT color="#008040">//毎フレームタスク復帰</FONT>
+		}
+		
+		@DrawLoop()
+		{
+			SetTexture(imgExRumia);
+			DrawGraphic(GetX(),GetY());<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize()
+		{
+			DeleteGraphic(imgExRumia);
+		}
+		
+		<FONT color="#0000FF">task</FONT> ShotObject(<FONT color="#0000FF">let</FONT> x, <FONT color="#0000FF">let</FONT> y, <FONT color="#0000FF">let</FONT> speed, <FONT color="#0000FF">let</FONT> angle, <FONT color="#0000FF">let</FONT> grf, <FONT color="#0000FF">let</FONT> delay)
+		{
+			<FONT color="#008040">//弾タスク初期化</FONT>
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_SHOT);<FONT color="#008040">//弾オブジェクトを作成</FONT>
+			Obj_SetX(obj, x);<FONT color="#008040">//x座標設定</FONT>
+			Obj_SetY(obj, y);<FONT color="#008040">//y座標設定;</FONT>
+			Obj_SetSpeed(obj, speed);<FONT color="#008040">//速度設定</FONT>
+			Obj_SetAngle(obj, angle);<FONT color="#008040">//移動角度設定</FONT>
+			ObjShot_SetGraphic(obj, grf);<FONT color="#008040">//画像設定</FONT>
+			ObjShot_SetDelay(obj, delay);<FONT color="#008040">//遅延時間設定</FONT>
+			
+			<FONT color="#0000FF">while</FONT>( !Obj_BeDeleted(obj) )
+			{<FONT color="#008040">//削除されるまでループを実行</FONT>
+				<FONT color="#0000FF">yield</FONT>;
+			}
+		}
+	
+	}
+  </PRE></TD></TABLE>
+ </P><BR> 
+ 
+ <P>
+  <TABLE border="1" width="480">
+  <TR><TD bgcolor="#dcdcdc" colspan="3"><A name="C02">C02 ホーミング弾(マイクロスレッド版)</A></TD></TR>
+  <TR>
+   <TD width="192" height="224"><IMG src="SampleC02a.jpg" ALT="SampleC02a"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleC02b.jpg" ALT="SampleC02b"></TD>
+  </TR>
+  <TR>
+   <TD valign="TOP" colspan="3">ホーミング弾のマイクロスレッド版です。<BR>
+	   オブジェクト操作関数を用いても、弾スクリプトと同様のことができます。<BR>
+       (弾スクリプト版<A href="#B01">SampleB02</A>と比べてみると違いが分かり易いです)<BR>
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleC02]
+	#Text[SampleC02：ホーミング弾(マイクロスレッド版)]
+	#Image[]
+	#BackGround[User]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数</FONT>
+		<FONT color="#0000FF">let</FONT> cx=GetCenterX();<FONT color="#008040">//変数cxに中心x座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> cy=GetCenterY();<FONT color="#008040">//変数cxに中心y座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> imgExRumia=GetCurrentScriptDirectory~<FONT color="#FF0000">"img\ExRumia.png"</FONT>;
+		<FONT color="#0000FF">let</FONT> laserData=[];
+		@Initialize()
+		{
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に設定</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(imgExRumia);<FONT color="#008040">//画像「img\ExRumia.png」を読みこむ		</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,60)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop()
+		{
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">360</FONT>)
+			{
+				Homing(GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer()-<FONT color="#FF0000">90</FONT>,<FONT color="#FF0000">0</FONT>);
+				Homing(GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer(),<FONT color="#FF0000">0</FONT>);
+				Homing(GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer()+<FONT color="#FF0000">90</FONT>,<FONT color="#FF0000">0</FONT>);
+				count=<FONT color="#FF0000">0</FONT>;
+			}
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+			<FONT color="#0000FF">yield</FONT>;<FONT color="#008040">//毎フレームタスク起動</FONT>
+		}
+		
+		@DrawLoop()
+		{
+			SetTexture(imgExRumia);
+			DrawGraphic(GetX(),GetY());<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize()
+		{
+			DeleteGraphic(imgExRumia);
+		}
+		
+		<FONT color="#0000FF">task</FONT> Homing(<FONT color="#0000FF">let</FONT> x, <FONT color="#0000FF">let</FONT> y, <FONT color="#0000FF">let</FONT> speed, <FONT color="#0000FF">let</FONT> angle, <FONT color="#0000FF">let</FONT> delay)
+		{
+			<FONT color="#008040">//弾タスク初期化</FONT>
+			<FONT color="#0000FF">let</FONT> count = <FONT color="#FF0000">0</FONT>;
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_SHOT);<FONT color="#008040">//弾オブジェクトを作成</FONT>
+			Obj_SetX(obj, x);<FONT color="#008040">//x座標設定</FONT>
+			Obj_SetY(obj, y);<FONT color="#008040">//y座標設定;</FONT>
+			Obj_SetSpeed(obj, speed);<FONT color="#008040">//速度設定</FONT>
+			Obj_SetAngle(obj, angle);<FONT color="#008040">//移動角度設定</FONT>
+			ObjShot_SetGraphic(obj, BLUE21);<FONT color="#008040">//画像設定</FONT>
+			ObjShot_SetDelay(obj, delay);<FONT color="#008040">//遅延時間設定</FONT>
+			
+			<FONT color="#0000FF">while</FONT>( !Obj_BeDeleted(obj) )
+			{<FONT color="#008040">//削除されるまでループを実行</FONT>
+				<FONT color="#008040">//ホーミング</FONT>
+				<FONT color="#0000FF">let</FONT> toAngle=atan2(GetPlayerY()-Obj_GetY(obj), GetPlayerX()-Obj_GetX(obj));<FONT color="#008040">//自機方向の角度取得</FONT>
+				<FONT color="#008040">//dAngle：1フレームあたりの角度変化量限界</FONT>
+				<FONT color="#008040">//dAngleを増加させるほどホーミング性能が増す</FONT>
+				<FONT color="#0000FF">let</FONT> dAngle=<FONT color="#FF0000">2</FONT>;
+				<FONT color="#0000FF">let</FONT> ret=toAngle-angle;
+				<FONT color="#0000FF">if</FONT>((ret&gt;<FONT color="#FF0000">0</FONT>&&ret&lt;=<FONT color="#FF0000">180</FONT>)||(ret&lt;<FONT color="#FF0000">0</FONT>&&ret&lt;=-<FONT color="#FF0000">180</FONT>)){angle+=dAngle;}
+				<FONT color="#0000FF">else</FONT> <FONT color="#0000FF">if</FONT>((ret&gt;<FONT color="#FF0000">0</FONT>&&ret&gt;<FONT color="#FF0000">180</FONT>)||(ret&lt;<FONT color="#FF0000">0</FONT>&&ret&gt;-<FONT color="#FF0000">180</FONT>)){angle-=dAngle;}
+				<FONT color="#0000FF">if</FONT>(angle&gt;=<FONT color="#FF0000">360</FONT>){angle-=<FONT color="#FF0000">360</FONT>;}<FONT color="#008040">//360°以上なら0～360内に補正</FONT>
+				<FONT color="#0000FF">if</FONT>(angle&lt;<FONT color="#FF0000">0</FONT>){angle+=<FONT color="#FF0000">360</FONT>;}<FONT color="#008040">//0°未満なら0～360内に補正</FONT>
+				Obj_SetAngle(obj, angle);
+				<FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">300</FONT>){ObjShot_FadeDelete(obj);}<FONT color="#008040">//300フレームで消滅</FONT>
+				count++;	
+				<FONT color="#0000FF">yield</FONT>;
+			}
+		}
+	
+	}
+  </PRE></TD></TABLE>	
+ </P><BR> 
+ 
+ <P>
+  <TABLE border="1" width="480">
+  <TR><TD bgcolor="#dcdcdc" colspan="3"><A name="C03">C03 特定の弾(A)に触れた弾(B)から、弾を出現させる</A></TD></TR>
+  <TR>
+
+   <TD width="192" height="224"><IMG src="SampleC03a.jpg" ALT="SampleC03a"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleC03b.jpg" ALT="SampleC03b"></TD>
+  </TR>
+  <TR>
+   <TD valign="TOP" colspan="3">弾と弾の当り判定をとるサンプルです。<BR>
+	   ShotAに触れたShotBから自機方向に弾を出します<BR>
+	   当り判定をとるためのShotAのオブジェクトを保存しているのがarrayShotAです。<BR>
+	   ShotA初期化時にarrayShotAに追加し、ShotA消滅時にarrayShotAから削除しています。<BR>
+	   <BR>
+	   当り判定はCollision_Obj_Objでとっています。<BR>
+	   この関数でオブジェクト同士の当り判定を調べられます。<BR>
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleC03]
+	#Text[SampleC03：特定の弾(A)に触れた弾(B)から、弾を出現させる]
+	#Image[]
+	#BackGround[User]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//弾を出す間隔を制御するための変数</FONT>
+		<FONT color="#0000FF">let</FONT> cx=GetCenterX();<FONT color="#008040">//変数cxに中心x座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> cy=GetCenterY();<FONT color="#008040">//変数cxに中心y座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> imgExRumia=GetCurrentScriptDirectory~<FONT color="#FF0000">"img\ExRumia.png"</FONT>;
+		<FONT color="#0000FF">let</FONT> arrayShotA=[];<FONT color="#008040">//ShotAのオブジェクトを保存しておく配列</FONT>
+		@Initialize()
+		{
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に設定</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(imgExRumia);<FONT color="#008040">//画像「img\ExRumia.png」を読みこむ		</FONT>
+			SetMovePosition02(cx,<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,60)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop()
+		{
+			<FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">120</FONT>)
+			{<FONT color="#008040">//自機の周りにShotBを配置</FONT>
+				<FONT color="#0000FF">let</FONT> px = GetPlayerX();<FONT color="#008040">//自機のx座標取得</FONT>
+				<FONT color="#0000FF">let</FONT> py = GetPlayerY();<FONT color="#008040">//自機のy座標取得</FONT>
+				<FONT color="#0000FF">let</FONT> x = px - <FONT color="#FF0000">160</FONT>;	
+				<FONT color="#0000FF">while</FONT>(x &lt; px + <FONT color="#FF0000">160</FONT>)
+				{
+					<FONT color="#0000FF">let</FONT> y = py - <FONT color="#FF0000">160</FONT>;
+					<FONT color="#0000FF">while</FONT>(y &lt; py + <FONT color="#FF0000">160</FONT>)
+					{<FONT color="#008040">//自機と距離が近い場所には出現させない</FONT>
+						<FONT color="#0000FF">if</FONT>((x-px)^<FONT color="#FF0000">2</FONT> + (y-py)^<FONT color="#FF0000">2</FONT> &gt; <FONT color="#FF0000">40</FONT>^<FONT color="#FF0000">2</FONT>)
+						{
+							ShotB(x, y);	
+						}
+						y+=<FONT color="#FF0000">20</FONT>;
+					}
+					x+=<FONT color="#FF0000">20</FONT>;
+				}
+			}
+			<FONT color="#0000FF">else</FONT> <FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">240</FONT>)
+			{<FONT color="#008040">//240フレーム目にShotAタスクを起動</FONT>
+				<FONT color="#0000FF">let</FONT> pAngle = GetAngleToPlayer();
+				ShotA(GetX(), GetY(), rand(<FONT color="#FF0000">3</FONT>,<FONT color="#FF0000">5</FONT>), rand(pAngle-<FONT color="#FF0000">45</FONT>, pAngle+<FONT color="#FF0000">45</FONT>));
+			}
+			<FONT color="#0000FF">else</FONT> <FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">480</FONT>)
+			{<FONT color="#008040">//480フレームで0フレーム目に戻す</FONT>
+				count=<FONT color="#FF0000">0</FONT>;
+			}
+			
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+			<FONT color="#0000FF">yield</FONT>;<FONT color="#008040">//毎フレームタスク復帰</FONT>
+		}
+		
+		@DrawLoop()
+		{
+			SetTexture(imgExRumia);
+			DrawGraphic(GetX(),GetY());<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize()
+		{
+			DeleteGraphic(imgExRumia);
+		}
+		
+		<FONT color="#0000FF">task</FONT> ShotA(<FONT color="#0000FF">let</FONT> x, <FONT color="#0000FF">let</FONT> y, <FONT color="#0000FF">let</FONT> speed, <FONT color="#0000FF">let</FONT> angle)
+		{<FONT color="#008040">//弾A(画面の大玉)</FONT>
+			<FONT color="#008040">//弾タスク初期化</FONT>
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_SHOT);<FONT color="#008040">//弾オブジェクトを作成</FONT>
+			arrayShotA = arrayShotA ~ [obj];<FONT color="#008040">//オブジェクトを追加</FONT>
+			Obj_SetX(obj, x);<FONT color="#008040">//x座標設定</FONT>
+			Obj_SetY(obj, y);<FONT color="#008040">//y座標設定;</FONT>
+			Obj_SetSpeed(obj, speed);<FONT color="#008040">//速度設定</FONT>
+			Obj_SetAngle(obj, angle);<FONT color="#008040">//移動角度設定</FONT>
+			ObjShot_SetGraphic(obj, RED03);<FONT color="#008040">//画像設定</FONT>
+			
+			<FONT color="#0000FF">while</FONT>( !Obj_BeDeleted(obj) )
+			{<FONT color="#008040">//削除されるまでループを実行</FONT>
+				<FONT color="#0000FF">yield</FONT>;
+			}
+			
+			<FONT color="#0000FF">let</FONT> i=<FONT color="#FF0000">0</FONT>;
+			<FONT color="#0000FF">loop</FONT>(length(arrayShotA))
+			{<FONT color="#008040">//arrayAから自身を削除</FONT>
+				<FONT color="#0000FF">if</FONT>(arrayShotA[i] == obj)
+				{<FONT color="#008040">//配列arrayShotAからi番目(自身)の要素を削除</FONT>
+					arrayShotA = erase(arrayShotA, i);
+					<FONT color="#0000FF">break</FONT>;
+				}
+				i++;
+			}		
+		}
+		<FONT color="#0000FF">task</FONT> ShotB(<FONT color="#0000FF">let</FONT> x, <FONT color="#0000FF">let</FONT> y)
+		{<FONT color="#008040">//ShotAに当たったら弾を自機方向に出す弾</FONT>
+			<FONT color="#008040">//弾タスク初期化</FONT>
+			<FONT color="#0000FF">let</FONT> count=<FONT color="#FF0000">0</FONT>;
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_SHOT);<FONT color="#008040">//弾オブジェクトを作成</FONT>
+			Obj_SetX(obj, x);<FONT color="#008040">//x座標設定</FONT>
+			Obj_SetY(obj, y);<FONT color="#008040">//y座標設定;</FONT>
+			ObjShot_SetGraphic(obj, AQUA01);<FONT color="#008040">//画像設定</FONT>
+			ObjShot_SetDelay(obj, <FONT color="#FF0000">30</FONT>);
+			
+			<FONT color="#0000FF">while</FONT>( !Obj_BeDeleted(obj) )
+			{<FONT color="#008040">//削除されるまでループを実行</FONT>
+				<FONT color="#0000FF">let</FONT> i=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">loop</FONT>(length(arrayShotA))
+				{<FONT color="#008040">//ShotAとの当り判定を調査</FONT>
+					<FONT color="#0000FF">if</FONT>(Collision_Obj_Obj(arrayShotA[i], obj))
+					{<FONT color="#008040">//ShotAと接触</FONT>
+						CreateShot01(x, y, <FONT color="#FF0000">3</FONT>, atan2(GetPlayerY()-y, GetPlayerX()-x), PURPLE21, <FONT color="#FF0000">10</FONT>);
+						Obj_Delete(obj);<FONT color="#008040">//触れたら削除</FONT>
+						<FONT color="#0000FF">break</FONT>;
+					}
+					i++;
+				}		
+				<FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">240</FONT>)
+				{<FONT color="#008040">//240フレームで消滅</FONT>
+					ObjShot_FadeDelete(obj);
+					<FONT color="#0000FF">break</FONT>;
+				}
+				count++;
+				<FONT color="#0000FF">yield</FONT>;
+			}
+		}	
+		
+	}
+  </PRE></TD></TABLE>
+ </P><BR>
+
+ <P>
+  <TABLE border="1" width="480">
+  <TR><TD bgcolor="#dcdcdc" colspan="3"><A name="C04">C04 レーザーに当たった弾の軌道を変える</A></TD></TR>
+  <TR>
+
+   <TD width="192" height="224"><IMG src="SampleC04a.jpg" ALT="SampleC04a"></TD>
+   <TD>→</TD>
+   <TD width="192" height="224"><IMG src="SampleC04b.jpg" ALT="SampleC04b"></TD>
+  </TR>
+  <TR>
+   <TD valign="TOP" colspan="3">弾とレーザーの当り判定をとるサンプルです。<BR>
+   								敵の放つ弾の軌道が実体化したレーザーにあたると変化します。<BR>
+                                Collision_Obj_Objで当り判定を調べます。<BR>
+								Collision_Obj_Objはレーザーと弾等、異なったオブジェクトの当り判定も可能です。<BR>
+
+   </TD>
+  </TR></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[SampleC04]
+	#Text[SampleC04：レーザーに当たった弾の軌道を変える]
+	#Image[]
+	#BackGround[User]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_enemy_main
+	{
+		<FONT color="#0000FF">let</FONT> count= -<FONT color="#FF0000">90</FONT> ;<FONT color="#008040">//弾を出す間隔を制御するための変数</FONT>
+		<FONT color="#0000FF">let</FONT> cx=GetCenterX();<FONT color="#008040">//変数cxに中心x座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> cy=GetCenterY();<FONT color="#008040">//変数cxに中心y座標を代入</FONT>
+		<FONT color="#0000FF">let</FONT> imgExRumia=GetCurrentScriptDirectory~<FONT color="#FF0000">"img\ExRumia.png"</FONT>;
+		<FONT color="#0000FF">let</FONT> arrayLaser=[];<FONT color="#008040">//LaserObjectのオブジェクトを保存しておく</FONT>
+		@Initialize()
+		{
+			SetLife(<FONT color="#FF0000">1000</FONT>);<FONT color="#008040">//敵のライフを1000に設定</FONT>
+			SetGraphicRect(<FONT color="#FF0000">64</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">127</FONT>,<FONT color="#FF0000">64</FONT>);<FONT color="#008040">//描画元の矩形を(64,1)-(127,64)に設定</FONT>
+			LoadGraphic(imgExRumia);<FONT color="#008040">//画像「img\ExRumia.png」を読みこむ		</FONT>
+			SetMovePosition02(cx,cy,<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//座標(cx,60)に60フレームで移動</FONT>
+		}
+			
+		@MainLoop()
+		{
+			<FONT color="#0000FF">if</FONT>(count&gt;<FONT color="#FF0000">0</FONT> &amp;&amp; count%<FONT color="#FF0000">30</FONT> == <FONT color="#FF0000">0</FONT>)
+			{<FONT color="#008040">//30フレーム毎に弾をばらまく</FONT>
+				<FONT color="#0000FF">let</FONT> angle = <FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">while</FONT>(angle&lt;<FONT color="#FF0000">360</FONT>)
+				{
+					ShotObject(GetX(), GetY(), <FONT color="#FF0000">3</FONT>, angle, AQUA21, <FONT color="#FF0000">5</FONT>);
+					angle+=<FONT color="#FF0000">8</FONT>;
+				}
+			}
+			<FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">60</FONT>)
+			{<FONT color="#008040">//弾の軌道を変えるレーザー作成</FONT>
+				LaserObject(<FONT color="#FF0000">0</FONT>,RED01);
+				LaserObject(<FONT color="#FF0000">1</FONT>,BLUE01);
+				LaserObject(<FONT color="#FF0000">2</FONT>,GREEN01);
+			}
+			<FONT color="#0000FF">if</FONT>(count == <FONT color="#FF0000">360</FONT>)
+			{<FONT color="#008040">//レーザー削除</FONT>
+				<FONT color="#0000FF">let</FONT> i=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">loop</FONT>(length(arrayLaser))
+				{
+					ObjShot_FadeDelete(arrayLaser[i]);
+					i++;
+				}				
+				count=<FONT color="#FF0000">0</FONT>;<FONT color="#008040">//カウンタを0にする</FONT>
+			}
+	
+			SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);<FONT color="#008040">//敵の座標に当たり判定を登録</FONT>
+			SetCollisionB(GetX(),GetY(),<FONT color="#FF0000">24</FONT>);<FONT color="#008040">//敵の座標に当たり判定(体当たり用)を登録</FONT>
+			count++;<FONT color="#008040">//1フレーム毎にcountが1増加</FONT>
+			<FONT color="#0000FF">yield</FONT>;<FONT color="#008040">//毎フレームタスク復帰</FONT>
+		}
+		
+		@DrawLoop()
+		{
+			SetTexture(imgExRumia);
+			DrawGraphic(GetX(),GetY());<FONT color="#008040">//敵の座標にExルーミアを描画;</FONT>
+		}
+		
+		@Finalize()
+		{
+			DeleteGraphic(imgExRumia);
+		}
+		
+		<FONT color="#0000FF">task</FONT> LaserObject(<FONT color="#0000FF">let</FONT> num, <FONT color="#0000FF">let</FONT> grf)
+		{<FONT color="#008040">//弾の軌道を変えるレーザー</FONT>
+			<FONT color="#008040">//numは0-2のセットで敵を中心に三角形にレーザーを出現させる</FONT>
+			<FONT color="#008040">//レーザータスク初期化</FONT>
+			<FONT color="#0000FF">let</FONT> r=<FONT color="#FF0000">120</FONT>;
+			<FONT color="#0000FF">let</FONT> angle=<FONT color="#FF0000">210</FONT>+<FONT color="#FF0000">120</FONT>*num;
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_LASER);
+			arrayLaser = arrayLaser~[obj];<FONT color="#008040">//オブジェクトをarrayLaserに登録</FONT>
+			Obj_SetX(obj, GetX() + r*cos(angle-<FONT color="#FF0000">150</FONT>));
+			Obj_SetY(obj, GetY() + r*sin(angle-<FONT color="#FF0000">150</FONT>));
+			Obj_SetAngle(obj, angle);
+			ObjShot_SetGraphic(obj, grf);
+			ObjShot_SetDelay(obj, <FONT color="#FF0000">120</FONT>);<FONT color="#008040">//遅延時間：120フレーム</FONT>
+			ObjLaser_SetLength(obj, (<FONT color="#FF0000">3</FONT>^<FONT color="#FF0000">0.5</FONT>)*r);<FONT color="#008040">//円に内接する正三角形の辺の長さ：√3*r</FONT>
+			ObjLaser_SetWidth(obj, <FONT color="#FF0000">12</FONT>);<FONT color="#008040">//レーザーの幅：12</FONT>
+			<FONT color="#0000FF">while</FONT>( !Obj_BeDeleted(obj) )
+			{
+				angle+=<FONT color="#FF0000">1</FONT>;<FONT color="#008040">//レーザーを回転</FONT>
+				Obj_SetX(obj, GetX() + r*cos(angle-<FONT color="#FF0000">150</FONT>));
+				Obj_SetY(obj, GetY() + r*sin(angle-<FONT color="#FF0000">150</FONT>));
+				Obj_SetAngle(obj, angle);
+				<FONT color="#0000FF">yield</FONT>;
+			}
+			
+			<FONT color="#0000FF">let</FONT> i=<FONT color="#FF0000">0</FONT>;
+			<FONT color="#0000FF">loop</FONT>(length(arrayLaser))
+			{<FONT color="#008040">//オブジェクトを削除</FONT>
+				<FONT color="#0000FF">if</FONT>(arrayLaser[i] == obj)
+				{<FONT color="#008040">//配列arrayLaserからi番目の要素を削除</FONT>
+					arrayLaser = erase(arrayLaser, i);
+					<FONT color="#0000FF">break</FONT>;
+				}
+				i++;
+			}
+		}
+		<FONT color="#0000FF">task</FONT> ShotObject(<FONT color="#0000FF">let</FONT> x, <FONT color="#0000FF">let</FONT> y, <FONT color="#0000FF">let</FONT> speed, <FONT color="#0000FF">let</FONT> angle, <FONT color="#0000FF">let</FONT> grf, <FONT color="#0000FF">let</FONT> delay)
+		{<FONT color="#008040">//レーザーに当たったら軌道を変える弾</FONT>
+			<FONT color="#008040">//弾タスク初期化</FONT>
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_SHOT);
+			Obj_SetX(obj, x);
+			Obj_SetY(obj, y);
+			Obj_SetSpeed(obj, speed);
+			Obj_SetAngle(obj, angle);
+			ObjShot_SetGraphic(obj, grf);
+			ObjShot_SetDelay(obj, delay);
+			
+			<FONT color="#0000FF">while</FONT>( !Obj_BeDeleted(obj) )
+			{<FONT color="#008040">//削除されるまでループを実行</FONT>	
+				<FONT color="#0000FF">let</FONT> i=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">loop</FONT>(length(arrayLaser))
+				{<FONT color="#008040">//レーザーとの当り判定を調査</FONT>
+					<FONT color="#0000FF">if</FONT>(Collision_Obj_Obj(arrayLaser[i], obj))
+					{<FONT color="#008040">//Laserと接触したら</FONT>
+					<FONT color="#008040">//連続で判定されないよう普通の弾と入れ替える</FONT>
+					<FONT color="#008040">//角度も変えておく</FONT>
+					<FONT color="#008040">//数フレーム触れないようにカウンタで管理してもよいかも</FONT>
+						x = Obj_GetX(obj);
+						y = Obj_GetY(obj);
+						CreateShot01(x, y, <FONT color="#FF0000">3</FONT>, Obj_GetAngle(arrayLaser[i])-<FONT color="#FF0000">90</FONT>, grf, <FONT color="#FF0000">0</FONT>);
+						Obj_Delete(obj);
+						<FONT color="#0000FF">break</FONT>;
+					}
+					i++;
+				}		
+				<FONT color="#0000FF">yield</FONT>;
+			}
+		}	
+		
+	}
+  </PRE></TD></TABLE>
+ </P><BR>
+
+ </BODY>
+</HTML>

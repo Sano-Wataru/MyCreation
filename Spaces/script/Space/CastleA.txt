@@ -1,0 +1,238 @@
+script_enemy_main
+{//CastleA(要塞)
+	let count=0;
+	let cx=GetCenterX();//STGシーンの中心x座標を取得
+	let imgEnemy="script\Space\img\Enemy(Castle).png";
+	let imgAngle=0;
+	let shotAngle=0;
+	@Initialize
+	{
+		SetLife(10000);//ライフを1500に設定
+	LoadGraphic(imgEnemy);
+	SetTexture(imgEnemy);
+        SetGraphicRect(0,0,200,200);//描画元矩形を設定	
+		SetMovePosition02(cx+0,60,60);//座標(cx,60)へ60フレームかけて移動する
+SetMovePosition03(GetX,GetY+100,20,2);
+      StartTask;
+	}
+	
+@MainLoop {
+	SetCollisionA(GetX,GetY,100);
+	SetCollisionB(GetX,GetY,100);
+yield;
+}
+	@Finalize
+	{//読みこんだファイルを削除
+        loop(1) {
+        CreateItem(ITEM_SCORE,rand(GetX-100,GetX+100),rand(GetX-10,GetY+10));
+            }
+
+	}
+	
+	@DrawLoop
+	{//描画
+	DrawGraphic(GetX,GetY);
+}
+task StartTask {
+CreateEnemyFromScript("GunA",GetEnemyX,GetEnemyY,0,0,0);
+CreateEnemyFromScript("GunA",GetEnemyX,GetEnemyY,0,0,1);
+CreateEnemyFromScript("GunA",GetEnemyX,GetEnemyY,0,0,2);
+CreateEnemyFromScript("GunA",GetEnemyX,GetEnemyY,0,0,3);
+CreateEnemyFromScript("GunB",GetEnemyX,GetEnemyY,0,0,0);
+CreateEnemyFromScript("GunB",GetEnemyX,GetEnemyY,0,0,1);
+CreateEnemyFromScript("GunB",GetEnemyX,GetEnemyY,0,0,2);
+CreateEnemyFromScript("GunB",GetEnemyX,GetEnemyY,0,0,3);
+CreateEnemyFromScript("LaserA",GetEnemyX,GetEnemyY,0,0,0);
+Wait(120);
+MainTask;
+    }
+task MainTask {
+
+}
+			function Wait(let frame)
+			{//待機関数
+				loop(frame){yield};
+			}
+	}
+
+
+script_enemy GunA
+{
+  let BossTexture = "script\Space\img\Equip.png";
+	@Initialize
+	{
+          SetLife(2000);
+          LoadGraphic(BossTexture);
+          SetTexture(BossTexture);
+          Loop;
+          Wait(150);
+          MainTask;
+	}
+	
+@MainLoop {
+  if(GetArgument==0){
+   SetX(GetEnemyX+80);
+   SetY(GetEnemyY);
+     }
+  if(GetArgument==1){
+   SetX(GetEnemyX-80);
+   SetY(GetEnemyY);
+     }
+  if(GetArgument==2){
+   SetX(GetEnemyX);
+   SetY(GetEnemyY+80);
+     }
+  if(GetArgument==3){
+   SetX(GetEnemyX);
+   SetY(GetEnemyY-80);
+     }
+yield;
+}
+	@Finalize
+	{
+
+	}
+	
+	@DrawLoop
+	{
+   SetGraphicRect(37,0,51,26);
+   DrawGraphic(GetX,GetY);
+
+}
+     task Loop {
+   loop {
+       SetGraphicAngle(0,0,GetAngleToPlayer-90);
+         Wait(1);
+            }
+         }
+    task MainTask {
+     CreateShot01(GetX,GetY,5,GetAngleToPlayer,RED05,0);
+      Wait(20);
+      MainTask;
+    }
+			function Wait(let frame)
+			{//待機関数
+				loop(frame){yield};
+			}
+	}
+
+script_enemy GunB
+{
+  let BossTexture = "script\Space\img\Equip.png";
+	@Initialize
+	{
+          SetLife(2000);
+          LoadGraphic(BossTexture);
+          SetTexture(BossTexture);
+          Loop;
+          Wait(150);
+       MainTask;
+	}
+	
+@MainLoop {
+  if(GetArgument==0){
+   SetX(GetEnemyX+45);
+   SetY(GetEnemyY+45);
+     }
+  if(GetArgument==1){
+   SetX(GetEnemyX-45);
+   SetY(GetEnemyY-45);
+     }
+  if(GetArgument==2){
+   SetX(GetEnemyX+45);
+   SetY(GetEnemyY-45);
+     }
+  if(GetArgument==3){
+   SetX(GetEnemyX-45);
+   SetY(GetEnemyY+45);
+     }
+yield;
+}
+	@Finalize
+	{
+
+	}
+	
+	@DrawLoop
+	{
+   SetGraphicRect(37,0,51,26);
+   DrawGraphic(GetX,GetY);
+
+}
+     task Loop {
+   loop {
+      if(GetArgument==0){
+       SetGraphicAngle(0,0,GetAngleToPlayer-230);
+              }
+      if(GetArgument==1){
+       SetGraphicAngle(0,0,GetAngleToPlayer+50);
+              }
+      if(GetArgument==2){
+       SetGraphicAngle(0,0,GetAngleToPlayer-230);
+              }
+      if(GetArgument==3){
+       SetGraphicAngle(0,0,GetAngleToPlayer+50);
+              }
+         Wait(1);
+            }
+         }
+      task MainTask {
+      if(GetArgument==0){
+     CreateShot02(GetX,GetY,10,GetAngleToPlayer-140,0.1,5,BLUE11,0);
+              }
+      if(GetArgument==1){
+     CreateShot02(GetX,GetY,10,GetAngleToPlayer+140,0.1,5,BLUE11,0);
+              }
+      if(GetArgument==2){
+     CreateShot02(GetX,GetY,10,GetAngleToPlayer-140,0.1,5,BLUE11,0);
+              }
+      if(GetArgument==3){
+     CreateShot02(GetX,GetY,10,GetAngleToPlayer+140,0.1,5,BLUE11,0);
+              }
+        Wait(10);
+     MainTask;
+        }
+			function Wait(let frame)
+			{//待機関数
+				loop(frame){yield};
+			}
+	}
+
+script_enemy LaserA
+{
+  let BossTexture = "script\Space\img\Equip.png";
+	@Initialize
+	{
+          SetLife(2000);
+          LoadGraphic(BossTexture);
+          SetTexture(BossTexture);
+          Loop;
+	}
+	
+@MainLoop {
+   SetX(GetEnemyX+2);
+   SetY(GetEnemyY-2);
+yield;
+}
+	@Finalize
+	{
+
+	}
+	
+	@DrawLoop
+	{
+   SetGraphicRect(55,5,71,21);
+   DrawGraphic(GetX,GetY);
+
+}
+     task Loop {
+   loop {
+       SetGraphicAngle(0,0,GetAngleToPlayer-90);
+         Wait(1);
+            }
+         }
+			function Wait(let frame)
+			{//待機関数
+				loop(frame){yield};
+			}
+	}

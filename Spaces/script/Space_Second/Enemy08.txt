@@ -1,0 +1,85 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+    @Initialize
+    {
+        let imgEnemy= GetCurrentScriptDirectory~"img\enemy_all.png";
+       SetLife(30);
+    SetTexture(imgEnemy);
+    SetGraphicRect(123, 24 ,185 ,52);
+    SetGraphicAngle(0, 180, 0);
+    SetGraphicScale(0.6, 0.6);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+  MainTask;
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+     if(GetClipMaxX + 150 < GetX){
+       VanishEnemy;
+    }
+     if(GetClipMinX - 150 > GetX){
+       VanishEnemy;
+    }
+       yield;
+  }
+    @Finalize
+    {
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(3,5));
+      SetCommonData("ShieldAmount", rand(8,15));
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task MainTask{
+     Wait(80);
+   let a = 0; let b = 0; let c = 0;
+   let angle = GetAngleToPlayer;
+   let angle2 = GetAngleToPlayer;
+loop(2){
+   a = 0; b = 0; c = 0;
+ loop(50){
+     loop(4){
+   CreateShot01(GetX+b*cos(angle+a), GetY+b*sin(angle+a), 3, angle+a, 15, 10);
+      angle += 3;
+        a += 360/4;
+        b += c;
+        c += 0.005;
+         }
+       Wait(3);
+   }//loop
+
+ loop(50){
+     loop(4){
+   CreateShot01(GetX+b*cos(angle+a), GetY+b*sin(angle+a), 4, angle+a, 15, 10);
+      angle += 3;
+        a += 360/4;
+        b -= c;
+        c += 0.005;
+         }
+       Wait(2);
+   }//loop
+     }//loop‘S
+  EndTask;
+}//task
+
+ task EndTask{
+  if(GetArgument == 0){
+   SetAngle(0);
+   SetSpeed(1);
+    }
+  if(GetArgument == 1){
+   SetAngle(180);
+   SetSpeed(1);
+    }
+ }
+}

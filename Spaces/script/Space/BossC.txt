@@ -1,0 +1,609 @@
+script_enemy_main
+{
+   @Initialize
+   {
+       let imgBoss = GetCurrentScriptDirectory~"img\all_type.png";
+       SetLife(52000);
+     LoadGraphic(imgBoss);
+     SetTexture(imgBoss);
+     SetGraphicRect(246,118,292,163);
+     SetGraphicAngle(0,180,0);
+     SetGraphicScale(2,2);
+     LoadUserShotData(GetCurrentScriptDirectory~"ShotData.txt");
+  MagicCircle(false);
+    StartMove;
+   }
+   @MainLoop
+   {
+       //“–‚½‚è”»’è//
+    SetCollisionA(GetX,GetY,45);
+	SetCollisionB(GetX,GetY,45);
+        if(GetLife < 1000){
+           DeleteEnemyShotImmediatelyInCircle(ALL,GetX,GetY,500);
+           DeleteAllEnemyWithoutBoss;
+           VanishEnemy;
+          }
+       yield;
+   }
+   @Finalize
+   {
+   }
+   @DrawLoop
+   {
+    DrawGraphic(GetX,GetY);
+   }
+
+   function Wait(x){
+    loop(x){yield;}
+   }
+
+   function CreateEnemy(name,x,y,a){
+    CreateEnemyFromScript(name,x,y,0,0,a);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"MagicCircle.txt",x,y,0,0,0);
+  }
+
+ task StartMove{
+   SetMovePosition01(GetCenterX,GetCenterY - 90,1);
+   SetDamageRate(0,0);
+     Wait(300);
+   SetDamageRate(100,100);
+   ShieldTask;
+   FirstTask;
+  }
+
+  sub ShieldTask{
+         CreateEnemyFromScript("Shield01",GetX,GetY,0,0,0);
+         CreateEnemyFromScript("Shield02",GetX,GetY,0,0,0);
+         CreateEnemyFromScript("Shield03",GetX,GetY,0,0,0);
+  }
+
+  task FirstTask{
+   while(GetLife > 42000){
+        CreateEnemy("Enemy01",GetX+120,GetY+10,0);
+        CreateEnemy("Enemy01",GetX-120,GetY+10,0);
+     Wait(150);
+        CreateEnemy("Enemy02",GetX+70,GetY+100,0);
+        CreateEnemy("Enemy02",GetX-70,GetY+100,0);
+     Wait(100);
+        CreateEnemy("Enemy02",GetX+30,GetY+30,0);
+        CreateEnemy("Enemy02",GetX-30,GetY+30,0);
+     Wait(10);
+        CreateEnemy("Enemy02",GetX+50,GetY+10,0);
+        CreateEnemy("Enemy02",GetX-50,GetY+10,0);
+     Wait(50);
+        CreateEnemy("Enemy02",GetX+80,GetY-50,0);
+        CreateEnemy("Enemy02",GetX-80,GetY-50,0);
+     Wait(500);
+  
+        CreateEnemy("Enemy03",GetX+120,GetY,0);
+        CreateEnemy("Enemy03",GetX-120,GetY,1);
+     Wait(500);
+        CreateEnemy("Enemy03",GetX-120,GetY,0);
+        CreateEnemy("Enemy03",GetX+120,GetY,1);
+
+     Wait(1600);
+  
+   DeleteEnemyWithoutShield;
+     Wait(100);
+
+  loop(3){
+   let a = 0;
+  
+        CreateEnemy("Enemy04",GetX+60,GetY,0);
+        CreateEnemy("Enemy04",GetX,GetY+60,1);
+        CreateEnemy("Enemy04",GetX-60,GetY,2);
+        CreateEnemy("Enemy04",GetX,GetY-60,3);
+          Wait(20);
+        CreateEnemy("Enemy04",GetX+120,GetY,4);
+        CreateEnemy("Enemy04",GetX,GetY+120,5);
+        CreateEnemy("Enemy04",GetX-120,GetY,6);
+        CreateEnemy("Enemy04",GetX,GetY-120,7);
+     
+          Wait(220);
+        DeleteEnemyWithoutShield;
+            Wait(30);
+      loop(3){
+        TriLaser(GetX+100*cos(a),GetY+100*sin(a),GetAngleToPlayer+45,800,25,6,60);
+        a += 360/3;
+            }
+      loop(3){
+        TriLaser(GetX+150*cos(a+360/6),GetY+150*sin(a+360/6),GetAngleToPlayer-45,800,25,6,60);
+        a += 360/3;
+            }
+          Wait(300);
+        }
+       DeleteEnemyWithoutShield;
+         Wait(100);
+        }
+         DeleteAllEnemyWithoutBoss;
+   let angle = 0;
+       loop(10){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+40*cos(angle),GetY+40*sin(angle),0,0,0);
+             angle += 360/10
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt",GetX+rand(-60,60),GetY+rand(-30,30),0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Skill.txt",GetX+rand(-60,60),GetY+rand(-30,30),0,0,0);
+         Wait(200);
+     ShieldTask;
+     SecondTask;
+  }
+
+task SecondTask{//SecondWave
+  let a = 0;
+  let b = 0;
+     loop(8){
+   CreateEnemy("Enemy02",GetX+80*cos(a),GetY+80*sin(a),0);
+         a += 360/8;
+       }
+    Wait(60);
+   CreateEnemy("Enemy01",GetX+120,GetY,0);
+   CreateEnemy("Enemy01",GetX-120,GetY,0);
+       Wait(300);
+   CreateEnemy("Enemy03",GetX+120,GetY,0);
+   CreateEnemy("Enemy03",GetX-120,GetY,1);
+       Wait(500);
+     b = 0;
+  loop(3){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/3;
+   }
+       Wait(120);
+  loop(4){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/4;
+   }
+       Wait(120);
+  loop(5){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/5;
+   }
+       Wait(120);
+  loop(6){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/6;
+   }
+       Wait(120);
+   b = -50;
+  loop(3){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 50;
+   }
+    Wait(300);
+   DeleteEnemyWithoutShield;
+        Wait(100);
+   loop(5){
+      CreateEnemy("Enemy02",GetX+120*cos(a),GetY+120*sin(a),0);
+        a += 360/5;
+      }
+   Wait(20);
+   loop(7){
+      CreateEnemy("Enemy02",GetX+70*cos(a),GetY+70*sin(a),0);
+        a += 360/7;
+      }
+
+loop(2){
+  loop(4){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/4;
+   }
+        Wait(70);
+  loop(5){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/5;
+   }
+        Wait(70);
+  loop(6){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/6;
+   }
+        Wait(70);
+  loop(7){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/7;
+   }
+        Wait(70);
+  loop(10){
+   loop(3){
+    CreateShot02(GetX,GetY,rand(8,9),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(4,5),17,20);
+        }
+   loop(10){
+    CreateShot02(GetX,GetY,rand(6,7),GetAngleToPlayer+b+rand(-12,12),-0.1,rand(3,4),18,20);
+       }
+   loop(30){
+    CreateShot02(GetX,GetY,rand(4,6),GetAngleToPlayer+b+rand(-15,15),-0.1,rand(2,3),19,20);
+      }
+      b += 360/10;
+   }
+        Wait(120);
+  }
+       Wait(300);
+    DeleteEnemyWithoutShield;
+      Wait(30);
+
+   if(GetLife > 29000){
+     SecondTask;
+    }else{
+         DeleteAllEnemyWithoutBoss;
+   let angle = 0;
+       loop(10){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+40*cos(angle),GetY+40*sin(angle),0,0,0);
+             angle += 360/10
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt",GetX+rand(-60,60),GetY+rand(-30,30),0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Skill.txt",GetX+rand(-60,60),GetY+rand(-30,30),0,0,0);
+      ThirdStart;
+      ThirdTask;
+    }
+
+}
+
+  task ThirdStart{
+    ShieldTask;
+     Wait(660);
+    ShieldTask;
+  }
+
+  task ThirdTask{
+ let a = 0;
+    Wait(100);
+      CreateEnemy("Enemy02",GetX+70*cos(250),GetY+70*sin(250),0);
+      CreateEnemy("Enemy02",GetX+70*cos(290),GetY+70*sin(290),0);
+      CreateEnemy("Enemy02",GetX+100*cos(170),GetY+100*sin(170),0);
+      CreateEnemy("Enemy02",GetX+100*cos(10),GetY+100*sin(10),0);
+      CreateEnemy("Enemy02",GetX+70*cos(100),GetY+100*sin(100),0);
+      CreateEnemy("Enemy02",GetX+70*cos(80),GetY+100*sin(80),0);
+        Wait(50);
+      CreateEnemy("Enemy05",GetX+140,GetY,0);
+      CreateEnemy("Enemy05",GetX-140,GetY,0);
+        Wait(400);
+      CreateEnemy("Enemy06",GetX+130*cos(130),GetY+130*sin(130),0);
+      CreateEnemy("Enemy06",GetX+130*cos(50),GetY+130*sin(50),0);
+      CreateEnemy("Enemy06",GetX+110*cos(160),GetY+130*sin(160),0);
+      CreateEnemy("Enemy06",GetX+110*cos(20),GetY+130*sin(20),0);
+        Wait(500);
+
+     CreateLaserB(0,0,120,23,60);
+     SetLaserDataB(0,0,7,10,0,GetAngleToPlayer,0,GetAngleToPlayer,0);
+     SetShotKillTime(0,150);
+     FireShot(0);
+     loop(50){
+      CreateShot02(GetX,GetY,rand(6,9),rand(0,360),-0.5,rand(2,4),24,10);
+      }
+       Wait(200);
+  loop(3){
+     CreateLaserB(0,0,120,23,60);
+     SetLaserDataB(0,0,7,10,0,GetAngleToPlayer+a,0,GetAngleToPlayer+a,0);
+     SetShotKillTime(0,150);
+     FireShot(0);
+        a += 360/3;
+    }
+   loop(3){
+     loop(60){
+      CreateShot02(GetX,GetY,rand(6,9),rand(0,360),-0.5,rand(2,4),24,10);
+      }
+    Wait(20);
+  }
+       Wait(200);
+  loop(5){
+     CreateLaserB(0,0,120,23,60);
+     SetLaserDataB(0,0,7,10,0,GetAngleToPlayer+a,0,GetAngleToPlayer+a,0);
+     SetShotKillTime(0,150);
+     FireShot(0);
+        a += 360/5;
+    }
+   loop(5){
+     loop(60){
+      CreateShot02(GetX,GetY,rand(6,9),rand(0,360),-0.5,rand(2,4),24,10);
+      }
+    Wait(20);
+  }
+      Wait(400);
+    DeleteEnemyWithoutShield;
+    if(GetLife > 15000){
+     ThirdTask;
+     }else{
+     LastTask;
+         DeleteAllEnemyWithoutBoss;
+   let angle = 0;
+       loop(10){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+40*cos(angle),GetY+40*sin(angle),0,0,0);
+             angle += 360/10
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt",GetX+rand(-60,60),GetY+rand(-30,30),0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Skill.txt",GetX+rand(-60,60),GetY+rand(-30,30),0,0,0);
+     }
+  }
+
+  task LastTask{
+  let a = 0;
+  let b = 0;
+  let c = 0;
+  let color = [24,27,28,29,30,31,32];
+  let wait = 0;
+
+  if(GetLife < 8000){
+     wait = 170;
+   }
+
+  loop(5){
+     CreateLaserB(0,0,150,25,120);
+     SetLaserDataB(0,0,5,10,0,GetAngleToPlayer+a,0,GetAngleToPlayer+a,0);
+     SetShotKillTime(0,250);
+  b = 10;
+  loop(70){
+     CreateShotA(1,0,0,10);
+     SetShotDataA(1,0,0.1,GetAngleToPlayer,0.5,rand(0.1,0.3),4,27);
+     AddShot(140,0,1,b);
+      b += 60;
+    }
+  b = 35;
+  loop(70){
+     CreateShotA(1,0,0,10);
+     SetShotDataA(1,0,0.1,GetAngleToPlayer,0.5,rand(0.1,0.3),2,27);
+     AddShot(140,0,1,b);
+      b += 60;
+    }
+  b = 40;
+  loop(70){
+     CreateShotA(1,0,0,10);
+     SetShotDataA(1,0,0.1,GetAngleToPlayer+180,0.5,rand(-0.1,-0.3),4,27);
+     AddShot(140,0,1,b);
+      b += 60;
+    }
+  b = 65;
+  loop(70){
+     CreateShotA(1,0,0,10);
+     SetShotDataA(1,0,0.1,GetAngleToPlayer+180,0.5,rand(-0.1,-0.3),2,27);
+     AddShot(140,0,1,b);
+      b += 60;
+    }
+  
+     FireShot(0);
+         a += 360/5;
+    }
+
+   Wait(120);
+
+  loop(8){
+      loop(30){
+   CreateShot02(GetX+rand(-50,50),GetY+rand(-50,50),rand(5,7),rand(0,360),-0.1,rand(1,5),24,30);
+      }
+      Wait(10);
+   }
+   Wait(80);
+
+   loop(40){
+    RoundShot(GetX+rand(-100,100),GetY+rand(-40,40),2,GetAngleToPlayer,8,28,10);
+      Wait(2);
+    }
+
+   Wait(200-wait);
+
+    b = rand(0,360);
+    c = 40;
+
+  loop(3){
+     CreateLaserB(0,0,300,26,120);
+     SetLaserDataB(0,0,5,10,0,GetAngleToPlayer+a,0,GetAngleToPlayer+a,0);
+     SetShotKillTime(0,250);
+
+   loop(5){
+       loop(10){
+         CreateShotA(1,50*cos(b),50*sin(b),30);
+         SetShotDataA(1,0,2,b,0.8,0.05,3,29);
+         AddShot(140,0,1,c);
+        b += 360/10;
+      }
+      c += 10;
+  }
+
+   loop(5){
+       loop(10){
+         CreateShotA(1,50*cos(b),50*sin(b),30);
+         SetShotDataA(1,0,2,b,-0.8,0.05,3,30);
+         AddShot(140,0,1,c);
+        b += 360/10;
+      }
+      c += 10;
+  }
+
+     FireShot(0);
+         a += 360/3;
+    }
+         Wait(120);
+        
+       ShotA;
+     Wait(20);
+       ShotB;
+   Wait(60);
+     a = rand(0,360);
+     b = rand(0,360);
+  loop(5){
+    loop(10){
+      ShotC(GetX,GetY,3,a,31,20,5,0,10);
+      ShotC(GetX,GetY,3,b,32,20,5,0,10);
+           a += 360/10+5;
+           b += 360/10+5;
+         }
+        a += 30;
+        b -= 30;
+     Wait(10);
+   }
+     Wait(200 - wait);
+      if(GetLife > 1000){
+   LastTask;
+    }
+
+  }
+
+ task ShotA{
+  let color = [24,27,28,29,30,31,32];
+  let a = rand(0,360);
+  let  b = rand(0,360);
+
+     loop(70){
+      CreateShot01(GetX+60*cos(a),GetY+60*sin(a),rand(1,5),a,color[rand_int(0,2)],10);
+      CreateShot01(GetX+60*cos(b),GetY+60*sin(b),rand(1,5),b,color[rand_int(0,2)],10);
+            a += 360/70;
+            b -= 360/70;
+             yield;
+          }
+  }
+ task ShotB{
+  let color = [24,27,28,29,30,31,32];
+  let a = rand(0,360);
+  let  b = rand(0,360);
+
+     loop(40){
+     CreateShot02(GetX+30*cos(a),GetY+30*sin(a),rand(1,3),a,0.1,rand(5,7),color[rand_int(3,6)],10);
+     CreateShot02(GetX+30*cos(b),GetY+30*sin(b),rand(1,3),b,0.1,rand(5,7),color[rand_int(3,6)],10);
+           a += 360/40;
+           b -= 360/40;
+       yield;
+         }
+  }
+  function ShotC(x,y,speed,angle,color,delay,way,cnt,cnt2){
+     loop(way){
+         CreateShot01(x+cnt*sin(angle),y+cnt*cos(angle),speed,angle,color,delay);
+         cnt += cnt2;
+      }
+  }
+
+  function RoundShot(x,y,speed,angle,way,color,delay){
+     loop(way){
+      CreateShot01(x,y,speed,angle,color,delay);
+        angle += 360/way;
+         }
+  }
+
+  task DeleteEnemyWithoutShield{
+     SetX(0);
+     SetY(0);
+      yield;
+     SetX(GetCenterX);
+     SetY(GetCenterY - 90);
+  }
+
+ function TriLaser(x,y,angle,le,th,color,delay){
+  let a = 0;
+  let b = 20;
+  let c = 0;
+
+    loop(3){
+      CreateLaserA(0,x,y,le,th,color,delay);
+      SetLaserDataA(0,0,angle+a,0,0,0,0);
+      SetShotKillTime(0,180);
+      b = 20;
+
+    loop(10){
+      CreateShotA(1,0,0,20);
+      SetShotDataA(1,0,3,GetAngleToPlayer+180,0.3,-0.1,2,1);
+      AddShot(80,0,1,b);
+          b += 80;
+      }
+
+      b = 40;
+    loop(10){
+      CreateShotA(1,0,0,20);
+      SetShotDataA(1,0,3,GetAngleToPlayer,-0.3,-0.1,2,1);
+      AddShot(80,0,1,b);
+          b += 80;
+      }
+
+    loop(3){
+      CreateShotA(1,0,0,20);
+      SetShotDataA(1,0,2,GetAngleToPlayer+c+60,0,0,2,17);
+      AddShot(100,0,1,10);
+         c += 360/3;
+      }
+
+      FireShot(0);
+       a += 360/3;
+     }
+  }
+
+}
+#include_script".\BossC_Shield01.txt"
+#include_script".\BossC_Shield02.txt"
+#include_script".\BossC_Shield03.txt"
+#include_script".\BossC_Enemy01.txt"
+#include_script".\BossC_Enemy02.txt"
+#include_script".\BossC_Enemy03.txt"
+#include_script".\BossC_Enemy04.txt"
+#include_script".\BossC_Enemy05.txt"
+#include_script".\BossC_Enemy06.txt"

@@ -1,0 +1,163 @@
+		task StageTask
+		{//ステージタスク
+			function Wait(let frame)
+			{//待機関数
+				loop(frame){yield};
+			}
+			function WaitForZeroEnemy()
+			{//敵数が0になるまで待機する関数
+				while(GetEnemyNum() != 0){yield;}
+			}
+
+			function WaitForShotKeyPush()
+			{//ショットキーが押されるまで待機する関数
+				while(GetKeyState(VK_SHOT) != KEY_PUSH){yield;}
+			}
+         let a = 0;
+             ForbidBomb(true);
+             ForbidShot(true);
+                     WaitForShotKeyPush();
+            ForbidBomb(false);
+            ForbidShot(false);
+
+                    GameStart = 1;//ゲーム開始
+               DrawTask;
+               DrawProgress;
+
+			Wait(100);
+
+        //ここから
+
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt",GetCenterX,GetClipMinY,0,90,0);
+              WaitForZeroEnemy;
+                 Wait(60);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt",GetCenterX+70,GetClipMinY-30,0,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt",GetCenterX-70,GetClipMinY-30,0,90,0);
+              WaitForZeroEnemy;
+                 Wait(60);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt",GetCenterX,GetClipMinY,0,90,0);
+                 Wait(70);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt",GetCenterX+80,GetClipMinY-50,0,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt",GetCenterX-80,GetClipMinY-50,0,90,0);
+              WaitForZeroEnemy;
+             Wait(80);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetClipMinX+50,0,1,90,0);
+             Wait(200);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetClipMaxX-50,0,1,90,0);
+             Wait(200);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX,0,1,90,0);
+             Wait(200);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt",GetCenterX+100,0,0,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt",GetCenterX,0,0,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt",GetCenterX-100,0,0,90,0);
+             Wait(250);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX-150,0,1,90,0);
+             Wait(150);
+          loop(3){
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX+rand(-150,150),0,1,90,0);
+             Wait(250);
+            }
+          loop(5){
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt",GetCenterX+150,0,4,90,0);
+             Wait(50);
+           }
+          loop(5){
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt",GetCenterX-150,0,4,90,1);
+             Wait(50);
+           }
+
+             
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-150,0,0,0,2);
+         Wait(20);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-50,-20,0,0,2);
+         Wait(20);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+50,-40,0,0,2);
+         Wait(410);
+
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+150,0,0,0,3);
+         Wait(20);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+50,-20,0,0,3);
+         Wait(20);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-50,-40,0,0,3);
+         Wait(450);
+
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX-100,-150,0,0,1);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX,-100,0,0,1);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX+100,-150,0,0,1);  
+         Wait(350);
+
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy10.txt",GetCenterX-150,-50,0,0,0);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy10.txt",GetCenterX,-30,0,0,0);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy10.txt",GetCenterX+150,-50,0,0,0);  
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy11.txt",GetCenterX+75,-150,0,0,0);
+         CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy11.txt",GetCenterX-75,-150,0,0,0);
+
+        WaitForZeroEnemy;
+    Wait(100);
+         //中ボスNo1
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"BossA.txt",GetCenterX,0,4,90,0);
+WaitForZeroEnemy();
+         Wait(100);
+
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt",GetCenterX+50,0,2,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt",GetCenterX+50,0,2,90,1);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt",GetCenterX+50,0,2,90,2);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt",GetCenterX-50,0,2,90,3);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt",GetCenterX-50,0,2,90,4);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt",GetCenterX-50,0,2,90,5);
+WaitForZeroEnemy();
+
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy06.txt",GetCenterX,0,2,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy06.txt",GetCenterX+120,0,2,90,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy06.txt",GetCenterX-120,0,2,90,0);
+           Wait(300);
+    
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX,0,2,90,1);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+50,-20,2,90,1);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+100,-40,2,90,1);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-50,-20,2,90,1);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-100,-40,2,90,1);
+          loop(8){
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy07.txt",rand(GetClipMinX,GetClipMaxX),9,5,90,0);
+            Wait(40);
+             }
+ 
+             loop(5){
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy08.txt",GetClipMinX,50,6,0,0);
+             Wait(20);
+                 }
+             loop(5){
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy08.txt",GetClipMaxX,50,6,180,0);
+             Wait(20);
+                 }
+
+       loop(10){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",rand(GetClipMinX+10,GetClipMaxX-10),GetClipMinY+rand(20,50),0,0,0);
+          } 
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetCenterX+rand(-100,100),GetClipMinY + 30,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt",GetCenterX+rand(-100,100),GetClipMinY + 30,0,0,0);
+
+          Wait(200);
+
+   //中ボスNo2
+
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy09.txt",GetCenterX-130,GetClipMaxY,6,270,0);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy09.txt",GetCenterX+130,GetClipMaxY,6,270,1);
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"BossB.txt",GetCenterX,0,6,270,1);
+
+       WaitForZeroEnemy();
+              CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt",GetCenterX,GetClipMinY - 30,0,0,0);
+             Wait(400);
+    FeedOut;
+      Wait(300);
+                BG_change = 1;
+                BackGround_S = 0;
+           CreateEnemyBossFromFile(GetCurrentScriptDirectory~"BossC.txt",GetCenterX,GetClipMinY - 30,0,0,0);
+            
+          WaitForZeroEnemy;
+    
+           CreateEnemyFromFile(GetCurrentScriptDirectory~"BossDummy.txt",GetCenterX,GetCenterY - 90,0,0,0);
+          WaitForZeroEnemy;
+            Wait(100);
+			ClearTask;//ステージクリア
+		}

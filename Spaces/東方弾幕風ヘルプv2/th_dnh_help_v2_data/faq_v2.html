@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+ <HEAD>
+  <TITLE>東方弾幕風FAQ</TITLE>
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/html;charset=Shift_JIS">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/css">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/lavascript">
+  <LINK REL="stylesheet"HREF="style.css"TYPE="text/css">
+ </HEAD>
+
+
+
+ <BODY BGCOLOR="#FFFFFF" LINK="#0000ff" ALINK="#ff00ff" VLINK="#222288">
+ <P><FONT color="#800040"><A name="WhatNew"><STRONG>東方弾幕風FAQ</STRONG></A></FONT></P>
+ <P>FAQです。分かりづらそうな事があったら、随時追加します。</P>
+ <P>
+  <TABLE border="1" width="480">
+   <TR><TD bgcolor="#dcdcdc" width="16">Q.A01</TD><TD><A href="#QA01">ゲームが起動できない</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">Q.A02</TD><TD><A href="#QA02">ゲームが重すぎる</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">Q.A03</TD><TD><A href="#QA03">画面枠外が点滅する</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">Q.A04</TD><TD><A href="#QA04">フルスクリーンにせずに大きく表示したい</A></TD></TR>
+   <TR><TD></TD><TD></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Q.B01</TD><TD><A href="#QB01">スペルカード時にデフォルトの背景が使えない</A></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Q.B02</TD><TD><A href="#QB02">弾スクリプトの遅延時間が処理されない</A></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Q.B03</TD><TD><A href="#QB03">スクリプトが重い</A></TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Q.B04</TD><TD><A href="#QB04">DeleteXXXでリソースを解放する必要は？</A></TD></TR>
+  </TABLE>
+ </P>
+
+ <P>
+  <TABLE border="1" width="640">
+   <TR><TD bgcolor="#dcdcdc"><A name="QA01">Q.A01　ゲームが起動できない</A></TD></TR>
+    <TR><TD>VGAドライバを最新のものにしてください。<BR>
+	        リフレッシュレートを取得できないVGAだと落ちるようです。<BR>
+	        起動ウィンドウの「ウェイトにタイマーを強制」にチェックしてください。<BR>
+			</TD></TR>
+   <TR><TD bgcolor="#dcdcdc"><A name="QA02">Q.A02　ゲームが重すぎる</A></TD></TR>
+    <TR><TD>製作者の実力不足により、本家に比べて格段に重いです。<BR>
+	        ビデオカードやCPUの性能が足りていないと重くなります。<BR>
+            この場合、画面モードを「16bit」にして、フルスクリーン表示にしたほうが軽くなります。<BR>
+			ウィンドウモードの場合は、マウスが窓の外にあった方が軽くなります。<BR>
+			<BR>
+			それでも重い場合は描画間隔を「可変」にしてください。<BR>		
+	        また、VRAMが足りていないと重くなります。<BR>
+	        起動ウィンドウで、「16bitテクスチャを強制」、「トリプルバッファを抑制」にチェックしてみてください。<BR>
+			
+			</TD></TR>
+   <TR><TD bgcolor="#dcdcdc"><A name="QA03">Q.A03　画面枠外が点滅する</A></TD></TR>
+    <TR><TD>起動ウィンドウの「画面周りを毎回描画」にチェックしてください。<BR>
+            ゲームが多少重くなりますが、点滅は消えます。<BR>
+			</TD></TR>
+   <TR><TD bgcolor="#dcdcdc"><A name="QA04">Q.A04　フルスクリーンにせずに大きく表示したい</A></TD></TR>
+    <TR><TD>ウィンドウモード時に画面右上の最大化ボタンをクリックしてください。<BR>
+            普通のアプリケーションと同様、最大化表示されます。<BR>
+			ただし、デスクトップの状態によってはアスペクト比が変になります。<BR>
+			また、表示が重くなります。<BR>
+			</TD></TR>
+   <TR><TD></TD></TR>
+   <TR><TD bgcolor="#e0ffff"><A name="QB01">Q.B01　スペルカード時にデフォルトの背景が使えない</A></TD></TR>
+    <TR><TD>スクリプト中に「@BackGround」があると「#BackGround」より優先されるので<BR>
+	        デフォルトの背景は表示されません。<BR>
+			「@BackGround」を削除するか、コメントアウトしてください。<BR>
+			</TD></TR>
+   <TR><TD bgcolor="#e0ffff"><A name="QB02">Q.B02　弾スクリプトの遅延時間が処理されない</A></TD></TR>
+    <TR><TD>これは仕様です。<BR>
+	        OnDelayで遅延時間中か調べて独自に処理してください。<BR>
+			</TD></TR>
+   <TR><TD bgcolor="#e0ffff"><A name="QB03">Q.B03　スクリプトが重い</A></TD></TR>
+    <TR><TD>このスクリプトはバイトコードをVM上で実行する方式です。<BR>
+			ですからネイティブコードに比べて重いです。<BR>
+			ループが多すぎると重くなるので、ループを減らすなどしてください。<BR>
+			コメントはどれだけあっても、速度に影響しません。<BR>
+			</TD></TR>
+   <TR><TD bgcolor="#e0ffff"><A name="QB04">Q.B04　DeleteXXXでリソースを解放する必要は？</A></TD></TR>
+    <TR><TD>DeleteXXXで明示的に解放しなくても、リソースはスクリプト再生終了時(連続再生では全再生終了時)に勝手に解放されます。<BR>
+	        ただし、連続再生時に次々別のリソースを読み込んだりすると重くなるので、なるべく必要なくなったリソースは解放してください。<BR>
+			</TD></TR>
+  </TABLE>
+ </P>
+ </BODY>
+</HTML>

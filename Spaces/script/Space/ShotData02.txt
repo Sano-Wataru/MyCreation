@@ -1,0 +1,11 @@
+       #UserShotData
+    
+      ShotImage = ".\img\lightbullet.png"
+
+   ShotData//ê‘åıíe
+   {
+           id = 1
+           rect = (0, 0, 60, 59)
+           render = ADD
+           delay_color = (255, 128, 128)
+   }

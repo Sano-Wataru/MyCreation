@@ -1,0 +1,54 @@
+script_enemy_main
+{//Power
+        let s = 0;
+    @Initialize
+    {
+        let imgPath=GetCurrentScriptDirectory~"\img\Powerup_item.png";
+       SetLife(200);
+    LoadGraphic(imgPath);
+    SetTexture(imgPath);
+    SetGraphicRect(0,0,24,24);
+    SetGraphicScale(0.5,0.5);
+   StartMove;
+  }
+    @MainLoop
+    {
+      if(s == 0 && GetX-15 < GetPlayerX && GetY-15 < GetPlayerY && GetX+15 > GetPlayerX && GetY+15 > GetPlayerY){
+    AddPoint(1);
+    s = 1;
+     VanishEnemy;
+       }
+      if(GetY > 500){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+  }
+    @DrawLoop
+    {//•`‰æ
+     if(s == 0){
+    DrawGraphic(GetX,GetY);
+      }
+  }
+
+task StartMove {
+  let cnt = 3;
+     SetAngle(270);
+   loop(15){
+     SetSpeed(cnt);
+        cnt -= 0.2;
+    Wait(3);
+      }
+   loop{
+    SetMovePosition01(GetPlayerX,GetPlayerY,7);
+      yield;
+    }
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

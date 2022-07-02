@@ -1,0 +1,55 @@
+script_enemy_main
+{
+     let gcsd = GetCurrentScriptDirectory;
+     @Initialize
+     {
+         let imgGraphic = gcsd~"img\Enemy_Appear.png";
+         SetLife(10);
+        SetTexture(imgGraphic);
+     SetGraphicRect(0, 0, 236, 236);
+     SetGraphicScale(0, 0);
+
+    GraphicTask;
+     }
+
+     @MainLoop
+      {
+     yield;
+      }
+
+     @Finalize
+     {
+     }
+
+     @DrawLoop
+     {
+     SetRenderState(ALPHA);
+     DrawGraphic(GetX, GetY);
+     }
+
+   function Wait(let x){
+   loop(x){yield;}
+    }
+
+ task GraphicTask
+  {
+  let size = 0;
+  let alpha = 255;
+     loop(10){
+    SetGraphicScale(size, size);
+    SetAlpha(alpha);
+     alpha -= 255/15;
+     size += 0.04;
+        yield;
+      }
+     Wait(25);
+     loop(10){
+     SetGraphicScale(size, size);
+     SetAlpha(alpha);
+     size += 0.04;
+     alpha -= 85/10;
+       yield;
+    }
+    VanishEnemy;
+  }
+}

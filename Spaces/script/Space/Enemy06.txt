@@ -1,0 +1,77 @@
+script_enemy_main
+{//Enemy06(Gun)
+  //炸裂弾
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(100);
+    SetDamageRate(0,0);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(149,0,171,21);
+    SetGraphicAngle(0,180,0);
+     StartMove;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(1,5)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }  
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0); 
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+   task StartMove{
+   SetMovePosition03(GetX,GetY+80,10,4);
+   Wait(100);
+    MainShot;
+   }
+
+  task MainShot{
+    LoadUserShotData(GetCurrentScriptDirectory~"ShotData02.txt");
+   BombShot(GetX,GetY,2,90,1,50,50);
+   Wait(150);
+   SetDamageRate(100,100);
+   SetSpeed(3);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+	task BombShot(let x, let y, let speed,
+             let angle, let graphic, let delay, let delay_bomb) {
+    
+        //オブジェクト弾の作成
+        let x; let y;
+        let obj = Obj_Create(OBJ_SHOT);
+        
+        //パラメータの設定
+        Obj_SetPosition(obj, x, y);
+        Obj_SetSpeed(obj, speed);
+        Obj_SetAngle(obj, angle);
+        ObjShot_SetGraphic(obj, graphic);
+        ObjShot_SetDelay(obj, delay);
+        
+        loop(delay){ yield; }
+        
+        loop(delay_bomb){yield;};
+    LoadUserShotData(GetCurrentScriptDirectory~"ShotData.txt");
+        loop(50){
+         CreateShot02(Obj_GetX(obj),Obj_GetY(obj),rand(4,10),rand(0,360),-0.05,rand(1,2),1,0);
+           }
+               Obj_Delete(obj);
+    }
+
+}

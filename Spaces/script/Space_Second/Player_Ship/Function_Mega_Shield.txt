@@ -1,0 +1,180 @@
+task Mega_Shield(arg){
+
+   let num = 10;
+   let obj = [];
+   let obj_x = GetPlayerX;
+   let obj_y = GetPlayerY;
+   let G_range = 0;
+    ascent(i in 0..num)
+    {
+       obj = obj ~ [i];
+       obj[i] = Obj_Create(OBJ_EFFECT);
+    }
+   let path = gcsd ~ "img\electricity2.png";
+   let n = 0;
+
+    loop(num){
+        ObjEffect_SetTexture( obj[n], path);
+        ObjEffect_SetPrimitiveType( obj[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj[n], 4 );
+        ObjEffect_SetVertexUV( obj[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj[n], 1, 0, 15);
+        ObjEffect_SetVertexUV( obj[n], 2, 100, 0);
+        ObjEffect_SetVertexUV( obj[n], 3, 100, 15);
+        ObjEffect_SetVertexXY( obj[n], 0, 0-50, 0-15/2);
+        ObjEffect_SetVertexXY( obj[n], 1, 0-50, 15-15/2);
+        ObjEffect_SetVertexXY( obj[n], 2, 100-50, 0-15/2);
+        ObjEffect_SetVertexXY( obj[n], 3, 100-50, 15-15/2);
+         ObjEffect_SetRenderState( obj[n], ADD);
+         ObjEffect_SetLayer( obj[n], 5 );
+          n++;
+      }
+
+  /* let obj2 = [];
+   let num2 = 5;
+    ascent(i in 0..num2)
+    {
+       obj2 = obj2 ~ [i];
+       obj2[i] = Obj_Create(OBJ_EFFECT);
+    }
+   let path2 = gcsd ~ "img\WhiteCircle.png";
+    n = 0;
+
+      loop(num2){
+        ObjEffect_SetTexture( obj2[n], path2);
+        ObjEffect_SetPrimitiveType( obj2[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2[n], 4 );
+        ObjEffect_SetVertexUV( obj2[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj2[n], 1, 0, 92);
+        ObjEffect_SetVertexUV( obj2[n], 2, 92, 0);
+        ObjEffect_SetVertexUV( obj2[n], 3, 92, 92);
+        ObjEffect_SetVertexXY( obj2[n], 0, 0-92/2, 0-92/2);
+        ObjEffect_SetVertexXY( obj2[n], 1, 0-92/2, 92-92/2);
+        ObjEffect_SetVertexXY( obj2[n], 2, 92-92/2, 0-92/2);
+        ObjEffect_SetVertexXY( obj2[n], 3, 92-92/2, 92-92/2);
+         ObjEffect_SetScale(obj2[n], 0, 0);
+
+         ObjEffect_SetVertexColor(obj2[n], 0, 0, 255, 255, 255);
+         ObjEffect_SetVertexColor(obj2[n], 1, 0, 255, 255, 255);
+         ObjEffect_SetVertexColor(obj2[n], 2, 0, 255, 255, 255);
+         ObjEffect_SetVertexColor(obj2[n], 3, 0, 255, 255, 255);
+
+         ObjEffect_SetRenderState( obj2[n], ADD);
+         ObjEffect_SetLayer( obj2[n], 5 );
+         n ++;
+        }*/
+
+   //Circle_Wave;
+
+   Position_Process;
+   Graphic_C;
+   DamageTask;
+ Wait(200);
+     FadeTask;
+
+/* task Circle_Wave{
+  let n2 = 0;
+   loop(num2){
+     Obj_SetPosition(obj2[n2], GetPlayerX, GetPlayerY);
+      num2 ++;
+     }
+
+ task C_Circle(m, cnt, time){
+    let size = 0; let alpha = 0;
+    loop(time){
+      ObjEffect_SetScale(obj2[m], size, size);
+
+         ObjEffect_SetVertexColor(obj2[m], 0, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor(obj2[m], 1, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor(obj2[m], 2, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor(obj2[m], 3, alpha, 255, 255, 255);
+
+       size += cnt;
+       alpha += 120/time;
+      yield;
+     }
+  }//C_Circle
+
+   C_Circle(0, 0.05, 80);
+
+}*/
+
+ task Position_Process{
+   let p_range = 0; let p_range_max = 230 - 10*arg; let angle = 0; let size = 0; let m = 50; let p_cnt = 5- arg^0.7;
+  //à⁄ìÆïœå`èàóù//
+  while(p_range < p_range_max){
+    n = 0;
+   loop(num){
+    Obj_SetPosition(obj[n], obj_x+p_range*cos(angle), obj_y+p_range*sin(angle));
+    ObjEffect_SetAngle(obj[n], 0, 0, angle+90);
+        ObjEffect_SetVertexXY( obj[n], 0, 0-50+m, 0-15/2);
+        ObjEffect_SetVertexXY( obj[n], 1, 0-50+m, 15-15/2);
+        ObjEffect_SetVertexXY( obj[n], 2, 100-50-m, 0-15/2);
+        ObjEffect_SetVertexXY( obj[n], 3, 100-50-m, 15-15/2);
+      n ++;
+      angle += 360/num;
+      m += 0.1*p_cnt*0.35;
+    }
+   p_range += p_cnt;
+   G_range = p_range;
+  if(p_cnt > 0.3){
+   p_cnt -= 0.067;
+    }
+    yield;
+  }
+  //Ç±Ç±Ç‹Ç≈// 
+   }
+
+ task Graphic_C{//âÊëúÉtÉåÅ[ÉÄ//
+  let a = 0;
+    loop{
+     loop(3){
+    n = 0;
+      loop(num){
+        ObjEffect_SetVertexUV( obj[n], 0, 0, 0+a);
+        ObjEffect_SetVertexUV( obj[n], 1, 0, 15+a);
+        ObjEffect_SetVertexUV( obj[n], 2, 100, 0+a);
+        ObjEffect_SetVertexUV( obj[n], 3, 100, 15+a);
+           n ++;
+         }
+      a += 15;
+       Wait(3);
+     }
+     a = 0;
+   }//while
+ }//Ç±Ç±Ç‹Ç≈
+
+ task DamageTask{
+   task circle(x, y, range){
+    let s_obj = Obj_Create(OBJ_SPELL);
+
+    ObjSpell_SetIntersecrionCircle(s_obj, x, y, range, 0.01, false);
+    DeleteEnemyShotImmediatelyInCircle(SHOT, x, y, range);
+  }
+
+   loop(200){
+     circle(obj_x, obj_y, G_range);
+    yield;
+  }
+
+}
+
+ task FadeTask{//ÇæÇÒÇæÇÒè¡Ç¶ÇÈ//
+   n = 0; let alpha = 255; let time = 60;
+  loop(time){
+   n = 0;
+   loop(num){
+    ObjEffect_SetVertexColor(obj[n], 0, alpha, 255, 255, 255);
+    ObjEffect_SetVertexColor(obj[n], 1, alpha, 255, 255, 255);
+    ObjEffect_SetVertexColor(obj[n], 2, alpha, 255, 255, 255);
+    ObjEffect_SetVertexColor(obj[n], 3, alpha, 255, 255, 255);
+       n ++;
+    }
+   alpha -= 255/time;
+  yield;
+  }
+  Obj_Delete(obj);
+  End;
+ }//Ç±Ç±Ç‹Ç≈
+
+}

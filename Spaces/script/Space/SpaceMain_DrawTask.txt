@@ -1,0 +1,138 @@
+sub DrawTask{//枠描画
+
+                  let obj = Obj_Create( OBJ_EFFECT); //枠
+                  let path = GetCurrentScriptDirectory ~ "img\Frame.png"; //パス
+
+                  LoadGraphic(path); 
+                  ObjEffect_SetTexture( obj, path);
+                  ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj, 4 );
+                  ObjEffect_SetVertexUV( obj, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj, 1, 0, 480);
+                  ObjEffect_SetVertexUV( obj, 2, 640, 0);
+                  ObjEffect_SetVertexUV( obj, 3, 640, 480);
+                  ObjEffect_SetVertexXY( obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj, 1, 0, 480);
+                  ObjEffect_SetVertexXY( obj, 2, 640, 0);
+                  ObjEffect_SetVertexXY( obj, 3, 640, 480);
+                 Obj_SetPosition( obj, 0, 0 );          
+                 ObjEffect_SetLayer( obj, 8 );
+
+                  let obj2 = Obj_Create( OBJ_EFFECT); //ライフ
+                  let path2 = GetCurrentScriptDirectory ~ "img\Status.png"; //パス
+
+                  LoadGraphic(path2); 
+                  ObjEffect_SetTexture( obj2, path2);
+                  ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj2, 4 );
+                  ObjEffect_SetVertexUV( obj2, 0, 11, 31);
+                  ObjEffect_SetVertexUV( obj2, 1, 11, 48);
+                  ObjEffect_SetVertexUV( obj2, 2, 213, 31);
+                  ObjEffect_SetVertexUV( obj2, 3, 213, 48);
+                  ObjEffect_SetVertexXY( obj2, 0, 11, 31);
+                  ObjEffect_SetVertexXY( obj2, 1, 11, 48);
+                  ObjEffect_SetVertexXY( obj2, 2, 213, 31);
+                  ObjEffect_SetVertexXY( obj2, 3, 213, 48);
+                 Obj_SetPosition( obj2, 415, 280 );          
+                 ObjEffect_SetLayer( obj2, 8 );
+
+                  let obj3 = Obj_Create( OBJ_EFFECT); //エネルギー
+
+                  LoadGraphic(path2); 
+                  ObjEffect_SetTexture( obj3, path2);
+                  ObjEffect_SetPrimitiveType( obj3, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj3, 4 );
+                  ObjEffect_SetVertexUV( obj3, 0, 11, 65);
+                  ObjEffect_SetVertexUV( obj3, 1, 11, 82);
+                  ObjEffect_SetVertexUV( obj3, 2, 213, 65);
+                  ObjEffect_SetVertexUV( obj3, 3, 213, 82);
+                  ObjEffect_SetVertexXY( obj3, 0, 11, 65);
+                  ObjEffect_SetVertexXY( obj3, 1, 11, 82);
+                  ObjEffect_SetVertexXY( obj3, 2, 213, 65);
+                  ObjEffect_SetVertexXY( obj3, 3, 213, 82);
+                 Obj_SetPosition( obj3, 415, 310 );          
+                 ObjEffect_SetLayer( obj3, 8 );
+
+
+                  let obj4 = [Obj_Create( OBJ_EFFECT), Obj_Create( OBJ_EFFECT), Obj_Create( OBJ_EFFECT),
+                              Obj_Create( OBJ_EFFECT), Obj_Create( OBJ_EFFECT), Obj_Create( OBJ_EFFECT),
+                              Obj_Create( OBJ_EFFECT), Obj_Create( OBJ_EFFECT), Obj_Create( OBJ_EFFECT)]; //スコア
+ let x = 0;
+ let a = 0;
+          loop(9){
+                  LoadGraphic(path2); 
+                  ObjEffect_SetTexture( obj4[x], path2);
+                  ObjEffect_SetPrimitiveType( obj4[x], PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj4[x], 4 );
+                  ObjEffect_SetVertexUV( obj4[x], 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj4[x], 1, 0, 25);
+                  ObjEffect_SetVertexUV( obj4[x], 2, 25, 0);
+                  ObjEffect_SetVertexUV( obj4[x], 3, 25, 25);
+                  ObjEffect_SetVertexXY( obj4[x], 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj4[x], 1, 0, 25);
+                  ObjEffect_SetVertexXY( obj4[x], 2, 25, 0);
+                  ObjEffect_SetVertexXY( obj4[x], 3, 25, 25);
+                 Obj_SetPosition( obj4[x], 430+a, 70 );          
+                 ObjEffect_SetLayer( obj4[x], 8 );
+           Obj_score[x] = obj4[x];
+               x++;
+               a += 22;
+                    }
+       x = 0;
+       a = 0;
+
+  //グレイズ
+         let obj5 = [Obj_Create( OBJ_EFFECT ),Obj_Create( OBJ_EFFECT ),Obj_Create( OBJ_EFFECT ),Obj_Create( OBJ_EFFECT )];
+
+           loop(4){
+                  LoadGraphic(path2); 
+                  ObjEffect_SetTexture( obj5[x], path2);
+                  ObjEffect_SetPrimitiveType( obj5[x], PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj5[x], 4 );
+          
+                  ObjEffect_SetVertexUV( obj5[x], 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj5[x], 1, 0, 25);
+                  ObjEffect_SetVertexUV( obj5[x], 2, 25, 0);
+                  ObjEffect_SetVertexUV( obj5[x], 3, 25, 25);
+                  ObjEffect_SetVertexXY( obj5[x], 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj5[x], 1, 0, 25);
+                  ObjEffect_SetVertexXY( obj5[x], 2, 25, 0);
+                  ObjEffect_SetVertexXY( obj5[x], 3, 25, 25);
+              
+                 Obj_SetPosition( obj5[x], 430+a, 145 );          
+                 ObjEffect_SetLayer( obj5[x], 8 );
+           Obj_graze[x] = obj5[x];
+               x++;
+               a += 22;
+          }
+
+   x = 0;
+   a = 0;
+
+  //パワー
+         let obj6 = [Obj_Create( OBJ_EFFECT ),Obj_Create( OBJ_EFFECT ),Obj_Create( OBJ_EFFECT )];
+
+           loop(3){
+                  LoadGraphic(path2); 
+                  ObjEffect_SetTexture( obj6[x], path2);
+                  ObjEffect_SetPrimitiveType( obj6[x], PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj6[x], 4 );
+                  ObjEffect_SetVertexUV( obj6[x], 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj6[x], 1, 0, 25);
+                  ObjEffect_SetVertexUV( obj6[x], 2, 25, 0);
+                  ObjEffect_SetVertexUV( obj6[x], 3, 25, 25);
+                  ObjEffect_SetVertexXY( obj6[x], 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj6[x], 1, 0, 25);
+                  ObjEffect_SetVertexXY( obj6[x], 2, 25, 0);
+                  ObjEffect_SetVertexXY( obj6[x], 3, 25, 25);
+                 Obj_SetPosition( obj6[x], 430+a, 225 );          
+                 ObjEffect_SetLayer( obj6[x], 8 );
+           Obj_power[x] = obj6[x];
+               x++;
+               a += 22;
+          }
+
+           Obj_life = obj2;
+           Obj_energy = obj3;
+
+}

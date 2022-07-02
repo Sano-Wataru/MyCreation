@@ -1,0 +1,647 @@
+    task StageTask
+    {
+
+      function WaitForZeroEnemy()
+      {//敵数が０になるまで待機する関数
+          while(GetEnemyNum() !=0){yield;}
+       }
+
+      function WaitForBossDie(x)
+      {//共通データが任意の値になるまで待機
+          while(GetCommonData("ボス死亡") < x){yield;}
+       }
+
+          //ステージここから//
+
+         Wait(50);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+20, GetCenterY - 370, 1, 90, 0);
+         Wait(40);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+50, GetCenterY - 320, 1, 90, 0);
+         Wait(40); 
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+80, GetCenterY - 270, 1, 90, 0);
+
+         Wait(240);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-60, GetCenterY - 300, 1, 90, 0);
+         Wait(40);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-30, GetCenterY - 240, 1, 90, 0);
+         Wait(40); 
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX, GetCenterY - 200, 1, 90, 0);
+
+     WaitForZeroEnemy;
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-30, GetCenterY - 300, 1, 90, 1);
+         Wait(40);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX, GetCenterY - 240, 1, 90, 1);
+         Wait(40); 
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+30, GetCenterY - 200, 1, 90, 1);
+         
+         Wait(240);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-20, GetCenterY - 370, 1, 90, 1);
+         Wait(40);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-50, GetCenterY - 320, 1, 90, 1);
+         Wait(40);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-80, GetCenterY - 270, 1, 90, 1);
+
+     WaitForZeroEnemy;
+
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt", GetCenterX, GetCenterY - 120, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX, GetCenterY - 120, 0, 90, 0);
+
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt", GetCenterX + 90, GetCenterY - 100, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX + 90, GetCenterY - 100, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt", GetCenterX - 90, GetCenterY - 100, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX - 90, GetCenterY - 100, 0, 90, 0);
+
+     WaitForZeroEnemy;
+
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt", GetCenterX, GetCenterY - 350, 0, 90, 0);
+     Wait(120);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt", GetCenterX + 130, GetCenterY - 300, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt", GetCenterX - 130, GetCenterY - 300, 0, 90, 0);
+     Wait(440);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt", GetCenterX - 140, GetCenterY - 20, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX - 140, GetCenterY - 20, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy02.txt", GetCenterX + 140, GetCenterY - 20, 0, 90, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX + 140, GetCenterY - 20, 0, 90, 0);
+     Wait(550);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+140, GetClipMinY - 20, 1, 90, 2);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-140, GetClipMinY - 20, 1, 90, 2);
+     Wait(220);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+60, GetClipMinY - 20, 1, 90, 2);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-60, GetClipMinY - 20, 1, 90, 2);
+     Wait(220);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX-160, GetClipMinY - 20, 1, 45, 2);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetCenterX+160, GetClipMinY - 20, 1, 135, 2);
+
+     Wait(600);
+
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt", GetCenterX + 80, GetClipMinY - 50 , 0, 90, 120);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt", GetCenterX - 80, GetClipMinY - 50, 0, 90, 120);
+         Wait(100);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt", GetCenterX, GetClipMinY - 50, 0, 90, 100);
+         Wait(50);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetClipMaxX+30, GetClipMinY+50, 1, 170, 3);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetClipMinX-30, GetClipMinY+50, 1, 10, 3);
+         Wait(100);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetClipMaxX+30, GetClipMinY+120, 1, 170, 3);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetClipMinX-30, GetClipMinY+120, 1, 10, 3);
+         Wait(850);
+
+      loop(5){
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt", GetClipMinX + 30, GetClipMinY - 50, 0, 90, 0);
+                Wait(60);
+           }
+      loop(2){
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt", GetClipMaxX - 30, GetClipMinY - 50, 0, 90, 1);
+                Wait(60);
+           }
+
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy06.txt", GetClipMinX+20, GetClipMaxY-20, 0, 270, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetClipMinX+20, GetClipMaxY-20, 0, 270, 0);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy06.txt", GetClipMaxX-20, GetClipMaxY-20, 0, 270, 180);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetClipMaxX-20, GetClipMaxY-20, 0, 270, 180);
+
+      loop(3){
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy05.txt", GetClipMaxX - 30, GetClipMinY - 50, 0, 90, 1);
+                Wait(60);
+           }
+  Wait(500);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy07.txt", GetCenterX - 130, GetClipMaxY + 40, 0, 270, -100);
+  Wait(100);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy07.txt", GetCenterX + 130, GetClipMaxY + 40, 0, 270, -100);
+  Wait(480);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetClipMaxX+30, GetClipMaxY-50, 1, 200, 3);
+          CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt", GetClipMinX-30, GetClipMaxY-50, 1, 340, 3);
+  Wait(630);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt", GetClipMaxX - 50, GetClipMinY - 40, 0, 90, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy04.txt", GetClipMinX + 50, GetClipMinY - 40, 0, 90, 120);
+
+  WaitForZeroEnemy;
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX+120, GetCenterY-100, 0, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy08.txt", GetCenterX+120, GetCenterY-100, 0, 90, 0);
+  Wait(600);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX-120, GetCenterY-100, 0, 90, 1);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy08.txt", GetCenterX-120, GetCenterY-100, 0, 90, 1);
+  Wait(1200);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"EnemyA.txt", GetCenterX, GetClipMinY - 70, 0, 90, 120);
+
+  WaitForZeroEnemy;
+       Wait(120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Boss01.txt", GetCenterX, GetCenterY - 100, 0, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Boss_Appear.txt", GetCenterX, GetCenterY - 100, 0, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy_Appear.txt", GetCenterX, GetCenterY - 100, 0, 90, 0);
+  WaitForZeroEnemy;
+  Wait(160);
+
+   Wait(500);
+
+    loop(5){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+         Wait(80);
+       }
+   GloupTask;
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,2), rand(80, 100), 0);
+         Wait(80);
+    loop(5){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+         Wait(80);
+       }
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,2), rand(80, 100), 0);
+         Wait(70);
+    loop(2){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+         Wait(80);
+       }
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,2), rand(80, 100), 0);
+         Wait(60);
+    loop(10){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+         Wait(80);
+       }
+
+   let a = -150;
+  loop(3){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy10.txt", GetCenterX + a, GetClipMinY - 30, 0.2, 90, 0);
+        a += 300/2;
+      }
+
+   let a = -70;
+  loop(2){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy10.txt", GetCenterX + a, GetClipMinY - 60, 0.2, 90, 0);
+        a += 140/1;
+      }
+  Wait(500);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor01.txt", GetCenterX + rand(-40,40), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+         Wait(40);
+    loop(10){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+         Wait(20);
+       }
+  Wait(500);
+
+   Asteroid01;
+   Asteroid02;
+   Asteroid03;
+
+   ObsTask;
+   loop(5){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy12.txt", GetClipMinX - 50, GetCenterY - 140, 1.2, 0, 0);
+       Wait(120);
+    }
+
+   loop(5){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy12.txt", GetClipMaxX + 50, GetCenterY - 190, 1.2, 180, 1);
+       Wait(120);
+    }
+   Wait(800);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt", GetCenterY, GetClipMinY - 50, 0.5, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt", GetCenterY-100, GetClipMinY - 50, 0.5, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt", GetCenterY+100, GetClipMinY - 50, 0.5, 90, 0);
+   Wait(500);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt", GetCenterY-170, GetClipMinY - 50, 0.5, 90, 1);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy13.txt", GetCenterY+170, GetClipMinY - 50, 0.5, 90, 1);
+
+   Wait(800);
+  loop(3){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor01(Fire).txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+    }
+
+   Wait(700);
+    Asteroid01_Lush;
+   Wait(1600);
+   Asteroid04;
+   GloupTask_Long;
+   Wait(3200);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX-170, GetClipMinY - 50, 0, 90, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX-140, GetClipMinY - 50, 0, 90, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX-110, GetClipMinY - 50, 0, 90, 120);
+   Wait(300);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy19.txt", GetCenterX+170, GetClipMinY - 50, 0, 90, 300);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy19.txt", GetCenterX-170, GetClipMinY - 50, 0, 90, 300);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX, GetClipMinY - 50, 0, 90, 210);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX-30, GetClipMinY - 50, 0, 90, 210);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX+300, GetClipMinY - 50, 0, 90, 210);
+   Wait(300);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX+170, GetClipMinY - 50, 0, 90, 300);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX+140, GetClipMinY - 50, 0, 90, 300);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy18.txt", GetCenterX+110, GetClipMinY - 50, 0, 90, 300);
+   Wait(1200);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy14.txt", GetCenterX+150, GetClipMinY - 50, 0.5, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"EnemyB.txt", GetCenterX, GetClipMinY - 50, 0.5, 90, 0);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy14.txt", GetCenterX-150, GetClipMinY - 50, 0.5, 90, 0);
+   WaitForBossDie(1);
+   Wait(1000);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY-80, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY-160, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY, 0, 0, 120);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY+80, 0, 0, -120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY+160, 0, 0, -120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY, 0, 0, -120);
+
+   Wait(300);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY+80, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY+160, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY, 0, 0, 120);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY-80, 0, 0, -120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY-160, 0, 0, -120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY, 0, 0, -120);
+
+    Wait(300);
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy16.txt", GetCenterX, GetClipMinY-50, 0, 0, 120);
+    Wait(160);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY-160, 0, 0, -120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY+160, 0, 0, -120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY, 0, 0, 120);
+    Wait(200);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY+160, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMinX-50, GetCenterY-160, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy15.txt", GetClipMaxX+50, GetCenterY, 0, 0, -120);
+    Wait(400);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy16.txt", GetCenterX, GetClipMaxY+50, 0, 0, -120);
+
+   CreateObs("Obs01.txt", GetCenterX, GetClipMinY, 0, 0, 0.2, 90 ,100);
+   CreateObs("Obs03.txt", GetCenterX+120, GetClipMinY, 0, 0, 0.2, 90 ,100);
+   CreateObs("Obs03.txt", GetCenterX-120, GetClipMinY, 0, 0, 0.2, 90 ,100);
+   CreateObs("Obs02.txt", GetCenterX, GetClipMinY, 165, 20, 0.2, 90, 100);
+   CreateObs("Obs02.txt", GetCenterX, GetClipMinY, 165, 160, 0.2, 90, 100);
+   CreateObs("Obs02.txt", GetCenterX, GetClipMinY, 165, 200, 0.2, 90, 100);
+   CreateObs("Obs02.txt", GetCenterX, GetClipMinY, 165, 340, 0.2, 90, 100);
+
+    Wait(200);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy16.txt", GetCenterX+120, GetClipMinY-50, 0, 0, 120);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy16.txt", GetCenterX, GetClipMinY-50, 0, 0, 180);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy16.txt", GetCenterX-120, GetClipMinY-50, 0, 0, 120);
+    Wait(3000);
+   loop(4){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy17.txt", GetClipMinX, GetClipMinY-50, 0.5, 90, 0);
+        Wait(150);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy17.txt", GetClipMaxX, GetClipMinY-50, 0.5, 90, 180);
+        Wait(150);
+     }
+
+   Wait(500);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy17.txt", GetClipMinX, GetClipMinY-50, 0.5, 90, 30);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy17.txt", GetClipMaxX, GetClipMinY-50, 0.5, 90, 150);
+   Wait(100);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy17.txt", GetClipMinX, GetClipMinY-50, 0.5, 90, 330);
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy17.txt", GetClipMaxX, GetClipMinY-50, 0.5, 90, 210);
+
+   Wait(800);
+
+   CreateObs("Obs03.txt", GetClipMinX, GetClipMinY, 0, 0, 0.2, 90 ,250);
+   CreateObs("Obs03.txt", GetClipMaxX, GetClipMinY, 0, 0, 0.2, 90 ,250);
+   CreateObs("Obs02.txt", GetClipMinX, GetClipMinY+60, 0, 140, 0.2, 90, 250);
+   CreateObs("Obs02.txt", GetClipMinX, GetClipMinY-60, 0, -140, 0.2, 90, 250);
+   CreateObs("Obs02.txt", GetClipMaxX, GetClipMinY+60, 0, 220, 0.2, 90, 250);
+   CreateObs("Obs02.txt", GetClipMaxX, GetClipMinY-60, 0, -220, 0.2, 90, 250);
+
+   Wait(4000);
+   Asteroid04_Short;
+   Asteroid05;
+   Asteroid06;
+   Wait(1000);
+
+  loop(10){
+    loop(3){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03(Fire).txt", GetCenterX + rand(-200,200), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+      Wait(10);
+      }
+    }
+  Wait(200);
+  loop(6){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02(Fire).txt", GetCenterX + rand(-200,200), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+    }
+  Wait(200);
+  loop(3){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor01(Fire).txt", GetCenterX + rand(-200,200), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+    }
+  Wait(500);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"FrameMeteor.txt", GetCenterX, GetClipMinY - 50, 0.05, 90, 0);
+
+   WaitForBossDie(2);
+  Asteroid04;
+  Wait(1200);
+ 
+
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Boss02.txt", GetCenterX, GetClipMinY - 50, 0, 90, 0);
+   WaitForBossDie(3);
+  Wait(600);
+ ClearStage;
+
+//タスク//
+ task GloupTask{
+  loop(4){
+   let angle = 90 + rand(-30, 30);
+    loop(3){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy09.txt", GetCenterX + rand(-150, 150), GetClipMinY - 50, 2, angle + rand(-30, 30), 0);
+       }
+         Wait(380);
+         }
+     }
+
+ task GloupTask_Long{
+  loop(8){
+   let angle = 90 + rand(-30, 30);
+    loop(3){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy09.txt", GetCenterX + rand(-150, 150), GetClipMinY - 50, 2, angle + rand(-30, 30), 0);
+       }
+         Wait(380);
+         }
+     }
+
+ task Asteroid01{
+   loop{
+  Wait(100);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+      }
+   }
+
+ task Asteroid01_Lush{
+   loop(60){
+  Wait(50);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,7), rand(80, 100), 0);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetClipMinX - 50, GetCenterY + rand(-200,0), rand(0.5,7), rand(30, -30), 0);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetClipMaxX + 50, GetCenterY + rand(-200,0), rand(0.5,7), rand(150, 210), 0);
+    }
+   }
+
+ task Asteroid02{
+   while(GetCommonData("ボス死亡") == 0){
+  Wait(400);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,2), rand(80, 100), 0);
+     }
+   }
+
+ task Asteroid03{
+   while(GetCommonData("ボス死亡") == 0){
+  Wait(1500);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor01.txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+    }
+  }
+
+ task Asteroid04{
+   while(GetCommonData("ボス死亡") < 2){
+  Wait(400);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03(Fire).txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+    }
+   }
+
+ task Asteroid04_Short{
+   while(GetCommonData("ボス死亡") < 2){
+  Wait(100);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03(Fire).txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,4), rand(80, 100), 0);
+    }
+   }
+
+ task Asteroid05{
+   while(GetCommonData("ボス死亡") < 2){
+  Wait(900);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02(Fire).txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.5,2), rand(80, 100), 0);
+    }
+   }
+
+ task Asteroid06{
+   while(GetCommonData("ボス死亡") < 2){
+  Wait(2700);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor01(Fire).txt", GetCenterX + rand(-120,120), GetClipMinY - 50, rand(0.1,1), rand(80, 100), 0);
+    }
+}
+
+ task ObsTask{
+    if(GetCommonData("ボス死亡") == 0){
+   CreateObs("Obs01.txt", GetCenterX-155, GetClipMinY, 0, 0, 0.2, 90 ,50);
+   CreateObs("Obs02.txt", GetCenterX-155, GetClipMinY, 165, 0, 0.2, 90, 50);
+     }
+      Wait(2500);
+    if(GetCommonData("ボス死亡") == 0){
+   CreateObs("Obs01.txt", GetCenterX, GetClipMinY, 0, 0, 0.2, 90, 50);
+   CreateObs("Obs02.txt", GetCenterX, GetClipMinY, 165, 0, 0.2, 90, 50);
+       }
+      Wait(2500);
+    if(GetCommonData("ボス死亡") == 0){
+   CreateObs("Obs01.txt", GetCenterX-155, GetClipMinY, 0, 0, 0.2, 90 ,50);
+   CreateObs("Obs02.txt", GetCenterX-155, GetClipMinY, 165, 0, 0.2, 90, 50);
+     }
+}
+
+ function CreateObs(File, x, y, r, angle, speed, angle2, max){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~File, x+r*cos(angle), y+r*sin(angle) - max, speed, angle2, angle);
+}
+          //ステージここまで//
+      }//StageTaskここまで
+
+ task Life_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\lifeup.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 22);
+        ObjEffect_SetVertexUV( obj, 2, 100, 0);
+        ObjEffect_SetVertexUV( obj, 3, 100, 22);
+        ObjEffect_SetVertexXY( obj, 0, 0-50, 0-11);
+        ObjEffect_SetVertexXY( obj, 1, 0-50, 22-11);
+        ObjEffect_SetVertexXY( obj, 2, 100-50, 0-11);
+        ObjEffect_SetVertexXY( obj, 3, 100-50, 22-11);
+
+        ObjEffect_SetVertexColor( obj, 0, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, 0, 255, 255, 255);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 );
+         ObjEffect_SetRenderState( obj, ADD);
+         ObjEffect_SetLayer( obj, 3 );
+
+    let y = 0; let alpha = 0; let cnt = 0;
+      MoveTask;
+     task MoveTask{
+      while(Obj_BeDeleted(obj) == false){
+        Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 - y );
+       yield; if(y <= 10){y ++;} if(cnt > 70){y ++;} cnt++;
+       }
+    }
+
+     loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha += 255/10;
+        yield;
+      }
+        Wait(60);
+           loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha -= 255/10;
+        yield;
+      }
+   Obj_Delete(obj);
+}
+
+ task Energy_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\energyup.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 22);
+        ObjEffect_SetVertexUV( obj, 2, 115, 0);
+        ObjEffect_SetVertexUV( obj, 3, 115, 22);
+        ObjEffect_SetVertexXY( obj, 0, 0-115/2, 0-11);
+        ObjEffect_SetVertexXY( obj, 1, 0-115/2, 22-11);
+        ObjEffect_SetVertexXY( obj, 2, 115-115/2, 0-11);
+        ObjEffect_SetVertexXY( obj, 3, 115-115/2, 22-11);
+
+        ObjEffect_SetVertexColor( obj, 0, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, 0, 255, 255, 255);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 );
+         ObjEffect_SetRenderState( obj, ADD);
+         ObjEffect_SetLayer( obj, 3 );
+
+    let y = 0; let alpha = 0; let cnt = 0;
+      MoveTask;
+     task MoveTask{
+      while(Obj_BeDeleted(obj) == false){
+        Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 - y );
+       yield; if(y <= 10){y ++;} if(cnt > 70){y ++;} cnt++;
+       }
+    }
+
+     loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha += 255/10;
+        yield;
+      }
+        Wait(60);
+           loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha -= 255/10;
+        yield;
+      }
+   Obj_Delete(obj);
+}
+
+ task Level_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\shiplevelup.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 19);
+        ObjEffect_SetVertexUV( obj, 2, 100, 0);
+        ObjEffect_SetVertexUV( obj, 3, 100, 19);
+        ObjEffect_SetVertexXY( obj, 0, 0-50, 0-19/2);
+        ObjEffect_SetVertexXY( obj, 1, 0-50, 19-19/2);
+        ObjEffect_SetVertexXY( obj, 2, 100-50, 0-19/2);
+        ObjEffect_SetVertexXY( obj, 3, 100-50, 19-19/2);
+
+        ObjEffect_SetVertexColor( obj, 0, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, 0, 255, 255, 255);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 );
+         ObjEffect_SetRenderState( obj, ADD);
+         ObjEffect_SetLayer( obj, 3 );
+
+    let y = 0; let alpha = 0; let cnt = 0;
+      MoveTask;
+     task MoveTask{
+      while(Obj_BeDeleted(obj) == false){
+        Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 - y );
+       yield; if(y <= 10){y ++;} if(cnt > 70){y ++;} cnt++;
+       }
+    }
+
+     loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha += 255/10;
+        yield;
+      }
+        Wait(60);
+           loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha -= 255/10;
+        yield;
+      }
+   Obj_Delete(obj);
+}
+
+ task Effect_Level_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\WhiteRing2.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 120);
+        ObjEffect_SetVertexUV( obj, 2, 120, 0);
+        ObjEffect_SetVertexUV( obj, 3, 120, 120);
+        ObjEffect_SetVertexXY( obj, 0, 0-60, 0-60);
+        ObjEffect_SetVertexXY( obj, 1, 0-60, 120-60);
+        ObjEffect_SetVertexXY( obj, 2, 120-60, 0-60);
+        ObjEffect_SetVertexXY( obj, 3, 120-60, 120-60);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY );
+         ObjEffect_SetRenderState( obj, ALPHA);
+         ObjEffect_SetLayer( obj, 3 );
+         ObjEffect_SetScale( obj, 1, 1);
+
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path2 = GetCurrentScriptDirectory ~ "img\WhiteRing.png";//パス
+
+        ObjEffect_SetTexture( obj2, path2);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj2, 1, 0, 100);
+        ObjEffect_SetVertexUV( obj2, 2, 100, 0);
+        ObjEffect_SetVertexUV( obj2, 3, 100, 100);
+        ObjEffect_SetVertexXY( obj2, 0, 0-50, 0-50);
+        ObjEffect_SetVertexXY( obj2, 1, 0-50, 100-50);
+        ObjEffect_SetVertexXY( obj2, 2, 100-50, 0-50);
+        ObjEffect_SetVertexXY( obj2, 3, 100-50, 100-50);
+         Obj_SetPosition( obj2, GetPlayerX, GetPlayerY );
+         ObjEffect_SetRenderState( obj2, ALPHA);
+         ObjEffect_SetLayer( obj2, 3 );
+         ObjEffect_SetScale( obj2, 0, 0);
+
+    let size = 1; let size2 = 0;
+        while(size > 0) {
+              ObjEffect_SetScale( obj, size, size);
+              ObjEffect_SetScale( obj2, size2, size2);
+           size -= 0.1; size2 += 0.08; yield;
+        }
+      Obj_Delete(obj); Obj_Delete(obj2);
+}

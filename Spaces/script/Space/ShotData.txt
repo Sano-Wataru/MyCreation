@@ -1,0 +1,229 @@
+       #UserShotData
+    
+      ShotImage = ".\img\shot_all.png"
+
+   ShotData//ê‘âäíe
+   {
+           id = 1
+           rect = (0, 466, 18, 490)
+           render = ALPHA
+           delay_color = (255, 128, 128)
+   }
+
+   ShotData//ê¬âäíe
+   {
+           id = 2
+           rect = (62, 466, 80, 490)
+           render = ALPHA
+           delay_color = (128, 128, 255)
+   }
+   ShotData//ê‘íe
+   {
+           id = 3
+           rect = (0, 208, 17, 224)
+           render = ALPHA
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ê¬íe
+   {
+           id = 4
+           rect = (90, 208, 107, 224)
+           render = ALPHA
+           delay_color = (128, 128, 255)
+   }
+   ShotData//ê‘ÉåÅ[ÉUÅ[
+   {
+           id = 5
+           rect = (0, 431, 26, 459)
+           render = ADD
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ê¬ÉåÅ[ÉUÅ[
+   {
+           id = 6
+           rect = (130, 431, 156, 459)
+           render = ADD
+           delay_color = (128, 128, 255)
+   }
+   ShotData//â©ÉåÅ[ÉUÅ[
+   {
+           id = 23
+           rect = (52, 431, 78, 459)
+           render = ADD
+           delay_color = (255, 255, 128)
+   }
+   ShotData//óŒÉåÅ[ÉUÅ[
+   {
+           id = 25
+           rect = (78, 431, 104, 459)
+           render = ADD
+           delay_color = (128, 255, 128)
+   }
+   ShotData//ì¯ÉåÅ[ÉUÅ[
+   {
+           id = 26
+           rect = (208, 431, 234, 459)
+           render = ADD
+           delay_color = (255, 255, 255)
+   }
+   ShotData//îíïƒíe
+   {
+           id = 7
+           rect = (71, 82, 78, 98)
+           render = ADD
+           delay_color = (255, 255, 255)
+   }
+   ShotData//óŒïƒíe
+   {
+           id = 8
+           rect = (30, 82, 39, 98)
+           render = ADD
+           delay_color = (128, 255, 128)
+   }
+   ShotData//ê¬íe
+   {
+           id = 9
+           rect = (151, 51, 179, 79)
+           render = ADD
+           delay_color = (128, 128, 255)
+   }
+   ShotData//ê‘ïƒíe
+   {
+           id = 10
+           rect = (0, 81, 8, 97)
+           render = ADD
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ê‘ëÂíe
+   {
+           id = 11
+           rect = (320, 0, 383, 63)
+           render = ADD
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ûÚíe
+   {
+           id = 12
+           rect = (18, 208, 35, 224)
+           render = ALPHA
+           delay_color = (255, 160, 128)
+   }
+   ShotData//óŒíe
+   {
+           id = 13
+           rect = (54, 208, 71, 224)
+           render = ALPHA
+           delay_color = (128, 255, 128)
+   }
+   ShotData//óŒíÜíe
+   {
+           id = 14
+           rect = (91, 51, 118, 78)
+           render = ALPHA
+           delay_color = (128, 255, 128)
+   }
+   ShotData//óŒè¨íe
+   {
+           id = 15
+           rect = (56, 14, 69, 27)
+           render = ALPHA
+           delay_color = (128, 255, 128)
+   }
+   ShotData//óŒã…è¨íe
+   {
+           id = 16
+           rect = (37, 2, 46, 10)
+           render = ALPHA
+           delay_color = (128, 255, 128)
+   }
+   ShotData//ê‘íÜíe
+   {
+           id = 17
+           rect = (1, 51, 28, 78)
+           render = ALPHA
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ê‘è¨íe
+   {
+           id = 18
+           rect = (2, 14, 15, 27)
+           render = ALPHA
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ê‘ã…è¨íe
+   {
+           id = 19
+           rect = (1, 2, 10, 10)
+           render = ALPHA
+           delay_color = (255, 128, 128)
+   }
+   ShotData//ûÚó÷íe
+   {
+           id = 20
+           rect = (21, 31, 38, 48)
+           render = ALPHA
+           delay_color = (255, 160, 128)
+   }
+   ShotData//ûÚè¨íe
+   {
+           id = 21
+           rect = (20, 14, 33, 27)
+           render = ALPHA
+           delay_color = (255, 160, 128)
+   }
+   ShotData//ûÚã…è¨íe
+   {
+           id = 22
+           rect = (13, 2, 22, 10)
+           render = ALPHA
+           delay_color = (255, 160, 128)
+   }
+   ShotData//â©åıíe
+   {
+           id = 24
+           rect = (58, 292, 81, 315)
+           render = ALPHA
+           delay_color = (255, 255, 128)
+   }
+   ShotData//ê‘åıíe
+   {
+           id = 27
+           rect = (2, 292, 25, 315)
+           render = ALPHA
+           delay_color = (255, 255, 128)
+   }
+   ShotData//ûÚåıíe
+   {
+           id = 28
+           rect = (30, 292, 53, 315)
+           render = ALPHA
+           delay_color = (255, 160, 128)
+   }
+   ShotData//óŒåıíe
+   {
+           id = 29
+           rect = (86, 292, 109, 315)
+           render = ALPHA
+           delay_color = (128, 255, 128)
+   }
+   ShotData//êÖåıíe
+   {
+           id = 30
+           rect = (114, 292, 137, 315)
+           render = ALPHA
+           delay_color = (128, 160, 255)
+   }
+   ShotData//ê¬åıíe
+   {
+           id = 31
+           rect = (142, 292, 165, 315)
+           render = ALPHA
+           delay_color = (128, 128, 255)
+   }
+   ShotData//éáåıíe
+   {
+           id = 32
+           rect = (170, 292, 193, 315)
+           render = ALPHA
+           delay_color = (255, 128, 200)
+   }

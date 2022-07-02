@@ -1,0 +1,53 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+    @Initialize
+    {
+        let imgEnemy= GetCurrentScriptDirectory~"img\enemy_all.png";
+       SetLife(10);
+    SetTexture(imgEnemy);
+    SetGraphicRect(123, 24 ,185 ,52);
+    SetGraphicAngle(0, 180, 0);
+    SetGraphicScale(0.6, 0.6);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+    MoveMain;
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+
+   if(GetY < -100){
+     VanishEnemy;
+  }
+       yield;
+  }
+    @Finalize
+    {
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(0,1));
+      SetCommonData("ShieldAmount", rand(1,3));
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+ task MoveMain{
+    SetSpeed(0);
+   Wait(60);
+    SetSpeed(0.5);
+      MainShot;
+ }
+
+ task MainShot{
+  CreateLaserB(0, 400, 20, 2, 20);
+  SetLaserDataB(0, 0, 0, 0, 0, 0, 0, GetArgument, 0);
+  SetShotKillTime(0, 500);
+    FireShot(0);
+ }
+}

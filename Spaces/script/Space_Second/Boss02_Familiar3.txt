@@ -1,0 +1,167 @@
+script_enemy Family3{
+
+  let gcsd = GetCurrentScriptDirectory;
+  let ParentLife = 0;
+  let ParentLifeMax = 0;
+
+   let distance = 0;
+   let distance2 = 0;
+   let cangle = 0;
+   let cangle2 = 0;
+
+   let G_angle = 0;
+
+  //シールドに必要な変数定義// 
+   let G_obj = 0;
+   let cnt = 0;
+   let Life = 160; //敵本体のライフ
+   let ShieldLife = 100; //シールドのライフ
+  //ここまで//
+
+ @Initialize{
+        let imgEnemy= gcsd~"img\enemy_all.png";
+       SetLife(Life + ShieldLife);//シールドに必要なもの//
+    SetTexture(imgEnemy);
+    SetGraphicRect(53, 193, 91, 259);
+    SetGraphicScale(0.5, 0.5);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+   ShieldMiniTask(0.7, 23, 32);//シールドに必要なもの//
+   MoveTask;
+   MainTask;
+  }
+
+ @MainLoop{
+   ParentLife = GetCommonDataDefault("Boss02Life", 0);
+   ParentLifeMax = GetCommonDataDefault("Boss02LifeMax", 0);
+     OutputDebugString(3, "", ParentLife);
+     OutputDebugString(4, "", ParentLifeMax*1/4);
+
+       //当たり判定は消す//
+         Obj_SetPosition( G_obj, GetX, GetY );
+
+     if(GetX < GetClipMinX - 150 || GetX > GetClipMaxX + 150 || GetY < GetClipMinY - 150 || GetY > GetClipMaxY + 150){
+        VanishEnemy;
+      }
+       yield;
+  }
+
+ @DrawLoop{
+   DrawGraphic(GetX, GetY);
+  }
+
+ @Finalize{
+     if(GetX < GetClipMinX - 150 || GetX > GetClipMaxX + 150 || GetY < GetClipMinY - 150 || GetY > GetClipMaxY + 150){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("Power", rand(4,7));
+      SetCommonData("Shield_Item", rand(7,8));
+    }
+  }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task MoveTask{
+   SetCoordinateType(COODINATE_TYPE_PARENT);
+     let angle = GetArgument;
+    loop(70){
+      SetX(distance*cos(angle));
+      SetY(distance2*sin(angle));
+        angle += 1;
+      distance += 1; distance2 += 0.5;
+      yield;
+    }
+
+   loop{
+      SetX(distance*cos(angle+cangle));
+      SetY(distance2*sin(angle+cangle2));
+        angle ++;
+        G_angle = angle;
+     yield;
+   }
+
+}
+
+ task Cangle01(time, cnt){
+  loop(time){
+     cangle += cnt;
+    yield;
+   }
+}
+
+ task Cangle02(time, cnt){
+  loop(time){
+     cangle2 += cnt;
+    yield;
+   }
+}
+
+ task Dtask01(time, cnt){
+  loop(time){
+     distance += cnt;
+    yield;
+   }
+}
+
+ task Dtask02(time, cnt){
+  loop(time){
+     distance2 += cnt;
+    yield;
+   }
+}
+
+ task MainTask{
+ let angle;
+   Wait(120);
+  while(ParentLife > ParentLifeMax*1/4){
+
+   loop(9){
+    angle = G_angle;
+    RoundShot01(GetX, GetY, 3, angle, 79, 10, 7);
+    RoundShot01(GetX, GetY, 2, angle+10, 74, 10, 7);
+    RoundShot01(GetX, GetY, 2, angle-10, 74, 10, 7);
+     Wait(100);
+     }
+      Wait(50+400+120);
+      Wait(100);
+
+   }
+
+   Wait(100);
+//最終攻撃//
+   while(ParentLife <= ParentLifeMax*1/4){
+     ObjLaserA(GetX, GetY, angle, 400, 10, 50, 200);
+    Wait(500);
+  }
+
+}
+
+function RoundShot01(X,Y,Speed,Angle,Color,Delay,Way) {
+    // X     X座標
+    // Y     Y座標
+    // Speed 弾速
+    // Angle 角度
+    // Color 弾の色
+    // Delay ディレイ
+    // Way   弾の数
+    loop(Way) {
+        CreateShot01(X,Y,Speed,Angle,Color,Delay);
+        Angle += 360/Way;
+    }
+}
+
+task ObjLaserA(x, y, angle, len, wid, color, delay){
+    let obj = Obj_Create(OBJ_LASER);
+
+   Obj_SetPosition(obj, x, y);
+   Obj_SetAngle(obj, angle);
+   ObjShot_SetDelay(obj, delay);
+   ObjShot_SetGraphic(obj, color);
+   ObjLaser_SetLength(obj, len);
+   ObjLaser_SetWidth(obj, wid);
+}
+
+#include_function".\Function_ShieldMini.txt"
+}

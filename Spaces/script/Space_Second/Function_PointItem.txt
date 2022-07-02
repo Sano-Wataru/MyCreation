@@ -1,0 +1,527 @@
+ task ShieldItem(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 12;
+ let cy = -1.2;
+ let p_range = 200 + GetGraze*0.4^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 80;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage ++;
+        SetCommonData("シールドゲージ", Shield_Gage);
+        AddScore(200 + rand(100, 300) * GetGraze^1.1);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 1.2){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 1.2){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 3, 27);
+    ObjEffect_SetVertexUV(obj, 1, 21, 27);
+    ObjEffect_SetVertexUV(obj, 2, 21, 45);
+    ObjEffect_SetVertexUV(obj, 3, 3, 45);
+    ObjEffect_SetVertexXY(obj, 0, 0-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 1, 18-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 2, 18-9, 18-9);
+    ObjEffect_SetVertexXY(obj, 3, 0-9, 18-9);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ADD);
+     ObjEffect_SetScale(obj, 0.6, 0.6);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+  GraphicProcess;
+}
+
+ task GraphicProcess{
+  let a = 0; let b = 0; let c = 0; let d = 5;
+  a = rand(0,360);  b = rand(0,360);  c = rand(0,360);
+    while(Obj_BeDeleted(G_obj) == false){
+       ObjEffect_SetAngle(G_obj, a, b, c);
+        a += rand(-d,d); b += rand(-d,d); c += rand(-d,d);
+      yield;
+   }
+  }
+}//ShieldItem
+
+ task K_ShieldItem(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 12;
+ let cy = -1.2;
+ let p_range = 200 + GetGraze*0.4^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 50;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage += 3;
+        SetCommonData("シールドゲージ", Shield_Gage);
+        AddScore(200 + rand(100, 300) * GetGraze^1.2);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 1.2){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 1.2){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 27, 27);
+    ObjEffect_SetVertexUV(obj, 1, 27, 45);
+    ObjEffect_SetVertexUV(obj, 2, 45, 45);
+    ObjEffect_SetVertexUV(obj, 3, 45, 27);
+    ObjEffect_SetVertexXY(obj, 0, 0-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 1, 18-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 2, 18-9, 18-9);
+    ObjEffect_SetVertexXY(obj, 3, 0-9, 18-9);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ADD);
+     ObjEffect_SetScale(obj, 0.6, 0.6);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+  GraphicProcess;
+}
+
+ task GraphicProcess{
+  let a = 0; let b = 0; let c = 0; let d = 5;
+  a = rand(0,360);  b = rand(0,360);  c = rand(0,360);
+    while(Obj_BeDeleted(G_obj) == false){
+       ObjEffect_SetAngle(G_obj, a, b, c);
+        a += rand(-d,d); b += rand(-d,d); c += rand(-d,d);
+      yield;
+   }
+  }
+}//K_ShieldItem
+
+ task M_ShieldItem(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 12;
+ let cy = -1.2;
+ let p_range = 200 + GetGraze*0.4^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 80;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage += 5;
+        SetCommonData("シールドゲージ", Shield_Gage);
+        AddScore(200 + rand(100, 300) * GetGraze^1.3);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 1.2){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 1.2){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 51, 27);
+    ObjEffect_SetVertexUV(obj, 1, 69, 27);
+    ObjEffect_SetVertexUV(obj, 2, 69, 45);
+    ObjEffect_SetVertexUV(obj, 3, 51, 45);
+    ObjEffect_SetVertexXY(obj, 0, 0-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 1, 18-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 2, 18-9, 18-9);
+    ObjEffect_SetVertexXY(obj, 3, 0-9, 18-9);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ADD);
+     ObjEffect_SetScale(obj, 0.6, 0.6);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+  GraphicProcess;
+}
+
+ task GraphicProcess{
+  let a = 0; let b = 0; let c = 0; let d = 5;
+  a = rand(0,360);  b = rand(0,360);  c = rand(0,360);
+    while(Obj_BeDeleted(G_obj) == false){
+       ObjEffect_SetAngle(G_obj, a, b, c);
+        a += rand(-d,d); b += rand(-d,d); c += rand(-d,d);
+      yield;
+   }
+  }
+}//M_ShieldItem
+
+ task G_ShieldItem(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 12;
+ let cy = -1.2;
+ let p_range = 200 + GetGraze*0.4^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 80;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage += 10;
+        SetCommonData("シールドゲージ", Shield_Gage);
+        AddScore(200 + rand(100, 300) * GetGraze^1.4);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 1.2){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 1.2){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 75, 27);
+    ObjEffect_SetVertexUV(obj, 1, 93, 27);
+    ObjEffect_SetVertexUV(obj, 2, 93, 45);
+    ObjEffect_SetVertexUV(obj, 3, 75, 45);
+    ObjEffect_SetVertexXY(obj, 0, 0-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 1, 18-9, 0-9);
+    ObjEffect_SetVertexXY(obj, 2, 18-9, 18-9);
+    ObjEffect_SetVertexXY(obj, 3, 0-9, 18-9);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ADD);
+     ObjEffect_SetScale(obj, 0.6, 0.6);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+  GraphicProcess;
+}
+
+ task GraphicProcess{
+  let a = 0; let b = 0; let c = 0; let d = 5;
+  a = rand(0,360);  b = rand(0,360);  c = rand(0,360);
+    while(Obj_BeDeleted(G_obj) == false){
+       ObjEffect_SetAngle(G_obj, a, b, c);
+        a += rand(-d,d); b += rand(-d,d); c += rand(-d,d);
+      yield;
+   }
+  }
+}//G_ShieldItem
+
+ task Power(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 12;
+ let cy = -1.2;
+ let p_range = 30 + GetGraze*1.0^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 80;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        AddPoint(1);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 0.6){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 0.6){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 1, 4);
+    ObjEffect_SetVertexUV(obj, 1, 22, 4);
+    ObjEffect_SetVertexUV(obj, 2, 22, 21);
+    ObjEffect_SetVertexUV(obj, 3, 1, 21);
+    ObjEffect_SetVertexXY(obj, 0, 1-22/2, 4-21/2);
+    ObjEffect_SetVertexXY(obj, 1, 22-22/2, 4-21/2);
+    ObjEffect_SetVertexXY(obj, 2, 22-22/2, 21-21/2);
+    ObjEffect_SetVertexXY(obj, 3, 1-22/2, 21-21/2);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ALPHA);
+     ObjEffect_SetScale(obj, 0.6, 0.6);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+   }
+
+}//Power
+
+ task MPower(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 20;
+ let cy = -1.2;
+ let p_range = 35 + GetGraze*1.0^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 80;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        AddPoint(10);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 0.6){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 0.6){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 24, 3);
+    ObjEffect_SetVertexUV(obj, 1, 46, 3);
+    ObjEffect_SetVertexUV(obj, 2, 46, 21);
+    ObjEffect_SetVertexUV(obj, 3, 24, 21);
+    ObjEffect_SetVertexXY(obj, 0, 24-46/2, 3-21/2);
+    ObjEffect_SetVertexXY(obj, 1, 46-46/2, 3-21/2);
+    ObjEffect_SetVertexXY(obj, 2, 46-46/2, 21-21/2);
+    ObjEffect_SetVertexXY(obj, 3, 24-46/2, 21-21/2);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ALPHA);
+     ObjEffect_SetScale(obj, 1, 1);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+   }
+
+}//GPower
+
+ task GPower(PositionX, PositionY){
+ let gcsd = GetCurrentScriptDirectory;
+ let range = 20;
+ let cy = -1.2;
+ let p_range = 35 + GetGraze*1.0^2;
+ let Shield_Gage = 0;
+ let G_obj = 0;
+ let cnt = 0;
+ let asp = 80;
+ let casp = 0;
+
+   GraphicTask;
+  while(Obj_BeDeleted(G_obj) == false){//ループここから//
+          if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < range){
+        AddPoint(50);
+       Obj_Delete(G_obj);
+     }
+
+    if(cy < 0.6){
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+        cy += 0.025;
+       }else{
+      Obj_SetPosition(G_obj, Obj_GetX(G_obj), Obj_GetY(G_obj)+cy);
+     }
+
+     if(((Obj_GetX(G_obj)-GetPlayerX)^2 + (Obj_GetY(G_obj)-GetPlayerY)^2)^0.5 < p_range && cy >= 0.6){
+       Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX)/asp, Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY)/asp);
+        if(asp > 2){
+          asp -= 1.5;
+          }else{
+         Obj_SetPosition(G_obj, Obj_GetX(G_obj) - (Obj_GetX(G_obj)-GetPlayerX), Obj_GetY(G_obj) - (Obj_GetY(G_obj)-GetPlayerY));
+        }
+     }
+
+     if(Obj_GetX(G_obj) < GetClipMinX - 70 || Obj_GetX(G_obj) > GetClipMaxX + 70 || Obj_GetY(G_obj) < GetClipMinY - 70 || Obj_GetY(G_obj) > GetClipMaxY + 70){
+        Obj_Delete(G_obj);
+      }
+
+      cnt ++;
+      yield;
+     }//ループここまで//
+
+ task GraphicTask{
+  let obj = Obj_Create( OBJ_EFFECT );
+  let path = gcsd~"img\Point_Item.png";
+
+    ObjEffect_SetTexture(obj, path);
+    ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLEFAN);
+    ObjEffect_CreateVertex(obj, 4);
+    ObjEffect_SetVertexUV(obj, 0, 49, 2);
+    ObjEffect_SetVertexUV(obj, 1, 71, 2);
+    ObjEffect_SetVertexUV(obj, 2, 71, 22);
+    ObjEffect_SetVertexUV(obj, 3, 49, 22);
+    ObjEffect_SetVertexXY(obj, 0, 49-71/2, 2-22/2);
+    ObjEffect_SetVertexXY(obj, 1, 71-71/2, 2-22/2);
+    ObjEffect_SetVertexXY(obj, 2, 71-71/2, 22-22/2);
+    ObjEffect_SetVertexXY(obj, 3, 49-71/2, 22-22/2);
+
+     Obj_SetPosition(obj, PositionX, PositionY);
+     ObjEffect_SetRenderState(obj, ALPHA);
+     ObjEffect_SetScale(obj, 1.3, 1.3);
+     ObjEffect_SetLayer(obj, 4);
+
+   G_obj = obj;
+   }
+
+}//GPower

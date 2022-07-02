@@ -1,0 +1,78 @@
+script_enemy_main//è·äQï®//
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let imgEnemy= gcsd~"img\Obs01.png";
+    @Initialize
+    {
+       SetLife(550);   
+    SetTexture(imgEnemy);
+    SetGraphicRect(81, 14 ,340 ,62);
+    SetGraphicScale(1, 1);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+  }
+
+   @MainLoop
+   {
+    SetGraphicAngle(0, 0, GetArgument);
+
+    SetCollisionA(GetX,GetY,34);
+    SetCollisionB(GetX,GetY,34);
+    SetCollisionA(GetX+50*cos(GetArgument),GetY+50*sin(GetArgument),34);
+    SetCollisionB(GetX+50*cos(GetArgument),GetY+50*sin(GetArgument),34);
+    SetCollisionA(GetX+50*cos(GetArgument+180),GetY+50*sin(GetArgument+180),34);
+    SetCollisionB(GetX+50*cos(GetArgument+180),GetY+50*sin(GetArgument+180),34);
+    SetCollisionA(GetX+100*cos(GetArgument),GetY+100*sin(GetArgument),34);
+    SetCollisionB(GetX+100*cos(GetArgument),GetY+100*sin(GetArgument),34);
+    SetCollisionA(GetX+100*cos(GetArgument+180),GetY+100*sin(GetArgument+180),34);
+    SetCollisionB(GetX+100*cos(GetArgument+180),GetY+100*sin(GetArgument+180),34);
+
+     if(GetX < GetClipMinX - 350 || GetX > GetClipMaxX + 350 || GetY < GetClipMinY - 350 || GetY > GetClipMaxY + 350){
+        VanishEnemy;
+      }
+
+     if(GetX < GetClipMinX - 50 || GetX > GetClipMaxX + 50 || GetY < GetClipMinY - 50 || GetY > GetClipMaxY + 50){
+     SetDamageRate(0, 0);
+      }else{
+     SetDamageRate(100, 100);
+      }
+
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 350 || GetX > GetClipMaxX + 350 || GetY < GetClipMinY - 350 || GetY > GetClipMaxY + 350){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(2,5));
+      SetCommonData("ShieldAmount", rand(1,4));
+
+     loop(rand(1,4)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetX + rand(0,100)*cos(GetArgument), GetY + rand(0,100)*sin(GetArgument), 0, 0, 1);
+      }
+
+     loop(rand(0,1)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetX + rand(0,100)*cos(GetArgument), GetY + rand(0,100)*sin(GetArgument), 0, 0, 1);
+      }
+
+     loop(rand(1,4)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor03.txt", GetX + rand(0,100)*cos(GetArgument+180), GetY + rand(0,100)*sin(GetArgument+180), 0, 0, 1);
+      }
+
+     loop(rand(0,1)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetX + rand(0,100)*cos(GetArgument+180), GetY + rand(0,100)*sin(GetArgument+180), 0, 0, 1);
+      }
+
+    }
+   }
+
+   @DrawLoop
+   {//ï`âÊ
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

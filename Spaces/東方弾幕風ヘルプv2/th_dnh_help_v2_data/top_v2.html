@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+ <HEAD>
+  <TITLE>東方弾幕風まえがき</TITLE>
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/html;charset=Shift_JIS">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/css">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/lavascript">
+  <LINK REL="stylesheet"HREF="style.css"TYPE="text/css">
+ </HEAD>
+
+
+
+ <BODY BGCOLOR="#FFFFFF" LINK="#0000ff" ALINK="#ff00ff" VLINK="#222288">
+ <P><FONT color="#800040"><A name="TOP"><STRONG>まえがき</STRONG></A></FONT></P>
+ <P>簡易スクリプトで東方系ボスのような敵を動作させるソフトです。<BR>
+   「script」フォルダ内の、スクリプトで敵を動作させます。<BR>
+    敵の画像、別途表示したい画像も自由です。<BR>
+    自機の作成も行えます。<BR>
+ </P>
+ <BR>
+ <BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="Key"><STRONG>操作方法</STRONG></A></FONT></P>
+ <P>パッドは、config.exeに従って動きます。<BR>
+ </P>
+ <P>キーボード操作<BR>
+    　カーソルキー：移動<BR>
+	　Z：弾(押しっぱなしでオート連射)、決定<BR>
+	　X：ボム、キャンセル<BR>
+	　C：ユーザ定義(スクリプトによって意味が変わります)<BR>
+	　左Shift：減速移動<BR>
+	　Esc：ポーズ<BR>
+ 	　左Ctrl：イベントスキップ<BR>
+	　PageUp：高速再生(押せば押すほど高速に再生されます<BR>　　(Ctrlキーと同時押しで、一気に最高速。)。<BR>
+	　PageDn：高速再生解除<BR>
+    　Space：押している間高速再生されます。離せば解除されます。<BR>
+	　R：リセット(タイトル画面に戻る)<BR>
+	　BackSpace：リトライ(同じスクリプトを最初から再生)<BR>
+	　Home：スクリーンショットを取って"snapshot"フォルダに保存します。<BR>
+    　P：アプリケーションをポーズ(ただし非アクティブ→アクティブでも解除される)<BR>
+	　Alt+Enter：FullScreenとWindowの切り替え<BR>
+	　F12：アプリケーションの終了<BR>
+ </P>
+ <BR>
+ <BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="Sound"><STRONG>音声について</STRONG></A></FONT></P>
+ <P>bgmフォルダに「bgm.wav、bgm.mid」あたりを入れると再生されます。<BR>
+ 	再生可能なのは、wav、mp3、ogg、midです。<BR>
+    優先順位は wav > mp3 > ogg > mid です。<BR>
+	<BR>
+    効果音はアーカイブされていますが、<BR>
+	「se」フォルダに以下のファイルを置くことで置き換えられます。<BR>
+	ただ、これらのファイル名は変えるかもしれません。<BR>
+	これらの効果音が好きになれないって人以外は特に置き換える必要はありません。<BR>
+	
+  <TABLE border="1">
+   <TR><TD>使われている場所</TD><TD>ファイル名</TD></TR>
+   <TR><TD>自弾発射音</TD><TD>sePlayerShot01.wav</TD></TR>
+   <TR><TD>かすり</TD><TD>seGraze.wav</TD></TR>
+   <TR><TD>自機撃墜</TD><TD>sePlayerCollision.wav</TD></TR>
+   <TR><TD>自機ボム発動</TD><TD>sePlayerSpellCard.wav</TD></TR>
+   <TR><TD>残機増加(1UP)</TD><TD>se1UP.wav</TD></TR>
+   <TR><TD>アイテム取得</TD><TD>seScore.wav</TD></TR>
+   <TR><TD>霊夢「夢想封印」発射音</TD><TD>seBomb_ReimuA.wav</TD></TR>
+   <TR><TD>霊夢「夢想封印」着弾音</TD><TD>seExplode01.wav</TD></TR>
+   <TR><TD>霊夢(夢)ボム発射音</TD><TD>seBomb_ReimuB.wav</TD></TR>
+   <TR><TD>魔理沙(魔)ボム発射音</TD><TD>seBomb_MarisaA.wav</TD></TR>
+   <TR><TD>魔理沙(魔)ミルキーウェイの星発射音</TD><TD>seBomb_MarisaA_Star.wav</TD></TR> 
+   <TR><TD>魔理沙(恋)ボム発射音</TD><TD>seBomb_MarisaB.wav</TD></TR>
+   <TR><TD>敵スペルカード発動音</TD><TD>seUseSpellCard.wav</TD></TR>
+   <TR><TD>森羅結界発動音(1)</TD><TD>seSuperNaturalBorder1.wav</TD></TR>
+   <TR><TD>森羅結界発動音(2)</TD><TD>seSuperNaturalBorder2.wav</TD></TR>
+  </TABLE>
+	
+ </P>
+ <BR>
+ <BR>  
+ 
+
+ <P><FONT color="#800040"><A name="Replay"><STRONG>リプレイファイル</STRONG></A></FONT></P>
+ <P>リプレイは「replay」フォルダに、<BR>
+ 「スクリプトファイル名_replayxx.dat」(xxは番号)で保存されます。<BR>
+  1つのスクリプトにつき保存時は10ヶ所に保存できますが、自由にリネームできます。<BR>
+  リプレイファイルのヘッダ部分にスクリプトファイル名と「#Text」部分をかきこんであり、
+  それで区別を付けています。<BR>
+  読みこみ時にはファイル数制限はありません。<BR>
+  <BR>
+  リプレイ再生は、スクリプト選択シーンで「通常Play」の下にでている項目で選択できます。<BR>
+ </P>
+ <BR>
+ <BR>  
+
+
+ <P><FONT color="#800040"><A name="Score"><STRONG>スコア</STRONG></A></FONT></P>
+ <P>現状では以下のように変動します。<BR>
+    Rateは画面左下にかいています。<BR>
+  <TABLE border="1">
+   <TR><TD>打ち込み点</TD><TD>Graze/10がそのまま点になります。またRateが多少上昇します。</TD></TR>
+   <TR><TD>スペルカードボーナス</TD>
+       <TD>敵スペルカードをノーミス、ノーボムで撃破することで取得できます。<BR>
+	       Rate×スペルカードボーナスです。
+	       またRate最大値とRateが2上昇します。</TD></TR>
+   <TR><TD>撃墜時</TD>
+       <TD>Rateが25%減少します。</TD></TR>
+  </TABLE>
+ </P>
+ <BR>
+ <BR>  
+
+ 
+ <P><FONT color="#800040"><A name="Develop"><STRONG>弾幕をつくる人へ</STRONG></A></FONT></P>
+ <P>scriptフォルダに置いたスクリプトファイルが、認識されます。<BR>
+    ファイル名は自由です。<BR>
+	画像ファイルは、デフォルトでは「script\img」にいれていますが、<BR>
+	実行ファイルより下ならどこにおいても、<BR>
+	スクリプトに記述してあるパスが正しければOKです。<BR>
+	<STRONG>用意する画像サイズはなるべく2の累乗</STRONG>にしてください。<BR>
+	例えば640×480の画像を読みこむと、内部では1024×512であつかわれます。<BR>
+ </P>
+ <P>スクリプトにエラーがある場合、スクリプト選択画面に戻ります。<BR>
+    スクリプトに無限ループがあったりすると、その場で固まります。<BR>
+	不正終了する場合もあります。<BR>
+	よく落ちるのでWindows2000 or Xpでの作製を推奨します。<BR>
+	<A href="sample_v2.html" ><STRONG>スクリプトサンプル</STRONG></A><BR>
+ </P>
+ <P>弾幕をつくる時は、東方弾幕風をたちあげ、<BR>
+    作成中のスクリプトを読みこみ、「I」キーで無敵にし、<BR>
+    弾幕を確かめる→テキストエディタでスクリプトを編集→「BackSpace」でリロード<BR>
+	で作製すると多少楽です。<BR>
+	<BR>
+	弾幕をつくるさいの弾の数に制限はありませんが、<BR>
+	あまりに多く存在すると処理落ちするので注意してください。<BR>
+	普通の弾幕なら画面上に500発も存在すれば十分です。<BR>
+	たぶん1000を越えてきたあたりから避ける場所も無くなります。
+ </P>
+ <P>
+  スクリプトの「@DrawLoop」部分にrand関数を用いている場合は正常に再生されなくなります。
+  これは、フレームスキップを行った場合に乱数がずれるからです。 
+ </P>
+ <BR>
+ <BR>  
+ 
+ 
+ <P><FONT color="#800040"><A name="DebugKey"><STRONG>デバッグ用キー</STRONG></A></FONT></P> 
+ <P>デバッグ用のキーです。使用するとリプレイの保存は不可になります。<BR>
+    　I：無敵<BR>
+	　U：無敵解除<BR>
+	　F：残機、ボムが回復<BR>
+	　H：敵にライフの10%のダメージ(10回押せば撃破)<BR>
+ </P>
+ <BR><BR> 
+ 
+ <P><FONT color="#800040"><A name="NEXT"><STRONG>今後の予定</STRONG></A></FONT></P>
+ <P>・見た目をもう少しこったものに。<BR>
+    ・煩雑になってきたこのヘルプ自体を何とかしたい。<BR>
+    ・その他、要望があって、できそうなことなら実装。<BR>
+ </P>
+ <BR><BR>
+
+ </BODY>
+</HTML>

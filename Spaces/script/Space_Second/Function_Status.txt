@@ -1,0 +1,272 @@
+task Draw_Health{
+  //Healthèàóù//
+ if(GetPlayerLife == 1){//ëÃóÕ0 GAMEOVER//
+   Health_Process(0, 4);
+   Health_Process(1, 4);
+   Health_Process(2, 4);
+   Health_Process(3, 4);
+   Health_Process(4, 4);
+   Health_Process(5, 4);
+  }
+
+ if(GetPlayerLife == 2){//ëÃóÕ1//
+
+   FH_frame(0);
+
+   Health_Process(1, 4);
+   Health_Process(2, 4);
+   Health_Process(3, 4);
+   Health_Process(4, 4);
+   Health_Process(5, 4);
+  }
+
+ if(GetPlayerLife == 3){
+
+   FH_frame(0);
+   FH_frame(1);
+
+   Health_Process(2, 4);
+   Health_Process(3, 4);
+   Health_Process(4, 4);
+   Health_Process(5, 4);
+  }
+
+ if(GetPlayerLife == 4){
+
+   FH_frame(0);
+   FH_frame(1);
+   FH_frame(2);
+
+   Health_Process(3, 4);
+   Health_Process(4, 4);
+   Health_Process(5, 4);
+  }
+ if(GetPlayerLife == 5){
+
+   FH_frame(0);
+   FH_frame(1);
+   FH_frame(2);
+   FH_frame(3);
+
+   Health_Process(4, 4);
+   Health_Process(5, 4);
+  }
+ if(GetPlayerLife == 6){
+
+   FH_frame(0);
+   FH_frame(1);
+   FH_frame(2);
+   FH_frame(3);
+   FH_frame(4);
+
+   Health_Process(5, 4);
+  }
+ if(GetPlayerLife == 7){
+   FH_frame(0);
+   FH_frame(1);
+   FH_frame(2);
+   FH_frame(3);
+   FH_frame(4);
+   FH_frame(5);
+  }
+  //HealthèàóùÇ±Ç±Ç‹Ç≈//
+}
+
+task Draw_Bomb{
+  //Bombèàóù//
+ if(GetPlayerBomb == 1){//ëÃóÕ0 GAMEOVER//
+   Bomb_Process(0, 4);
+   Bomb_Process(1, 4);
+   Bomb_Process(2, 4);
+   Bomb_Process(3, 4);
+   Bomb_Process(4, 4);
+   Bomb_Process(5, 4);
+  }
+
+ if(GetPlayerBomb == 2){//ëÃóÕ1//
+
+   FB_frame(0);
+
+   Bomb_Process(1, 4);
+   Bomb_Process(2, 4);
+   Bomb_Process(3, 4);
+   Bomb_Process(4, 4);
+   Bomb_Process(5, 4);
+  }
+
+ if(GetPlayerBomb == 3){
+
+   FB_frame(0);
+   FB_frame(1);
+
+   Bomb_Process(2, 4);
+   Bomb_Process(3, 4);
+   Bomb_Process(4, 4);
+   Bomb_Process(5, 4);
+  }
+
+ if(GetPlayerBomb == 4){
+
+   FB_frame(0);
+   FB_frame(1);
+   FB_frame(2);
+
+   Bomb_Process(3, 4);
+   Bomb_Process(4, 4);
+   Bomb_Process(5, 4);
+  }
+ if(GetPlayerBomb == 5){
+
+   FB_frame(0);
+   FB_frame(1);
+   FB_frame(2);
+   FB_frame(3);
+
+   Bomb_Process(4, 4);
+   Bomb_Process(5, 4);
+  }
+ if(GetPlayerBomb == 6){
+
+   FB_frame(0);
+   FB_frame(1);
+   FB_frame(2);
+   FB_frame(3);
+   FB_frame(4);
+
+   Bomb_Process(5, 4);
+  }
+ if(GetPlayerBomb == 7){
+   FB_frame(0);
+   FB_frame(1);
+   FB_frame(2);
+   FB_frame(3);
+   FB_frame(4);
+   FB_frame(5);
+  }
+  //BombèàóùÇ±Ç±Ç‹Ç≈//
+}
+
+task Draw_Score{
+  //Scoreèàóù//
+ let p_score = [0,0,0,0,0,0,0,0,0];
+ let n = 0;
+
+loop(9){
+  p_score[n] = truncate(GetScore / 10^n % 10);
+    Figure_Task(G_obj_score[8-n], p_score[n]);
+    n++;
+  }
+
+  //ScoreèàóùÇ±Ç±Ç‹Ç≈//
+}
+
+task Draw_Graze{
+  //Grazeèàóù//
+ let p_graze = [0,0,0,0];
+ let n = 0;
+
+loop(4){
+  p_graze[n] = truncate(GetGraze / 10^n % 10);
+    Figure_Task(G_obj_graze[3-n], p_graze[n]);
+    n++;
+  }
+
+  //GrazeèàóùÇ±Ç±Ç‹Ç≈//
+}
+
+task Draw_Power{
+  //Powerèàóù//
+ let p_power = [0,0,0,0];
+ let n = 0;
+
+loop(4){
+  p_power[n] = truncate(GetPoint / 10^n % 10);
+    Figure_Task(G_obj_power[3-n], p_power[n]);
+    n++;
+  }
+
+  //PowerèàóùÇ±Ç±Ç‹Ç≈//
+}
+
+ function FH_frame(a){
+
+   if(H_frame == 0){
+     Health_Process(a, 0);
+      }
+   if(H_frame == 10){
+     Health_Process(a, 1);
+      }
+   if(H_frame == 20){
+     Health_Process(a, 2);
+      }
+   if(H_frame == 30){
+     Health_Process(a, 3);
+      }
+
+}
+
+ function FB_frame(a){
+
+   if(H_frame == 0){
+     Bomb_Process(a, 0);
+      }
+   if(H_frame == 10){
+     Bomb_Process(a, 1);
+      }
+   if(H_frame == 20){
+     Bomb_Process(a, 2);
+      }
+   if(H_frame == 30){
+     Bomb_Process(a, 3);
+      }
+
+}
+
+ function Health_Process(a, b){
+   let x = 50*b;
+   let cnt = 0;
+   loop(5){
+    if(b == cnt){
+        ObjEffect_SetVertexUV( G_obj_health[a], 0, 0+x, 0);
+        ObjEffect_SetVertexUV( G_obj_health[a], 1, 0+x, 50);
+        ObjEffect_SetVertexUV( G_obj_health[a], 2, 50+x, 0);
+        ObjEffect_SetVertexUV( G_obj_health[a], 3, 50+x, 50);
+        ObjEffect_SetVertexXY( G_obj_health[a], 0, 0+x, 0);
+        ObjEffect_SetVertexXY( G_obj_health[a], 1, 0+x, 50);
+        ObjEffect_SetVertexXY( G_obj_health[a], 2, 50+x, 0);
+        ObjEffect_SetVertexXY( G_obj_health[a], 3, 50+x, 50);
+
+        Obj_SetPosition( G_obj_health[a], 440+G_health_x[a] - 30*b, 285);
+        }
+      cnt++;
+    }
+
+}
+
+ function Bomb_Process(a, b){
+   let x = 50*b;
+   let cnt = 0;
+   loop(5){
+    if(b == cnt){
+        ObjEffect_SetVertexUV( G_obj_bomb[a], 0, 0+x, 0);
+        ObjEffect_SetVertexUV( G_obj_bomb[a], 1, 0+x, 50);
+        ObjEffect_SetVertexUV( G_obj_bomb[a], 2, 50+x, 0);
+        ObjEffect_SetVertexUV( G_obj_bomb[a], 3, 50+x, 50);
+        ObjEffect_SetVertexXY( G_obj_bomb[a], 0, 0+x, 0);
+        ObjEffect_SetVertexXY( G_obj_bomb[a], 1, 0+x, 50);
+        ObjEffect_SetVertexXY( G_obj_bomb[a], 2, 50+x, 0);
+        ObjEffect_SetVertexXY( G_obj_bomb[a], 3, 50+x, 50);
+
+        Obj_SetPosition( G_obj_bomb[a], 440+G_bomb_x[a] - 30*b, 385);
+        }
+      cnt++;
+    }
+
+}
+
+ function Figure_Task(name, num){
+        ObjEffect_SetVertexUV(name, 0, 0+num*30, 0);
+        ObjEffect_SetVertexUV(name, 1, 30+num*30, 0);
+        ObjEffect_SetVertexUV(name, 2, 0+num*30, 30);
+        ObjEffect_SetVertexUV(name, 3, 30+num*30, 30);
+}

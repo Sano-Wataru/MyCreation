@@ -1,0 +1,48 @@
+script_enemy_main
+{
+    @Initialize
+    {
+        let imgEnemy=GetCurrentScriptDirectory~"img\all_type.png";
+       SetLife(500);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+     SetGraphicRect(246,118,292,163);
+     SetGraphicAngle(0,180,0);
+     SetGraphicScale(2,2);
+       DeleteTask;
+  }
+    @MainLoop
+    {
+       yield;
+  }
+    @Finalize
+    {
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+   task DeleteTask{
+     Wait(50);
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect02.txt",GetX,GetY,0,0,0);
+     Wait(50);
+       loop(3){
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX+rand(-50,50),GetY+rand(-50,50),0,0,0);
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect02.txt",GetX+rand(-50,50),GetY+rand(-50,50),0,0,0);
+       }
+     Wait(50);
+       loop(5){
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX+rand(-100,100),GetY+rand(-100,100),0,0,0);
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect02.txt",GetX+rand(-100,100),GetY+rand(-100,100),0,0,0);
+       }
+     Wait(60);
+     CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect03.txt",GetX,GetY,0,0,0);
+       Wait(150);
+      VanishEnemy;
+  }
+}

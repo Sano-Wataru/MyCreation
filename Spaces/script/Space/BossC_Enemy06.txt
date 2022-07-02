@@ -1,0 +1,62 @@
+script_enemy Enemy06
+{
+    @Initialize
+    {
+        let imgEnemy=GetCurrentScriptDirectory~"img\all_type.png";
+       SetLife(550);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(478,0,501,23);
+    SetGraphicAngle(180,0,0);
+      MainTask;
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 600){
+         VanishEnemy;
+        }
+      if(GetEnemyX == 0 && GetEnemyY == 0){
+        VanishEnemy;
+      } 
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(0,3)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }      
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+    task MainTask{
+       Wait(140);
+    loop(15){
+       CreateShot02(GetX,GetY,rand(4,6),rand(0,360),-0.1,rand(0.5,3),1,20);
+      }
+      CreateLaserB(0,0,20,5,20);
+      SetLaserDataB(0,0,10,0,0,GetAngleToPlayer-60,0.5,GetAngleToPlayer-60,0.5);
+      SetShotKillTime(0,50);
+      FireShot(0);
+      CreateLaserB(0,0,20,5,20);
+      SetLaserDataB(0,0,10,0,0,GetAngleToPlayer,0,GetAngleToPlayer,0);
+      SetShotKillTime(0,50);
+      FireShot(0);
+      CreateLaserB(0,0,20,5,20);
+      SetLaserDataB(0,0,10,0,0,GetAngleToPlayer+60,-0.5,GetAngleToPlayer+60,-0.5);
+      SetShotKillTime(0,50);
+      FireShot(0);
+       MainTask;
+   }
+
+}

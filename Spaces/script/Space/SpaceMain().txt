@@ -1,0 +1,288 @@
+#東方弾幕風[Stage]
+	#Title[Space]
+	#Text[]
+	#Image[]
+	#BackGround[User(.\img\night.png,2,2)]
+        #Player[.\Jet\PlayerMain.txt]
+	#ScriptVersion[3]
+        #System[]
+	
+	script_stage_main
+	{
+                let mainframe = 0;
+                let alpha = 255;
+                let message_alpha = 255;
+                let GameStart = 0;
+                let G_GameOver = 0;
+                let G_obj = 0;
+                let G_obj2 = 0;
+                let GameOver_cnt = 0;
+                let G2_obj = 0;
+                let G2_obj2 = 0;
+                let G2_obj3 = 0;
+                let GameOver_Log = 0;
+                let Log_alpha = 255;
+                let s = 0;
+                let Circle_cnt = 0;
+                let BackGround_S = 0;
+                let BG_change = 0;
+                let BG_cnt = 0;
+                let BG_alpha = 0;
+                let G3_obj = 0;
+                let Back_x1 = 0;
+                let Back_x2 = GetClipMaxX;
+                let Back_y1 = 0;
+                let Back_y2 = GetClipMaxY;
+                let Back2_x = 0;
+                let Back2_y = 0;
+                let Obj_life = 0;
+                let Obj_energy = 0;
+                let score_cnt = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                let score_x = 8;
+                let score_a = 0;
+                let graze_cnt = [0, 0, 0, 0];
+                let graze_x = 3;
+                let graze_a = 0;
+                let power_cnt = [0, 0, 0];
+                let power_x = 2;
+                let power_a = 0;
+                let Obj_score = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                let Obj_graze = [0, 0, 0, 0];
+                let Obj_power = [0, 0, 0];
+		let cx=GetCenterX();//STGシーンの中心x座標を取得
+		let imgEnemy=GetCurrentScriptDirectory~"img\Enemy.png";//Enemy.pngへのパス
+
+		@Initialize()
+		{
+			LoadGraphic(imgEnemy);//敵画像読みこみ
+        //LoadMusic("\script\Space\bgm\時間の迷宮.mp3");
+            ExpertEx(false,0,7);
+                  SetRenderFrame(false);
+                  SetDefaultStatusVisible(false);
+			StageTask();//ステージタスク起動
+		}
+		
+		@MainLoop()
+		{
+                        mainframe ++;
+             if(Obj_BeDeleted(G3_obj) == false&&BG_cnt == 1&&BG_alpha < 255){
+              ObjEffect_SetVertexColor(G3_obj, 0, BG_alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G3_obj, 1, BG_alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G3_obj, 2, BG_alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G3_obj, 3, BG_alpha, 255, 255, 255);
+         BG_alpha += 1;
+            }
+             if(Obj_BeDeleted(G3_obj) == false&&BG_change == 0){
+                  ObjEffect_SetVertexUV( G3_obj, 0, Back_x1, Back_y1);
+                  ObjEffect_SetVertexUV( G3_obj, 1, Back_x1, Back_y2);
+                  ObjEffect_SetVertexUV( G3_obj, 2, Back_x2, Back_y1);
+                  ObjEffect_SetVertexUV( G3_obj, 3, Back_x2, Back_y2);
+                  ObjEffect_SetVertexXY( G3_obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( G3_obj, 1, 0, GetClipMaxY);
+                  ObjEffect_SetVertexXY( G3_obj, 2, GetClipMaxX, 0);
+                  ObjEffect_SetVertexXY( G3_obj, 3, GetClipMaxX, GetClipMaxY);
+               Back_y1 -= 10;
+               Back_y2 -= 10;
+           if(GetKeyState(VK_UP) == KEY_HOLD){
+               Back_y1 -= 5;
+               Back_y2 -= 5;
+                 }
+           if(GetKeyState(VK_DOWN) == KEY_HOLD){
+           Back_y1 += 3;
+           Back_y2 += 3;
+                 }
+                
+           if(GetKeyState(VK_LEFT) == KEY_HOLD){
+           Back_x1 -= 2.5;
+           Back_x2 -= 2.5;
+                 }
+           if(GetKeyState(VK_RIGHT) == KEY_HOLD){
+           Back_x1 += 2.5;
+           Back_x2 += 2.5;
+                 }
+          }
+
+             if(Obj_BeDeleted(G3_obj) == false&&BG_change == 1){
+                  ObjEffect_SetVertexUV( G3_obj, 0, Back2_x, Back2_y);
+                  ObjEffect_SetVertexUV( G3_obj, 1, Back2_x, 488+Back2_y);
+                  ObjEffect_SetVertexUV( G3_obj, 2, 384+Back2_x, Back2_y);
+                  ObjEffect_SetVertexUV( G3_obj, 3, 384+Back2_x, 488+Back2_y);
+                  ObjEffect_SetVertexXY( G3_obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( G3_obj, 1, 0, GetClipMaxY);
+                  ObjEffect_SetVertexXY( G3_obj, 2, GetClipMaxX, 0);
+                  ObjEffect_SetVertexXY( G3_obj, 3, GetClipMaxX, GetClipMaxY);
+
+            Back2_y -= 0.05;
+
+          }
+
+
+                      if(GameStart == 1){
+                    alpha -= 3;
+                  }
+                      if(GameStart == 0){
+                   message_alpha -= 5;
+                   }
+                      if(message_alpha < 30){
+                    message_alpha = 255;
+                   }
+             if(GetPlayerLife == 1){
+                GameOver;
+                G_GameOver = 1;
+                 }
+                 if(GetPlayerLife < 2){
+                 SetPlayerX(GetCenterX);
+                 SetPlayerY(GetCenterY+150);
+               }
+          /*if(GameOver_Log == 1 && GetKeyState(VK_SHOT) == KEY_PUSH){
+           ResetTask;
+            }*/   
+
+           if(OnPlayerMissed == true && s == 0){
+            CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetPlayerX,GetPlayerY,0,0,0);
+          s = 1;
+         }    
+           if(OnPlayerMissed == false){
+            s = 0;
+         }       
+          if(OnBomb == true && Circle_cnt == 0){
+           CreateEnemyFromFile(GetCurrentScriptDirectory~"Circle.txt",GetPlayerX,GetPlayerY,0,0,0);
+              Circle_cnt = 1;
+         }
+          if(OnBomb == false){
+             Circle_cnt = 0;
+         }
+
+			yield;//毎フレームタスク復帰
+		}
+		
+		@Finalize()
+		{
+			DeleteGraphic(imgEnemy);
+		}
+		@BackGround()
+		{
+      
+          if(BackGround_S == 0&&BG_change == 0){
+		          let obj = Obj_Create( OBJ_EFFECT); 
+                  let path = GetCurrentScriptDirectory ~ "img\night.png"; //パス
+
+                  LoadGraphic(path); //画像の読み込み
+                  ObjEffect_SetTexture( obj, path);
+                  ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj, 4 );
+                  ObjEffect_SetVertexUV( obj, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj, 1, 0, GetClipMaxY);
+                  ObjEffect_SetVertexUV( obj, 2, GetClipMaxX, 0);
+                  ObjEffect_SetVertexUV( obj, 3, GetClipMaxX, GetClipMaxY);
+                  ObjEffect_SetVertexXY( obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj, 1, 0, GetClipMaxY);
+                  ObjEffect_SetVertexXY( obj, 2, GetClipMaxX, 0);
+                  ObjEffect_SetVertexXY( obj, 3, GetClipMaxX, GetClipMaxY);
+                 Obj_SetPosition( obj, 0, 0 );          
+                 ObjEffect_SetLayer( obj, 0 );
+
+             BackGround_S = 1;
+               G3_obj = obj;
+               }
+
+          if(BackGround_S == 0&&BG_change == 1){
+		          let obj = Obj_Create( OBJ_EFFECT); 
+                  let path = GetCurrentScriptDirectory ~ "img\space.png"; //パス
+
+                  LoadGraphic(path); //画像の読み込み
+                  ObjEffect_SetTexture( obj, path);
+                  ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj, 4 );
+                  ObjEffect_SetVertexUV( obj, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj, 1, 0, 488);
+                  ObjEffect_SetVertexUV( obj, 2, 384, 0);
+                  ObjEffect_SetVertexUV( obj, 3, 384, 488);
+                  ObjEffect_SetVertexXY( obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj, 1, 0, GetClipMaxY);
+                  ObjEffect_SetVertexXY( obj, 2, GetClipMaxX, 0);
+                  ObjEffect_SetVertexXY( obj, 3, GetClipMaxX, GetClipMaxY);
+                 Obj_SetPosition( obj, 0, 0 );          
+                 ObjEffect_SetLayer( obj, 0 );
+ 
+               ObjEffect_SetVertexColor( obj, 0, 0, 255, 255, 255);
+               ObjEffect_SetVertexColor( obj, 1, 0, 255, 255, 255);
+               ObjEffect_SetVertexColor( obj, 2, 0, 255, 255, 255);
+               ObjEffect_SetVertexColor( obj, 3, 0, 255, 255, 255);
+
+             BackGround_S = 1;
+               G3_obj = obj;
+               BG_cnt = 1;
+               }
+
+		}
+	
+		/*@DrawBottomObject
+		{
+              
+		}*/
+	
+		@DrawTopObject
+		{
+             //タイトル処理
+               if(mainframe == 1){
+                  let obj = Obj_Create( OBJ_EFFECT); 
+                  let obj2 = Obj_Create( OBJ_EFFECT); 
+                  let path = GetCurrentScriptDirectory ~ "img\title.png"; //パス
+                  let path2 = GetCurrentScriptDirectory ~ "img\start_message.png"; //パス 
+
+                  LoadGraphic(path); //画像の読み込み
+                  ObjEffect_SetTexture( obj, path);
+                  ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj, 4 );
+                  ObjEffect_SetVertexUV( obj, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj, 1, 0, 480);
+                  ObjEffect_SetVertexUV( obj, 2, 640, 0);
+                  ObjEffect_SetVertexUV( obj, 3, 640, 480);
+                  ObjEffect_SetVertexXY( obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj, 1, 0, 480);
+                  ObjEffect_SetVertexXY( obj, 2, 640, 0);
+                  ObjEffect_SetVertexXY( obj, 3, 640, 480);
+                 Obj_SetPosition( obj, 0, 0 );          
+                 ObjEffect_SetLayer( obj, 8 );
+
+                  LoadGraphic(path2); //画像の読み込み
+                  ObjEffect_SetTexture( obj2, path2);
+                  ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj2, 4 );
+                  ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj2, 1, 0, 41);
+                  ObjEffect_SetVertexUV( obj2, 2, 299, 0);
+                  ObjEffect_SetVertexUV( obj2, 3, 299, 41);
+                  ObjEffect_SetVertexXY( obj2, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj2, 1, 0, 41);
+                  ObjEffect_SetVertexXY( obj2, 2, 299, 0);
+                  ObjEffect_SetVertexXY( obj2, 3, 299, 41);
+                 Obj_SetPosition( obj2, 160, 300 );          
+                 ObjEffect_SetLayer( obj2, 8 );
+               G_obj = obj;
+               G_obj2 = obj2;
+                   }
+           if(GameStart == 1){
+              ObjEffect_SetVertexColor(G_obj, 0, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj, 1, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj, 2, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj, 3, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 0, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 1, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 2, alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 3, alpha, 255, 255, 255);
+                 }
+             if(GameStart == 0){
+              ObjEffect_SetVertexColor(G_obj2, 0, message_alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 1, message_alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 2, message_alpha, 255, 255, 255);
+              ObjEffect_SetVertexColor(G_obj2, 3, message_alpha, 255, 255, 255);
+              }
+                
+		}
+#include_function".\SpaceMain_DrawTask.txt"
+#include_function".\SpaceMain_DrawProgress.txt"
+#include_function".\SpaceMain_System.txt"
+#include_function".\SpaceMain_Stage.txt"
+	}

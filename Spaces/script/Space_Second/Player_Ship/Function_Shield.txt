@@ -1,0 +1,241 @@
+task Shield_Task{//シールド初期化//
+   let obj_sub = [Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT)];
+   let path = gcsd ~ "img\BlueRing2.png";
+   let n = 0;
+    loop(3){
+        ObjEffect_SetTexture( obj_sub[n], path);
+        ObjEffect_SetPrimitiveType( obj_sub[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_sub[n], 4 );
+        ObjEffect_SetVertexUV( obj_sub[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_sub[n], 1, 0, 120);
+        ObjEffect_SetVertexUV( obj_sub[n], 2, 120, 0);
+        ObjEffect_SetVertexUV( obj_sub[n], 3, 120, 120);
+        ObjEffect_SetVertexXY( obj_sub[n], 0, 0-60, 0-60);
+        ObjEffect_SetVertexXY( obj_sub[n], 1, 0-60, 120-60);
+        ObjEffect_SetVertexXY( obj_sub[n], 2, 120-60, 0-60);
+        ObjEffect_SetVertexXY( obj_sub[n], 3, 120-60, 120-60);
+        ObjEffect_SetVertexColor( obj_sub[n], 0, 70, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj_sub[n], 1, 70, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj_sub[n], 2, 70, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj_sub[n], 3, 70, 255, 255, 255);
+         Obj_SetPosition( obj_sub[n], GetPlayerX, GetPlayerY );
+         ObjEffect_SetScale( obj_sub[n], 0, 0);
+         ObjEffect_SetRenderState( obj_sub[n], ADD);
+         ObjEffect_SetLayer( obj_sub[n], 5 );
+     G_obj_sub[n] = obj_sub[n];          
+     n++;
+    }
+
+   let obj = Obj_Create(OBJ_EFFECT);
+   let path = gcsd ~ "img\BlueRing2.png";
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 120);
+        ObjEffect_SetVertexUV( obj, 2, 120, 0);
+        ObjEffect_SetVertexUV( obj, 3, 120, 120);
+        ObjEffect_SetVertexXY( obj, 0, 0-60, 0-60);
+        ObjEffect_SetVertexXY( obj, 1, 0-60, 120-60);
+        ObjEffect_SetVertexXY( obj, 2, 120-60, 0-60);
+        ObjEffect_SetVertexXY( obj, 3, 120-60, 120-60);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY );
+         ObjEffect_SetScale( obj, 0, 0);
+         ObjEffect_SetRenderState( obj, ALPHA);
+         ObjEffect_SetLayer( obj, 5 );
+
+   let obj2 = Obj_Create(OBJ_EFFECT);
+   let path2 = gcsd ~ "img\electricity.png";
+
+        ObjEffect_SetTexture( obj2, path2);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj2, 1, 0, 200);
+        ObjEffect_SetVertexUV( obj2, 2, 200, 0);
+        ObjEffect_SetVertexUV( obj2, 3, 200, 200);
+        ObjEffect_SetVertexXY( obj2, 0, 0-100, 0-100);
+        ObjEffect_SetVertexXY( obj2, 1, 0-100, 200-100);
+        ObjEffect_SetVertexXY( obj2, 2, 200-100, 0-100);
+        ObjEffect_SetVertexXY( obj2, 3, 200-100, 200-100);
+   let alpha = 120;
+         ObjEffect_SetVertexColor( obj2, 0, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj2, 1, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj2, 2, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj2, 3, alpha, 255, 255, 255);
+
+         Obj_SetPosition( obj2, GetPlayerX, GetPlayerY );
+         ObjEffect_SetScale( obj2, 1, 1);
+         ObjEffect_SetRenderState( obj2, ADD);
+         ObjEffect_SetLayer( obj2, 5 );
+n = 0;
+   let obj3 = [];
+    ascent(j in 0..200)
+    {
+       obj3 = obj3 ~ [j];
+       obj3[j] = Obj_Create(OBJ_EFFECT);
+    }
+
+   let path3 = gcsd ~ "img\BlueEffect.png";
+    loop(200){
+        ObjEffect_SetTexture( obj3[n], path3);
+        ObjEffect_SetPrimitiveType( obj3[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj3[n], 4 );
+        ObjEffect_SetVertexUV( obj3[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj3[n], 1, 0, 50);
+        ObjEffect_SetVertexUV( obj3[n], 2, 50, 0);
+        ObjEffect_SetVertexUV( obj3[n], 3, 50, 50);
+        ObjEffect_SetVertexXY( obj3[n], 0, 0-25, 0-25);
+        ObjEffect_SetVertexXY( obj3[n], 1, 0-25, 50-25);
+        ObjEffect_SetVertexXY( obj3[n], 2, 50-25, 0-25);
+        ObjEffect_SetVertexXY( obj3[n], 3, 50-25, 50-25);
+   let alpha = 0;
+         ObjEffect_SetVertexColor( obj3[n], 0, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj3[n], 1, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj3[n], 2, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj3[n], 3, alpha, 255, 255, 255);
+         Obj_SetPosition( obj3[n], GetPlayerX, GetPlayerY );
+         ObjEffect_SetScale( obj3[n], 1, 1);
+         ObjEffect_SetRenderState( obj3[n], ALPHA);
+         ObjEffect_SetLayer( obj3[n], 5 );
+        G_obj3[n] = obj3[n];
+          n++;
+      }
+
+    G_obj = obj;
+    G_obj2 = obj2;
+     SystemTask;
+     EndTask;
+  }//シールド初期化ここまで//
+
+task SystemTask{//シールド処理//
+   let size = 0;
+   let size2 = 0;
+   let n = 0;
+   let alpha = 255; let alpha2 = 70;
+   let ren = 3.5;//サイズ補正//
+    SubTask;
+     AfTask01;
+     Electricity;
+     BlueEffect;
+ task SubTask{
+      loop(40){
+         ObjEffect_SetScale( G_obj, size2*ren, size2*ren);
+       n = 0;
+     loop(3){
+         ObjEffect_SetScale( G_obj_sub[n], size2*0.9 * ren, size2*0.9 * ren);
+           n++;
+        }
+         DeleteEnemyShotImmediatelyInCircle(SHOT, GetPlayerX, GetPlayerY, 80*size2*2);
+              size2 += 0.5/40; Gsize = size2;
+                yield;
+            }
+      loop(60){
+         ObjEffect_SetVertexColor( G_obj, 0, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj, 1, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj, 2, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj, 3, alpha, 255, 255, 255);
+       n = 0;
+     loop(3){
+         ObjEffect_SetVertexColor( G_obj_sub[n], 0, alpha2, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj_sub[n], 1, alpha2, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj_sub[n], 2, alpha2, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj_sub[n], 3, alpha2, 255, 255, 255);
+           n++;
+        }
+        alpha -= 255/60; alpha2 -= 70/60;
+        if(alpha > 120){
+         DeleteEnemyShotImmediatelyInCircle(SHOT, GetPlayerX, GetPlayerY, 80*size2*2);
+             }
+       yield;
+     }
+      Obj_Delete(G_obj); n=0;
+    loop(3){
+      Obj_Delete(G_obj_sub[n]);
+       n++; 
+     }
+
+  }
+
+}//シールド処理ここまで//
+
+task AfTask01{//残像処理//
+ while(Obj_BeDeleted(0) == false || Obj_BeDeleted(1) == false || Obj_BeDeleted(2) == false){
+   Obj_SetPosition( G_obj_sub[0], GetPlayerX, GetPlayerY );
+  Wait(3);
+
+   Obj_SetPosition( G_obj_sub[1], GetPlayerX, GetPlayerY );
+  Wait(3);
+
+   Obj_SetPosition( G_obj_sub[2], GetPlayerX, GetPlayerY );
+  Wait(3);
+   }
+}//残像処理ここまで//
+
+ task Electricity{
+  function EV(min, max){
+    ObjEffect_SetVertexUV( G_obj2, 0, min, min);
+    ObjEffect_SetVertexUV( G_obj2, 1, min, max);
+    ObjEffect_SetVertexUV( G_obj2, 2, max, min);
+    ObjEffect_SetVertexUV( G_obj2, 3, max, max);
+ }
+  loop(8){
+    EV(0, 200);
+      Wait(2);
+    EV(200, 400);
+      Wait(2);
+    EV(400, 600);
+      Wait(2);
+     }
+   Obj_Delete(G_obj2);
+}
+
+ task BlueEffect{
+  let n = 0; let num = 0; let r = 0;
+
+ loop(60){
+   num = GetEnemyShotCountEx(GetPlayerX, GetPlayerY, 80*Gsize*2, ALL);
+  loop(num){
+   r = rand(0,360);
+    BlueEffect_P(n, GetPlayerX+70*Gsize*2*cos(r), GetPlayerY+70*Gsize*2*sin(r));
+     n++;
+  }
+    num = 0;
+    yield;
+ }
+}
+
+ task BlueEffect_P(n, x, y){
+   function BV(n2, min, max){
+        ObjEffect_SetVertexUV( G_obj3[n2], 0, min, min);
+        ObjEffect_SetVertexUV( G_obj3[n2], 1, min, max);
+        ObjEffect_SetVertexUV( G_obj3[n2], 2, max, min);
+        ObjEffect_SetVertexUV( G_obj3[n2], 3, max, max);
+    }
+   let alpha = 255;
+         ObjEffect_SetVertexColor( G_obj3[n], 0, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj3[n], 1, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj3[n], 2, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( G_obj3[n], 3, alpha, 255, 255, 255);
+      Obj_SetPosition(G_obj3[n], x, y);
+  BV(n, 0, 50);
+   Wait(4);
+  BV(n, 50, 100);
+   Wait(4);
+  BV(n, 100, 150);
+   Wait(4);
+  BV(n, 150, 200);
+   Wait(4);
+      Obj_Delete(G_obj3[n]);
+    
+}
+
+ task EndTask{
+  Wait(100);
+   SetCommonData("Shield_on", 0);
+      Obj_Delete(G_obj);
+      Obj_Delete(G_obj2);
+      Obj_Delete(G_obj3);
+      Obj_Delete(G_obj_sub);
+}

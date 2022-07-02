@@ -1,0 +1,357 @@
+ task Reset_Status{//ステータス初期化//
+        let obj_frame = Obj_Create( OBJ_EFFECT );
+        let path_frame = gcsd ~ "img\Frame.png";
+
+        LoadGraphic(path_frame);
+        ObjEffect_SetTexture( obj_frame, path_frame);
+        ObjEffect_SetPrimitiveType( obj_frame, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_frame, 4 );
+        ObjEffect_SetVertexUV( obj_frame, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_frame, 1, 0, 480);
+        ObjEffect_SetVertexUV( obj_frame, 2, 640, 0);
+        ObjEffect_SetVertexUV( obj_frame, 3, 640, 480);
+        ObjEffect_SetVertexXY( obj_frame, 0, 0, 0);
+        ObjEffect_SetVertexXY( obj_frame, 1, 0, 480);
+        ObjEffect_SetVertexXY( obj_frame, 2, 640, 0);
+        ObjEffect_SetVertexXY( obj_frame, 3, 640, 480);
+         Obj_SetPosition( obj_frame, 0, 0 );
+         ObjEffect_SetLayer( obj_frame, 8 );
+
+
+        let obj_health = [Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT ),
+                          Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT )];
+        let path_health = gcsd ~ "img\Health.png";
+        let n = 0;
+        let x = 0;
+
+ //Health描画//
+     loop(6){
+
+        ObjEffect_SetTexture( obj_health[n], path_health);
+        ObjEffect_SetPrimitiveType( obj_health[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_health[n], 4 );
+        ObjEffect_SetVertexUV( obj_health[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_health[n], 1, 0, 50);
+        ObjEffect_SetVertexUV( obj_health[n], 2, 50, 0);
+        ObjEffect_SetVertexUV( obj_health[n], 3, 50, 50);
+        ObjEffect_SetVertexXY( obj_health[n], 0, 0, 0);
+        ObjEffect_SetVertexXY( obj_health[n], 1, 0, 50);
+        ObjEffect_SetVertexXY( obj_health[n], 2, 50, 0);
+        ObjEffect_SetVertexXY( obj_health[n], 3, 50, 50);
+         Obj_SetPosition( obj_health[n], 440+x, 285 );
+         ObjEffect_SetScale( obj_health[n], 0.6, 0.6);
+         ObjEffect_SetLayer( obj_health[n], 8 );
+
+         G_obj_health[n] = obj_health[n];
+         G_health_n[n] = n;
+         G_health_x[n] = x;
+              n++;
+              x += 20;
+      }
+ //Health描画ここまで//
+
+
+        let obj_bomb = [Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT ),
+                          Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT ), Obj_Create( OBJ_EFFECT )];
+        let path_bomb = gcsd ~ "img\Bomb.png";
+        let n = 0;
+        let x = 0;
+
+ //Bomb描画//
+     loop(6){
+
+        ObjEffect_SetTexture( obj_bomb[n], path_bomb);
+        ObjEffect_SetPrimitiveType( obj_bomb[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_bomb[n], 4 );
+        ObjEffect_SetVertexUV( obj_bomb[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_bomb[n], 1, 0, 50);
+        ObjEffect_SetVertexUV( obj_bomb[n], 2, 50, 0);
+        ObjEffect_SetVertexUV( obj_bomb[n], 3, 50, 50);
+        ObjEffect_SetVertexXY( obj_bomb[n], 0, 0, 0);
+        ObjEffect_SetVertexXY( obj_bomb[n], 1, 0, 50);
+        ObjEffect_SetVertexXY( obj_bomb[n], 2, 50, 0);
+        ObjEffect_SetVertexXY( obj_bomb[n], 3, 50, 50);
+         Obj_SetPosition( obj_bomb[n], 440+x, 385 );
+         ObjEffect_SetScale( obj_bomb[n], 0.6, 0.6);
+         ObjEffect_SetLayer( obj_bomb[n], 8 );
+
+         G_obj_bomb[n] = obj_bomb[n];
+         G_bomb_n[n] = n;
+         G_bomb_x[n] = x;
+              n++;
+              x += 20;
+      }
+ //Bomb描画ここまで//
+
+ //Score描画//
+    let n = 0;
+    let x = 0;
+
+      let obj_score = [Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),
+                       Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),
+                       Obj_Create(OBJ_EFFECT)];
+      let path_score = gcsd ~ "img\figure.png";
+
+     loop(9){
+        ObjEffect_SetTexture(obj_score[n], path_score);
+        ObjEffect_SetPrimitiveType(obj_score[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex(obj_score[n], 4);
+        ObjEffect_SetVertexUV(obj_score[n], 0, 0, 0);
+        ObjEffect_SetVertexUV(obj_score[n], 1, 30, 0);
+        ObjEffect_SetVertexUV(obj_score[n], 2, 0, 30);
+        ObjEffect_SetVertexUV(obj_score[n], 3, 30, 30);
+        ObjEffect_SetVertexXY(obj_score[n], 0, 0, 0);
+        ObjEffect_SetVertexXY(obj_score[n], 1, 30, 0);
+        ObjEffect_SetVertexXY(obj_score[n], 2, 0, 30);
+        ObjEffect_SetVertexXY(obj_score[n], 3, 30, 30);
+        Obj_SetPosition(obj_score[n], 430+x, 50);
+        ObjEffect_SetLayer(obj_score[n], 8);
+
+       G_obj_score[n] = obj_score[n];
+       n++; x += 20;
+     }
+
+ //Score描画ここまで//
+
+ //Graze描画//
+    let n = 0;
+    let x = 0;
+
+      let obj_graze = [Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT)];
+      let path_graze = gcsd ~ "img\figure.png";
+
+     loop(4){
+        ObjEffect_SetTexture(obj_graze[n], path_score);
+        ObjEffect_SetPrimitiveType(obj_graze[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex(obj_graze[n], 4);
+        ObjEffect_SetVertexUV(obj_graze[n], 0, 0, 0);
+        ObjEffect_SetVertexUV(obj_graze[n], 1, 30, 0);
+        ObjEffect_SetVertexUV(obj_graze[n], 2, 0, 30);
+        ObjEffect_SetVertexUV(obj_graze[n], 3, 30, 30);
+        ObjEffect_SetVertexXY(obj_graze[n], 0, 0, 0);
+        ObjEffect_SetVertexXY(obj_graze[n], 1, 30, 0);
+        ObjEffect_SetVertexXY(obj_graze[n], 2, 0, 30);
+        ObjEffect_SetVertexXY(obj_graze[n], 3, 30, 30);
+        Obj_SetPosition(obj_graze[n], 430+x, 120);
+        ObjEffect_SetLayer(obj_graze[n], 8);
+
+       G_obj_graze[n] = obj_graze[n];
+       n++; x += 20;
+     }
+
+ //Graze描画ここまで//
+
+ //Power描画//
+    let n = 0;
+    let x = 0;
+
+      let obj_power = [Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT),Obj_Create(OBJ_EFFECT)];
+      let path_power = gcsd ~ "img\figure.png";
+
+     loop(4){
+        ObjEffect_SetTexture(obj_power[n], path_power);
+        ObjEffect_SetPrimitiveType(obj_power[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex(obj_power[n], 4);
+        ObjEffect_SetVertexUV(obj_power[n], 0, 0, 0);
+        ObjEffect_SetVertexUV(obj_power[n], 1, 30, 0);
+        ObjEffect_SetVertexUV(obj_power[n], 2, 0, 30);
+        ObjEffect_SetVertexUV(obj_power[n], 3, 30, 30);
+        ObjEffect_SetVertexXY(obj_power[n], 0, 0, 0);
+        ObjEffect_SetVertexXY(obj_power[n], 1, 30, 0);
+        ObjEffect_SetVertexXY(obj_power[n], 2, 0, 30);
+        ObjEffect_SetVertexXY(obj_power[n], 3, 30, 30);
+        Obj_SetPosition(obj_power[n], 430+x, 190);
+        ObjEffect_SetLayer(obj_power[n], 8);
+
+       G_obj_power[n] = obj_power[n];
+       n++; x += 20;
+     }
+
+ //Power描画ここまで//
+ }//ステータス初期化ここまで//
+
+ task DrawShield_G{//シールドゲージ描画処理//
+   //フレーム//
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\ShieldGage01.png";//パス
+    let center = 50; let angle = 0; let n = 1; let O = obj; let P = path; let x = 335; let y = 15; let size = 0.8;
+
+        ObjEffect_SetTexture( O, P);
+        ObjEffect_SetPrimitiveType( O, PRIMITIVE_TRIANGLEFAN);
+        ObjEffect_CreateVertex( O, 362 );
+        ObjEffect_SetVertexUV( O, 0, center, center);
+        ObjEffect_SetVertexXY( O, 0, center, center);
+
+     loop(361){
+        ObjEffect_SetVertexUV( O, n, center + 50*cos(angle), center + 50*sin(angle));
+        ObjEffect_SetVertexXY( O, n, center + 50*cos(angle), center + 50*sin(angle));
+         n ++; angle ++;
+       }
+
+         Obj_SetPosition( O, x, y );
+         ObjEffect_SetScale( O, size, size);
+         ObjEffect_SetRenderState( O, ALPHA);
+         ObjEffect_SetLayer( O, 8 );
+
+   //中心ゲージ//
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path2 = GetCurrentScriptDirectory ~ "img\ShieldGage02.png";//パス
+    let center = 50; let angle = 0; let n = 1; let O = obj2; let P = path2;
+
+        ObjEffect_SetTexture( O, P);
+        ObjEffect_SetPrimitiveType( O, PRIMITIVE_TRIANGLEFAN);
+        ObjEffect_CreateVertex( O, 362 );
+        ObjEffect_SetVertexUV( O, 0, center, center);
+        ObjEffect_SetVertexXY( O, 0, center, center);
+
+     loop(361){
+        ObjEffect_SetVertexUV( O, n, center + 50*cos(angle), center + 50*sin(angle));
+        ObjEffect_SetVertexXY( O, n, center + 50*cos(angle), center + 50*sin(angle));
+         n ++; angle ++;
+       }
+
+         Obj_SetPosition( O, x, y );
+         ObjEffect_SetScale( O, size, size);
+         ObjEffect_SetRenderState( O, ADD);
+         ObjEffect_SetLayer( O, 8 );
+
+   //外枠ゲージ//
+        let obj3 = Obj_Create( OBJ_EFFECT);
+        let path3 = GetCurrentScriptDirectory ~ "img\ShieldGage03.png";//パス
+    let center = 50; let angle = 0; let n = 1; let O = obj3; let P = path3;
+
+        ObjEffect_SetTexture( O, P);
+        ObjEffect_SetPrimitiveType( O, PRIMITIVE_TRIANGLEFAN);
+        ObjEffect_CreateVertex( O, 362 );
+        ObjEffect_SetVertexUV( O, 0, center, center);
+        ObjEffect_SetVertexXY( O, 0, center, center);
+
+     loop(361){
+        ObjEffect_SetVertexUV( O, n, center + 50*cos(angle), center + 50*sin(angle));
+        ObjEffect_SetVertexXY( O, n, center + 50*cos(angle), center + 50*sin(angle));
+         n ++; angle ++;
+       }
+
+         Obj_SetPosition( O, x, y );
+         ObjEffect_SetScale( O, size, size);
+         ObjEffect_SetRenderState( O, ALPHA);
+         ObjEffect_SetLayer( O, 8 );
+
+  //描画処理開始//
+    ProcessShield_G;
+    ProcessShield_G2;
+
+     task ProcessShield_G{
+     let cnt = 362;
+
+        while(Obj_BeDeleted(obj3) == false){
+
+         //変数取得//
+          cnt = truncate(362 * GetCommonDataDefault("シールドゲージ", 0) / maxV);
+
+         //頂点数初期化//
+      O = obj3; angle = 0; n = 1;
+        ObjEffect_SetVertexUV( O, 0, center, center);
+        ObjEffect_SetVertexXY( O, 0, center, center);
+             loop(361){
+        ObjEffect_SetVertexUV( O, n, center + 50*cos(angle), center + 50*sin(angle));
+        ObjEffect_SetVertexXY( O, n, center + 50*cos(angle), center + 50*sin(angle));
+         n ++; angle ++;
+       }
+         //頂点数設定//
+              ObjEffect_ResizeVertexCount(O, cnt);
+           yield;
+         }
+    }//ProcessShield_G
+
+    task ProcessShield_G2{
+    let alpha = 255;
+
+      while(Obj_BeDeleted(obj2) == false){
+         //変数取得//
+         alpha = truncate(255 * GetCommonDataDefault("シールドゲージ", 0) / maxV);
+      O = obj2; angle = 0; n = 0;
+
+         loop(362){
+        ObjEffect_SetVertexColor( O, n, alpha, 255, 255, 255);
+          n ++;
+         }
+          yield;
+       } 
+  }//ProcessShield_G2
+
+}//Shield_G
+ //シールドゲージ描画処理ここまで//
+
+ task GameOverTask{//ゲームオーバー処理//
+        let obj_Gover = Obj_Create( OBJ_EFFECT );
+        let path_Gover = gcsd ~ "img\gameover.png";
+
+        LoadGraphic(path_Gover);
+        ObjEffect_SetTexture( obj_Gover, path_Gover);
+        ObjEffect_SetPrimitiveType( obj_Gover, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_Gover, 4 );
+        ObjEffect_SetVertexUV( obj_Gover, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_Gover, 1, 0, 36);
+        ObjEffect_SetVertexUV( obj_Gover, 2, 247, 0);
+        ObjEffect_SetVertexUV( obj_Gover, 3, 247, 36);
+        ObjEffect_SetVertexXY( obj_Gover, 0, 0-247/2, 0-36/2);
+        ObjEffect_SetVertexXY( obj_Gover, 1, 0-247/2, 36-36/2);
+        ObjEffect_SetVertexXY( obj_Gover, 2, 247-247/2, 0-36/2);
+        ObjEffect_SetVertexXY( obj_Gover, 3, 247-247/2, 36-36/2);
+         Obj_SetPosition( obj_Gover, GetCenterX, GetCenterY-50 );
+         ObjEffect_SetLayer( obj_Gover, 8 );
+
+        let obj_Gover2 = Obj_Create( OBJ_EFFECT );
+        let path_Gover2 = gcsd ~ "img\gameover2.png";
+
+        LoadGraphic(path_Gover2);
+        ObjEffect_SetTexture( obj_Gover2, path_Gover2);
+        ObjEffect_SetPrimitiveType( obj_Gover2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_Gover2, 4 );
+        ObjEffect_SetVertexUV( obj_Gover2, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_Gover2, 1, 0, 36);
+        ObjEffect_SetVertexUV( obj_Gover2, 2, 605, 0);
+        ObjEffect_SetVertexUV( obj_Gover2, 3, 605, 36);
+        ObjEffect_SetVertexXY( obj_Gover2, 0, 0-605/2, 0-36/2);
+        ObjEffect_SetVertexXY( obj_Gover2, 1, 0-605/2, 36-36/2);
+        ObjEffect_SetVertexXY( obj_Gover2, 2, 605-605/2, 0-36/2);
+        ObjEffect_SetVertexXY( obj_Gover2, 3, 605-605/2, 36-36/2);
+        ObjEffect_SetScale( obj_Gover2, 0.6, 0.6);
+         Obj_SetPosition( obj_Gover2, GetCenterX, GetCenterY+40 );
+         ObjEffect_SetLayer( obj_Gover2, 8 );
+   GameOverProcess;
+
+     task GameOverProcess{
+       let alpha = 0;
+       loop(60){
+     ObjEffect_SetVertexColor( obj_Gover, 0, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover, 1, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover, 2, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover, 3, alpha, 255, 255, 255);
+
+     ObjEffect_SetVertexColor( obj_Gover2, 0, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 1, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 2, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 3, alpha, 255, 255, 255);
+          alpha += 255/60;
+        yield;
+      }
+
+    while(Obj_BeDeleted(obj_Gover) == false && Obj_BeDeleted(obj_Gover2) == false){
+         alpha = 255;
+     ObjEffect_SetVertexColor( obj_Gover2, 0, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 1, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 2, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 3, alpha, 255, 255, 255);
+     Wait(60);
+        alpha = 180;
+     ObjEffect_SetVertexColor( obj_Gover2, 0, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 1, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 2, alpha, 255, 255, 255);
+     ObjEffect_SetVertexColor( obj_Gover2, 3, alpha, 255, 255, 255);
+     Wait(60);
+   }
+
+  }
+}

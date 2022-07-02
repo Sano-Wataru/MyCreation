@@ -1,0 +1,51 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+    @Initialize
+    {
+        let imgEnemy= gcsd~"img\Explosion.png";
+       SetLife(10);
+     SetTexture(imgEnemy);
+
+     DrawProcess;
+   }
+
+    @MainLoop
+    {
+   yield;
+    }
+
+    @Finalize
+    {
+    }
+
+    @DrawLoop
+    {
+    SetRenderState(ADD);
+    DrawGraphic(GetX, GetY);
+    }
+
+   function Wait(let x){
+   loop(x){yield;}
+    }
+
+  task DrawProcess
+  {
+   let size = 0;
+   let color = 255;
+     SetGraphicRect(0, 0, 256, 256);
+     SetGraphicScale(0, 0);
+     SetColor(255,255,255);
+    loop(15){
+      SetGraphicScale(size, size);
+     if(size > 0.8){
+      SetColor(0,color/7,color);
+        color -= 255/7;
+          }
+       size += 0.1;
+      yield;
+     }
+    VanishEnemy;
+  }
+
+}

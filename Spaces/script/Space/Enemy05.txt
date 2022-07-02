@@ -1,0 +1,75 @@
+script_enemy_main
+{//Enemy05(Gun)
+  //’¼i î(5way) ‚‘¬’e
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(100);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(119,0,142,22);
+    SetGraphicAngle(0,180,0);
+    LoadUserShotData(GetCurrentScriptDirectory~"\ShotData.txt");
+     StartMove;
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(1,5)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+   task StartMove{
+    if(GetArgument == 0){
+     SetMovePosition03(GetCenterX+170,GetCenterY-100,10,4);
+           }
+    if(GetArgument == 1){
+     SetMovePosition03(GetCenterX+100,GetCenterY-150,10,4);
+           }
+    if(GetArgument == 2){
+     SetMovePosition03(GetCenterX+30,GetCenterY-200,10,4);
+           }
+    if(GetArgument == 3){
+     SetMovePosition03(GetCenterX-170,GetCenterY-100,10,4);
+           }
+    if(GetArgument == 4){
+     SetMovePosition03(GetCenterX-100,GetCenterY-150,10,4);
+           }
+    if(GetArgument == 5){
+     SetMovePosition03(GetCenterX-30,GetCenterY-200,10,4);
+           }
+      Wait(60);
+        MainShot;
+       }
+   
+    task MainShot{
+   loop(10){
+   let angle = GetAngleToPlayer-60;
+     loop(8){
+      CreateShot01(GetX,GetY,10,angle,10,0);
+         angle += 140 / 8;
+          }
+         Wait(10);
+        }
+        Wait(30);
+        MainShot;
+     }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

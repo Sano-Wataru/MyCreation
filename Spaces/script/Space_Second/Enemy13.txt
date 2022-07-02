@@ -1,0 +1,97 @@
+script_enemy_main//シールド船//
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let imgEnemy= gcsd~"img\enemy_all.png";
+
+  //シールドに必要な変数定義// 
+   let G_obj = 0;
+   let cnt = 0;
+   let Life = 10; //敵本体のライフ
+   let ShieldLife = 15; //シールドのライフ
+  //ここまで//
+
+    @Initialize
+    {
+       SetLife(Life + ShieldLife);//シールドに必要なもの//
+    SetTexture(imgEnemy);
+    SetGraphicRect(0, 145 ,62 ,167);
+    SetGraphicScale(0.7, 0.7);
+
+   LoadUserShotData(GetCurrentScriptDirectory~"ShotData_01.txt");
+   ShieldMiniTask(1, 24, 45);//シールドに必要なもの//
+     ShotTask;
+  }
+
+   @MainLoop
+   {
+       //当たり判定は消す//
+    SetGraphicAngle(0, 0, GetAngle - 90);
+
+         Obj_SetPosition( G_obj, GetX, GetY );
+
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+        VanishEnemy;
+      }
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(0,2));
+      SetCommonData("ShieldAmount", rand(1,3));
+    }
+   }
+
+   @DrawLoop
+   {//描画
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+ task ShotTask{
+    Wait(100);
+  let angle = GetAngleToPlayer;
+  let gap = 0;
+
+  if(GetArgument == 0){
+   loop(10){
+   WayLaser01(GetX, GetY, 3.5, angle, 50, 4, 49, 0, 2, gap);
+     gap += 10;
+       Wait(10);
+     }
+  }
+
+  if(GetArgument == 1){
+   loop(10){
+   WayLaser01(GetX, GetY, 3.5, angle, 50, 4, 49, 0, 2, gap);
+     gap -= 10;
+       Wait(10);
+     }
+   }
+
+}
+
+function WayLaser01(X,Y,Speed,Angle,Length,Width,Color,Delay,Way,Gap) {
+    // X     X座標
+    // Y     Y座標
+    // Speed 弾速
+    // Angle 角度
+    // Color 弾の色
+    // Delay ディレイ
+    // Way   弾の数
+    // Gap   弾同士の間隔　値を大きくすると弾が広がって撃たれます。
+    Angle -= (Way-1)/2*Gap;
+    loop(Way) {
+        CreateLaser01(X,Y,Speed,Angle,Length,Width,Color,Delay);
+        Angle += Gap;
+    }
+}
+
+#include_function".\Function_ShieldMini.txt"
+}

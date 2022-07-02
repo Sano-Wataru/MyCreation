@@ -1,0 +1,58 @@
+script_enemy_main
+{//Enemy02(Laser)
+  //上方停止 直進レーザー
+      let EndShot=0;
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(50);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(59,0,82,20);
+    SetGraphicAngle(0,180,0);
+     StartMove;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(0,3)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+         task StartMove{
+      //最初の位置まで待機
+     SetMovePosition03(GetX,GetY+50,10,2);          
+     Wait(50);
+        ShotMain;
+        EndMove;
+      }
+         task ShotMain{
+       LoadUserShotData(GetCurrentScriptDirectory~"\ShotData.txt");
+           while(EndShot==0){
+         CreateLaser01(GetX,GetY,3,90,70,5,5,0);
+        Wait(50);
+          }
+        }
+        task EndMove{
+        Wait(430);
+       SetSpeed(2);
+        EndShot=1;
+    }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

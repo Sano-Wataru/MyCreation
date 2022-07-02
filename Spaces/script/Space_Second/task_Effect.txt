@@ -1,0 +1,390 @@
+ task Effect_Charge(rx, ry, x, y, frame){
+   let obj = Obj_Create(OBJ_EFFECT);
+   let path = gcsd ~ "img\White.png";
+
+     ObjEffect_SetTexture( obj, path);
+     ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLEFAN);
+     ObjEffect_CreateVertex( obj, 4);
+     ObjEffect_SetVertexUV( obj, 0, 0, 0);
+     ObjEffect_SetVertexUV( obj, 1, 10, 0);
+     ObjEffect_SetVertexUV( obj, 2, 10, 10);
+     ObjEffect_SetVertexUV( obj, 3, 0, 10);
+     ObjEffect_SetVertexXY( obj, 0, 0-5, 0-5);
+     ObjEffect_SetVertexXY( obj, 1, 10-5, 0-5);
+     ObjEffect_SetVertexXY( obj, 2, 10-5, 10-5);
+     ObjEffect_SetVertexXY( obj, 3, 0-5, 10-5);
+     Obj_SetPosition( obj, x, y );
+     ObjEffect_SetScale( obj, 0.5, 0.5);
+     ObjEffect_SetLayer( obj, 2 );
+
+   loop(frame * 1.5){
+      Obj_SetPosition( obj, x, y);
+      x += (rx - x) / frame;
+      y += (ry - y) / frame;
+
+       yield;
+     }
+      Obj_Delete(obj);
+
+ }//Effect_Chargeここまで
+
+ task Effect_Charge_Line(rx, ry, x, y, frame){
+   let obj = Obj_Create(OBJ_EFFECT);
+   let path = gcsd ~ "img\White.png";
+    let x1 = 0; let x2 = 10; let y1 = 0; let y2 = 10; let size = 0.3; let com = 1.6;
+
+     ObjEffect_SetTexture( obj, path);
+     ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLEFAN);
+     ObjEffect_CreateVertex( obj, 6);
+     ObjEffect_SetVertexUV( obj, 0, x1, y1);
+     ObjEffect_SetVertexUV( obj, 1, x2, y1);
+     ObjEffect_SetVertexUV( obj, 2, x2, y2);
+     ObjEffect_SetVertexUV( obj, 3, x1, y2);
+     ObjEffect_SetVertexXY( obj, 0, x1 - x2 / 2, y1 - y2 / 2);
+     ObjEffect_SetVertexXY( obj, 1, x2 - x2 / 2, y1 - y2 / 2);
+     ObjEffect_SetVertexXY( obj, 2, x2 - x2 / 2, y2 - y2 / 2);
+     ObjEffect_SetVertexXY( obj, 3, x1 - x2 / 2, y2 - y2 / 2);
+
+     Obj_SetPosition( obj, x, y );
+     ObjEffect_SetScale( obj, size, size);
+     ObjEffect_SetLayer( obj, 2 );
+
+  if(GetX < x && GetY < y){//右下
+     ObjEffect_SetVertexXY( obj, 0, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 2, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+   }
+
+  if(GetX > x && GetY > y){//左上
+     ObjEffect_SetVertexXY( obj, 0, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 2, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+   }
+
+  if(GetX < x && GetY > y){//右上
+     ObjEffect_SetVertexXY( obj, 1, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 3, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+   }
+
+  if(GetX > x && GetY < y){//左下
+     ObjEffect_SetVertexXY( obj, 1, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 3, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+   }
+
+  loop(frame*1.5){
+
+
+  if(GetX < x && GetY < y){//右下
+     ObjEffect_SetVertexXY( obj, 0, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 2, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+   }
+
+  if(GetX > x && GetY > y){//左上
+     ObjEffect_SetVertexXY( obj, 0, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 2, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+   }
+
+  if(GetX < x && GetY > y){//右上
+     ObjEffect_SetVertexXY( obj, 1, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 3, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+   }
+
+  if(GetX > x && GetY < y){//左下
+     ObjEffect_SetVertexXY( obj, 1, (rx - x) * 1/size * com, (ry - y) * 1/size * com);
+     ObjEffect_SetVertexXY( obj, 3, -(rx - x) * 1/size * com, -(ry - y) * 1/size * com);
+   }
+
+    Obj_SetPosition( obj, x, y );
+     x += (GetX - x) / frame;
+     y += (GetY - y) / frame;
+        yield;
+      }
+    Obj_Delete(obj);
+
+ }//Effect_Charge2 ここまで
+
+task Effect_Charge_Curb(targetx,targety,x,y,Angle,Length,Width,Color,radius,frame){
+    //x      X座標
+    //y      Y座標
+    //Angle      発射角度
+    //Length  レーザーの長さ(30～40程度)
+    //Width      レーザーの太さ
+    //Color      弾の色
+    //radius  広がるサイズ
+    //frame      目的地までの到達時間
+    let obj = Obj_Create(OBJ_SINUATE_LASER);
+    let t = 0;
+    let x1 = x + cos(Angle)*radius;
+    let y1 = y + sin(Angle)*radius;
+    let x2 = targetx;//目的地X座標
+    let y2 = targety;//目的地Y座標
+    let X;
+    let Y;
+    Obj_SetPosition(obj, x, y);
+    Obj_SetSpeed(obj, 0);
+    Obj_SetAngle(obj, Angle);
+    ObjShot_SetGraphic(obj, Color);
+    ObjShot_SetDelay(obj, 0);
+    ObjSinuateLaser_SetLength(obj, Length);
+    ObjSinuateLaser_SetWidth(obj, Width);
+    Obj_SetCollisionToPlayer(obj, false);
+    loop(frame)
+    {
+        X = (t^2*x2+2*t*(1-t)*x1+(1-t)^2*x);
+        Y = (t^2*y2+2*t*(1-t)*y1+(1-t)^2*y);
+        Obj_SetPosition(obj, X, Y);
+        t+=1/frame;
+        yield;
+    }
+     Wait(frame*5);
+    Obj_Delete(obj);
+}
+
+ task ShotIndo01(x, y, angle, i){
+   // i = 展開速度(1が基準)
+   task Obj_Laser(x, y, angle, aug, delay, graphic, len, wid, time, alpha){
+    let obj = Obj_Create(OBJ_LASER);
+
+        Obj_SetPosition(obj, x, y);
+        Obj_SetAngle(obj, angle);
+        Obj_SetAlpha(obj, alpha);
+        ObjShot_SetDelay(obj, delay);
+        ObjShot_SetGraphic(obj, graphic);
+        ObjLaser_SetLength(obj, len);
+        ObjLaser_SetWidth(obj, wid);
+        ObjLaser_SetSource(obj, false);
+        loop(time){
+      Obj_SetAngle(obj, angle);
+            angle += aug;
+           yield;
+         }
+       loop(10){
+      Obj_SetAlpha(obj, alpha);
+        alpha -= 255/10;
+         yield;
+      }
+        Obj_Delete(obj);
+ }
+   let a = 49;
+   let alpha = 255;
+    a = 49*(1/i);
+    loop(5){
+   Obj_Laser(x, y, angle-60, 1.2*i, 200, WHITE01, 500, 15, a, alpha);
+   Obj_Laser(x, y, angle+60, -1.2*i, 200, WHITE01, 500, 15, a, alpha);
+
+   Obj_Laser(x, y, angle-50, 1*i, 200, WHITE01, 500, 15, a, alpha);
+   Obj_Laser(x, y, angle+50, -1*i, 200, WHITE01, 500, 15, a, alpha);
+
+   Obj_Laser(x, y, angle-35, 0.7*i, 200, WHITE01, 500, 15, a, alpha);
+   Obj_Laser(x, y, angle+35, -0.7*i, 200, WHITE01, 500, 15, a, alpha);
+
+   Obj_Laser(x, y, angle-15, 0.3*i, 200, WHITE01, 500, 15, a, alpha);
+   Obj_Laser(x, y, angle+15, -0.3*i, 200, WHITE01, 500, 15, a, alpha);
+
+        Wait(3);
+         alpha -= 255/5;
+         
+      }
+ }
+
+ task ShotIndo02(x, y, angle, a, a2, w, s, num){
+   //a = 残留時間 (120)
+   //a2 = 展開ディレイ (30)
+   //w = 展開線の間のディレイ(10)
+   //s = 展開線広がる幅(0.4)
+   //num = 展開線個数(3)
+
+    let G_obj = 0;
+   task Obj_Laser(x, y, angle, aug, delay, graphic, len, lug, wid, time, alpha, range, cran, cir, ccir){
+    let obj = Obj_Create(OBJ_LASER);
+
+        Obj_SetPosition(obj, x+range*cos(angle+cir), y+range*sin(angle+cir));
+        Obj_SetAngle(obj, angle);
+        Obj_SetAlpha(obj, alpha);
+        ObjShot_SetDelay(obj, delay);
+        ObjShot_SetGraphic(obj, graphic);
+        ObjLaser_SetLength(obj, len);
+        ObjLaser_SetWidth(obj, wid);
+        ObjLaser_SetSource(obj, false);
+        loop(time){
+      Obj_SetAngle(obj, angle);
+      ObjLaser_SetLength(obj, len);
+      Obj_SetPosition(obj, x+range*cos(angle+cir), y+range*sin(angle+cir));
+            angle += aug;
+       if(len < 500){
+            len += lug;
+           }
+            range += cran;
+            cir += ccir;
+           yield;
+         }
+       loop(10){
+      Obj_SetAlpha(obj, alpha);
+        alpha -= 255/10;
+        G_obj = obj;
+         yield;
+      }
+        Obj_Delete(obj);
+   }
+      let i = 255;
+      Obj_Laser(x, y, angle, 0, a*2, WHITE02, 0, 10, 18, a, 255, 60, 0, 0, 0);
+    loop(num){
+      Obj_Laser(x, y, angle, 0, a*2, WHITE02, 0, 10, 18, a2, i, 50, 0, 0, s);
+      Obj_Laser(x, y, angle, 0, a*2, WHITE02, 0, 10, 18, a2, i, 50, 0, 0, -s);
+         i -= 255/num;
+           Wait(w);
+      }
+ }
+
+ task Life_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\lifeup.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 22);
+        ObjEffect_SetVertexUV( obj, 2, 100, 0);
+        ObjEffect_SetVertexUV( obj, 3, 100, 22);
+        ObjEffect_SetVertexXY( obj, 0, 0-50, 0-11);
+        ObjEffect_SetVertexXY( obj, 1, 0-50, 22-11);
+        ObjEffect_SetVertexXY( obj, 2, 100-50, 0-11);
+        ObjEffect_SetVertexXY( obj, 3, 100-50, 22-11);
+
+        ObjEffect_SetVertexColor( obj, 0, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, 0, 255, 255, 255);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 );
+         ObjEffect_SetRenderState( obj, ADD);
+         ObjEffect_SetLayer( obj, 3 );
+
+    let y = 0; let alpha = 0; let cnt = 0;
+      MoveTask;
+     task MoveTask{
+      while(Obj_BeDeleted(obj) == false){
+        Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 - y );
+       yield; if(y <= 10){y ++;} if(cnt > 70){y ++;} cnt++;
+       }
+    }
+
+     loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha += 255/10;
+        yield;
+      }
+        Wait(60);
+           loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha -= 255/10;
+        yield;
+      }
+   Obj_Delete(obj);
+}
+
+ task Effect_Life_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\WhiteRing2.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 120);
+        ObjEffect_SetVertexUV( obj, 2, 120, 0);
+        ObjEffect_SetVertexUV( obj, 3, 120, 120);
+        ObjEffect_SetVertexXY( obj, 0, 0-60, 0-60);
+        ObjEffect_SetVertexXY( obj, 1, 0-60, 120-60);
+        ObjEffect_SetVertexXY( obj, 2, 120-60, 0-60);
+        ObjEffect_SetVertexXY( obj, 3, 120-60, 120-60);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY );
+         ObjEffect_SetRenderState( obj, ALPHA);
+         ObjEffect_SetLayer( obj, 3 );
+         ObjEffect_SetScale( obj, 1, 1);
+
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path2 = GetCurrentScriptDirectory ~ "img\WhiteRing.png";//パス
+
+        LoadGraphic(path2);
+        ObjEffect_SetTexture( obj2, path2);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj2, 1, 0, 100);
+        ObjEffect_SetVertexUV( obj2, 2, 100, 0);
+        ObjEffect_SetVertexUV( obj2, 3, 100, 100);
+        ObjEffect_SetVertexXY( obj2, 0, 0-50, 0-50);
+        ObjEffect_SetVertexXY( obj2, 1, 0-50, 100-50);
+        ObjEffect_SetVertexXY( obj2, 2, 100-50, 0-50);
+        ObjEffect_SetVertexXY( obj2, 3, 100-50, 100-50);
+         Obj_SetPosition( obj2, GetPlayerX, GetPlayerY );
+         ObjEffect_SetRenderState( obj2, ALPHA);
+         ObjEffect_SetLayer( obj2, 3 );
+         ObjEffect_SetScale( obj2, 0, 0);
+
+    let size = 1; let size2 = 0;
+        while(size > 0) {
+              ObjEffect_SetScale( obj, size, size);
+              ObjEffect_SetScale( obj2, size2, size2);
+           size -= 0.1; size2 += 0.08; yield;
+        }
+      Obj_Delete(obj); Obj_Delete(obj2);
+}
+
+ task Level_up{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\shiplevelup.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 19);
+        ObjEffect_SetVertexUV( obj, 2, 100, 0);
+        ObjEffect_SetVertexUV( obj, 3, 100, 19);
+        ObjEffect_SetVertexXY( obj, 0, 0-50, 0-19/2);
+        ObjEffect_SetVertexXY( obj, 1, 0-50, 19-19/2);
+        ObjEffect_SetVertexXY( obj, 2, 100-50, 0-19/2);
+        ObjEffect_SetVertexXY( obj, 3, 100-50, 19-19/2);
+
+        ObjEffect_SetVertexColor( obj, 0, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, 0, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, 0, 255, 255, 255);
+         Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 );
+         ObjEffect_SetRenderState( obj, ADD);
+         ObjEffect_SetLayer( obj, 3 );
+
+    let y = 0; let alpha = 0; let cnt = 0;
+      MoveTask;
+     task MoveTask{
+      while(Obj_BeDeleted(obj) == false){
+        Obj_SetPosition( obj, GetPlayerX, GetPlayerY - 20 - y );
+       yield; if(y <= 10){y ++;} if(cnt > 70){y ++;} cnt++;
+       }
+    }
+
+     loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha += 255/10;
+        yield;
+      }
+        Wait(60);
+           loop(10){
+        ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+       alpha -= 255/10;
+        yield;
+      }
+   Obj_Delete(obj);
+}

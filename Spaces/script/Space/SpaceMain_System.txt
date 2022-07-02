@@ -1,0 +1,189 @@
+task FeedOut {
+  let red = 255;
+  let green = 255;
+  let blue = 255;
+  
+   loop(255){
+     ObjEffect_SetVertexColor( G3_obj, 0, 255, red, green, blue);
+     ObjEffect_SetVertexColor( G3_obj, 1, 255, red, green, blue);
+     ObjEffect_SetVertexColor( G3_obj, 2, 255, red, green, blue);
+     ObjEffect_SetVertexColor( G3_obj, 3, 255, red, green, blue);
+      red --;
+      green --;
+      blue --;
+       yield;
+     }
+}
+
+                       task GameOver { 
+             ForbidBomb(true);
+             ForbidShot(true);
+         if(GameOver_cnt == 0){
+                  let obj = Obj_Create( OBJ_EFFECT); 
+                  let obj2 = Obj_Create( OBJ_EFFECT);
+                  let obj3 = Obj_Create( OBJ_EFFECT);
+                  let path = GetCurrentScriptDirectory ~ "img\GameOver_Menu01.png"; //パス
+                  let path2 = GetCurrentScriptDirectory~ "img\GameOver_Menu02.png"; //パス2
+                  let path3 = GetCurrentScriptDirectory~ "img\GameOver_Menu03.png"; //パス3
+
+                  LoadGraphic(path); //画像の読み込み
+                  ObjEffect_SetTexture( obj, path);
+                  ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj, 4 );
+                  ObjEffect_SetVertexUV( obj, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj, 1, 380, 0);
+                  ObjEffect_SetVertexUV( obj, 2, 0, 38);
+                  ObjEffect_SetVertexUV( obj, 3, 380, 38);
+                  ObjEffect_SetVertexXY( obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj, 1, 380, 0);
+                  ObjEffect_SetVertexXY( obj, 2, 0, 38);
+                  ObjEffect_SetVertexXY( obj, 3, 380, 38);
+                 Obj_SetPosition( obj, GetClipMinX, GetCenterY+30 );          
+                 ObjEffect_SetLayer( obj, 7 );
+
+                  LoadGraphic(path2); //画像の読み込み
+                  ObjEffect_SetTexture( obj2, path2);
+                  ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj2, 4 );
+                  ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj2, 1, 380, 0);
+                  ObjEffect_SetVertexUV( obj2, 2, 0, 73);
+                  ObjEffect_SetVertexUV( obj2, 3, 380, 73);
+                  ObjEffect_SetVertexXY( obj2, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj2, 1, 380, 0);
+                  ObjEffect_SetVertexXY( obj2, 2, 0, 73);
+                  ObjEffect_SetVertexXY( obj2, 3, 380, 73);
+                 Obj_SetPosition( obj2, GetClipMinX, GetCenterY-40 );          
+                 ObjEffect_SetLayer( obj2, 7 );
+
+                  LoadGraphic(path3); //画像の読み込み
+                  ObjEffect_SetTexture( obj3, path3);
+                  ObjEffect_SetPrimitiveType( obj3, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj3, 4 );
+                  ObjEffect_SetVertexUV( obj3, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj3, 1, 416, 0);
+                  ObjEffect_SetVertexUV( obj3, 2, 0, 464);
+                  ObjEffect_SetVertexUV( obj3, 3, 416, 464);
+                  ObjEffect_SetVertexXY( obj3, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj3, 1, 416, 0);
+                  ObjEffect_SetVertexXY( obj3, 2, 0, 464);
+                  ObjEffect_SetVertexXY( obj3, 3, 416, 464);
+                 Obj_SetPosition( obj3, 0, 0 );          
+                 ObjEffect_SetLayer( obj3, 7 );
+
+                 ObjEffect_SetVertexColor(obj3, 0, 3, 255, 255, 255);
+                 ObjEffect_SetVertexColor(obj3, 1, 3, 255, 255, 255);
+                 ObjEffect_SetVertexColor(obj3, 2, 3, 255, 255, 255);
+                 ObjEffect_SetVertexColor(obj3, 3, 3, 255, 255, 255);
+
+                    GameOver_cnt = 1;
+                       G2_obj = obj;
+                       G2_obj2 = obj2;
+                       G2_obj3 = obj3;
+                      GameOver_Log = 1;
+                  LogTask;
+                         }
+                      }
+
+task LogTask{
+       if(GameOver_Log == 1){
+          Log_alpha = 255;
+             ObjEffect_SetVertexColor(G2_obj, 0, Log_alpha, 255, 255, 255);
+             ObjEffect_SetVertexColor(G2_obj, 1, Log_alpha, 255, 255, 255);
+             ObjEffect_SetVertexColor(G2_obj, 2, Log_alpha, 255, 255, 255);
+             ObjEffect_SetVertexColor(G2_obj, 3, Log_alpha, 255, 255, 255);
+              loop(50){yield;}
+           Log_alpha = 150;
+             ObjEffect_SetVertexColor(G2_obj, 0, Log_alpha, 255, 255, 255);
+             ObjEffect_SetVertexColor(G2_obj, 1, Log_alpha, 255, 255, 255);
+             ObjEffect_SetVertexColor(G2_obj, 2, Log_alpha, 255, 255, 255);
+             ObjEffect_SetVertexColor(G2_obj, 3, Log_alpha, 255, 255, 255);
+              loop(50){yield;}
+              }
+         LogTask;
+}
+
+sub ResetTask{//リセット
+
+        Obj_Delete(G_obj);
+        Obj_Delete(G_obj2);
+        Obj_Delete(G2_obj);
+        Obj_Delete(G2_obj2);
+        Obj_Delete(G2_obj3);
+
+                 mainframe = 0;
+                 alpha = 255;
+                 message_alpha = 255;
+                 GameStart = 0;
+                 G_GameOver = 0;
+                 G_obj = 0;
+                 G_obj2 = 0;
+                 GameOver_cnt = 0;
+                 G2_obj = 0;
+                 G2_obj2 = 0;
+                 G2_obj3 = 0;
+                 GameOver_Log = 0;
+                 Log_alpha = 255;
+                 
+                 ExpertEx(true, 0, 6);
+
+    DeleteAllEnemyWithoutBoss;
+          loop(10){yield;}
+          StageTask;
+                 
+}
+
+task ClearTask{
+
+                  let obj = Obj_Create( OBJ_EFFECT); 
+                  let obj2 = Obj_Create( OBJ_EFFECT);
+                  let path = GetCurrentScriptDirectory ~ "img\GameOver_Menu01.png"; //パス
+                  let path2 = GetCurrentScriptDirectory ~ "img\GameClear.png";//パス2
+                  let alpha = 255;
+
+                  LoadGraphic(path); //画像の読み込み
+                  ObjEffect_SetTexture( obj, path);
+                  ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj, 4 );
+                  ObjEffect_SetVertexUV( obj, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj, 1, 380, 0);
+                  ObjEffect_SetVertexUV( obj, 2, 0, 38);
+                  ObjEffect_SetVertexUV( obj, 3, 380, 38);
+                  ObjEffect_SetVertexXY( obj, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj, 1, 380, 0);
+                  ObjEffect_SetVertexXY( obj, 2, 0, 38);
+                  ObjEffect_SetVertexXY( obj, 3, 380, 38);
+                 Obj_SetPosition( obj, GetClipMinX, GetCenterY+30 );          
+                 ObjEffect_SetLayer( obj, 7 );
+
+                  LoadGraphic(path2); //画像の読み込み
+                  ObjEffect_SetTexture( obj2, path2);
+                  ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+                  ObjEffect_CreateVertex( obj2, 4 );
+                  ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+                  ObjEffect_SetVertexUV( obj2, 1, 380, 0);
+                  ObjEffect_SetVertexUV( obj2, 2, 0, 44);
+                  ObjEffect_SetVertexUV( obj2, 3, 380, 44);
+                  ObjEffect_SetVertexXY( obj2, 0, 0, 0);
+                  ObjEffect_SetVertexXY( obj2, 1, 380, 0);
+                  ObjEffect_SetVertexXY( obj2, 2, 0, 44);
+                  ObjEffect_SetVertexXY( obj2, 3, 380, 44);
+                 Obj_SetPosition( obj2, GetClipMinX, GetCenterY-50 );          
+                 ObjEffect_SetLayer( obj2, 7 );
+
+         loop{
+                alpha = 255;
+                ObjEffect_SetVertexColor(obj,0,alpha,255,255,255);
+                ObjEffect_SetVertexColor(obj,1,alpha,255,255,255);
+                ObjEffect_SetVertexColor(obj,2,alpha,255,255,255);
+                ObjEffect_SetVertexColor(obj,3,alpha,255,255,255);
+                 loop(50){yield;}
+                alpha = 150;
+                ObjEffect_SetVertexColor(obj,0,alpha,255,255,255);
+                ObjEffect_SetVertexColor(obj,1,alpha,255,255,255);
+                ObjEffect_SetVertexColor(obj,2,alpha,255,255,255);
+                ObjEffect_SetVertexColor(obj,3,alpha,255,255,255);
+                 loop(50){yield;}
+              }
+
+}

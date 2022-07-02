@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+ <HEAD>
+  <TITLE>エフェクトオブジェクト解説</TITLE>
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/html;charset=Shift_JIS">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/css">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/lavascript">
+  <LINK REL="stylesheet"HREF="style.css"TYPE="text/css">
+ </HEAD>
+
+
+
+ <BODY BGCOLOR="#FFFFFF" LINK="#0000ff" ALINK="#ff00ff" VLINK="#222288">
+ <P><FONT color="#800040"><A name="TOP"><STRONG>エフェクトオブジェクト解説</STRONG></A></FONT></P>
+ <P>関数リファレンスだけでは説明不足になるので、ここでObjEffectの解説をします。<BR>
+ </P>
+ <P>
+  <TABLE border="1" width="480">
+   <TR><TD bgcolor="#dcdcdc" width="16">Sample.EA</TD><TD bgcolor="#dcdcdc">解説</TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">EA01</TD><TD><A href="#EA01">頂点の意味</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">EA02</TD><TD><A href="#EA02">プリミティブ</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">EA03</TD><TD><A href="#EA03">頂点の座標</A></TD></TR>
+   <TR><TD bgcolor="#dcdcdc" width="16">EA04</TD><TD><A href="#EA04">頂点のUV値</A></TD></TR>
+   <TR><TD colspan="2"> </TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Sample.EB</TD><TD bgcolor="#e0ffff">エフェクトサンプル</TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">EB01</TD><TD><A href="#EB01">四角形画像を描画</A></TD></TR>
+   <TR><TD colspan="2"> </TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">Sample.EC</TD><TD bgcolor="#e0ffff">エフェクトサンプル(応用)</TD></TR>
+   <TR><TD bgcolor="#e0ffff" width="16">EC01</TD><TD><A href="#EC01">四重結界(もどき)</A></TD></TR>
+  </TABLE>
+  
+ </P>
+ 
+
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="1"><A name="EA01">EA01 頂点の意味</A></TD></TR>
+  <TR>
+   <TD valign="TOP">
+    東方弾幕風は2Dゲームですが、描画には3Dグラフィクスの機能を用いています。<BR>
+	3Dといえば、よくテクスチャとかポリゴンとか聞くと思います。<BR>
+	テクスチャとは画像です。絵です。<BR>
+	ポリゴンとは3Dグラフィクスで物体をあらわすのに用いる多角形のことです。<BR>
+	<BR>
+	ポリゴンを表すのに用いられるのが<B>頂点</B>です<BR>
+	例えば、三角形を表すには、3つの頂点が必要です。<BR>
+	(3つの点を結べば三角形になりますよね)<BR>
+	ポリゴンはほとんどが三角形の集合で表されます。<BR>
+	三角形は凸な角だけで構成されたりして都合がよいのです。<BR>	
+	<BR>
+	さて、弾幕風の自機の画像も、弾の画像も<BR>
+	画像ファイルから読み込んだテクスチャの一部を<BR>
+	四角形に切り取って画面に貼り付けているのは、<BR>
+	見ただけで分かると思います。<BR>
+	その四角形もポリゴンなのです。<BR>
+	四角形のポリゴンにテクスチャを貼り付けて、<BR>
+	絵を表示しているのです。<BR>
+	<BR>
+   </TD>
+  </TR></TABLE>
+ </P><BR> 
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="1"><A name="EA02">EA02 プリミティブ</A></TD></TR>
+  <TR>
+   <TD valign="TOP">
+    ポリゴンは三角形の集合で表されます。<BR>
+	しかしながら、どのような頂点の並びでどのような三角形の集合を<BR>
+	あらわすのか決めないと困ってしまいます。<BR>
+	頂点の並びで定義される図形を決めてやらないといけません。<BR>
+	この頂点の並びで定義される図形を<B>プリミティブ</B>といいます。<BR>
+	このプリミティブには三種類が用意されています。<BR>
+	<IMG src="PrimitiveType.jpg"><BR>
+	例えば四角形を表すには、TRIANGLELISTでは6つの頂点が必要になりますが、<BR>
+	TRAIANGLESTRIPやTRAIANGLEFANでは4つの頂点で表すことができます。<BR>
+	<BR>
+	それでは、よくSTGにでてくる曲がるレーザーにはどれが使いやすいでしょうか。<BR>
+	曲がるレーザーにはTRAIANGLESTRIPが使いやすいですよね。<BR>
+	TRAIANGLESTRIPは、最初の頂点からはしご上に連結した形状を表すので<BR>
+	曲がるレーザーのように、途中が曲がったものには最適なのです。<BR>
+	<BR>
+	もちろん、TRAIANGLELISTは、ある意味どんな図形でも表現できるので<BR>
+	当然曲がるレーザーを表現することもできますが、<BR>
+	頂点の数が多くなるので面倒なのです。<BR>
+   </TD>
+  </TR></TABLE>
+ </P><BR> 
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="1"><A name="EA03">EA03 頂点の座標</A></TD></TR>
+  <TR>
+   <TD valign="TOP">
+    頂点には座標があります。<BR>
+	ただし、この座標は、移動、回転、拡大前の座標であることに注意しないといけません。<BR>
+	描画する頂点は、Obj_SetPosisionで設定した、x,y座標や、<BR>
+	ObjEffect_SetAngleでの角度、ObjEffect_SetScaleでの拡大率によって<BR>
+	描画先が移動します。<BR>
+	頂点の移動は、拡大→回転→移動の順で行っています。<BR>
+	<BR>
+	例えば、↓の図の a と b は、同じ大きさの四角形になるように頂点の座標を配置していますが、<BR>
+	回転の中心や、描画先の場所が異なります。<BR>
+	<IMG src="SampleEA03.jpg"><BR>
+   </TD>
+  </TR></TABLE>
+ </P><BR>   
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#dcdcdc" colspan="1"><A name="EA04">EA04 頂点のUV値</A></TD></TR>
+  <TR>
+   <TD valign="TOP">
+    UV値はテクスチャ画像における座標をあらわします。<BR>
+	本来は、0-1の値をとります(まあ0-1以外の値をとることもできますが)が、<BR>
+	弾幕風では、画像のx座標がuにy座標がvにそのまま対応します。<BR>
+	<BR>
+	ポリゴンを描画するときに、各頂点のUV値をもとにポリゴン上の1点1点が<BR>
+	テクスチャ上のどの位置を参照しているのかを求めています。<BR>
+	<BR>
+	まあ、大雑把にまとめると<BR>
+	画像の切り抜き部分を指定するのがUV値です。<BR>
+	頂点の座標とUV値は異なったものなので、画像を歪めて表示したりもできます。<BR>
+	<IMG src="SampleEA04.jpg"><BR>
+   </TD>
+  </TR></TABLE>
+ </P><BR>  
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#e0ffff" colspan="1"><A name="EB01">EB01 四角形画像を描画</A></TD></TR>
+  <TR>
+   <TD valign="TOP">
+	<TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//幅20、高さ20の四角形ポリゴンに、</FONT>
+	<FONT color="#008040">//画像ファイルの(0,0)-(10,10)の四角形部分を対応させて描画する</FONT>
+	<FONT color="#0000FF">task</FONT> square()
+	{
+		<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_EFFECT);<FONT color="#008040">//エフェクトオブジェクトを作成</FONT>
+		ObjEffect_SetTexture(obj, imgEffect);<FONT color="#008040">//なんらかのテクスチャを設定</FONT>
+		ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLESTRIP);<FONT color="#008040">//プリミティブタイプを設定</FONT>
+		ObjEffect_CreateVertex(obj, <FONT color="#FF0000">4</FONT>);<FONT color="#008040">//頂点を4個つくる</FONT>
+		
+		<FONT color="#008040">//四角形状に各頂点の座標を設定</FONT>
+		ObjEffect_SetVertexXY(obj, <FONT color="#FF0000">0</FONT>, -<FONT color="#FF0000">10</FONT>, -<FONT color="#FF0000">10</FONT>);
+		ObjEffect_SetVertexXY(obj, <FONT color="#FF0000">1</FONT>, -<FONT color="#FF0000">10</FONT>,  <FONT color="#FF0000">10</FONT>);
+		ObjEffect_SetVertexXY(obj, <FONT color="#FF0000">2</FONT>,  <FONT color="#FF0000">10</FONT>, -<FONT color="#FF0000">10</FONT>);
+		ObjEffect_SetVertexXY(obj, <FONT color="#FF0000">3</FONT>,  <FONT color="#FF0000">10</FONT>,  <FONT color="#FF0000">10</FONT>);
+		
+		<FONT color="#008040">//四角形状に各頂点のUV値を設定。(0,0)-(10,10)の部分。</FONT>
+		ObjEffect_SetVertexUV(obj, <FONT color="#FF0000">0</FONT>,  <FONT color="#FF0000">0</FONT>,  <FONT color="#FF0000">0</FONT>);
+		ObjEffect_SetVertexUV(obj, <FONT color="#FF0000">1</FONT>,  <FONT color="#FF0000">0</FONT>, <FONT color="#FF0000">10</FONT>);
+		ObjEffect_SetVertexUV(obj, <FONT color="#FF0000">2</FONT>, <FONT color="#FF0000">10</FONT>,  <FONT color="#FF0000">0</FONT>);
+		ObjEffect_SetVertexUV(obj, <FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">10</FONT>, <FONT color="#FF0000">10</FONT>);
+
+		<FONT color="#008040">//STGシーンの真ん中に表示</FONT>
+		Obj_SetPosition(obj, GetCenterX, GetCenterY);
+		
+		<FONT color="#008040">//60秒間待って消滅</FONT>
+		<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">60</FONT>){<FONT color="#0000FF">yield</FONT>;}
+		Obj_Delete(obj);
+	}
+	</PRE></TD></TABLE>
+   </TD>
+  </TR></TABLE>
+ </P><BR>   
+ 
+ 
+ <P>
+  <TABLE border="1" width="95%">
+  <TR><TD bgcolor="#e0ffff" colspan="1"><A name="EC01">EC01 四重結界(もどき)</A></TD></TR>
+  <TR>
+   <TD>
+    <IMG src="SampleEC01b.jpg"><BR>
+	四重結界に似せたエフェクトです。<BR>
+	こんなエフェクトになると、矩形画像だけでは処理しきれないので、<BR>
+	3Dグラフィクスの機能が必要になってきます。<BR>
+	<BR>
+	四重結界では、エフェクトの最終段階では四角形(結界)が4つあります。<BR>
+	この四角形は、四角形の画像をそのまま4つ貼り付けているわけではありません。<BR>
+	四角形の画像をそのまま貼り付けると、<BR>
+	結界のラインが動いているエフェクトを表すことはできません。<BR>
+	ポリゴンで四角形の辺を形作っています。<BR>
+	<BR>
+	このサンプルでは八角形→四角形のみですが<BR>
+	本当の四重結界は、<BR>
+	ほとんど円(16角形くらい?)→八角形→六角形→四角形と変化していきます。<BR>
+	<BR>
+    <IMG src="SampleEC01a.png"><BR>
+	↑YukariSpell.pngの画像<BR>
+   </TD>
+  </TR>
+  <TR>   
+   <TD valign="TOP">
+	<TABLE width="100%" border="1"><TD><PRE>
+	script_spell QuadrupleBorder
+	{
+		<FONT color="#0000FF">let</FONT> playerX = GetPlayerX;<FONT color="#008040">//スペル発動時の自機のx座標</FONT>
+		<FONT color="#0000FF">let</FONT> playerY = GetPlayerY;<FONT color="#008040">//スペル発動時の自機のy座標</FONT>
+		<FONT color="#0000FF">let</FONT> current = GetCurrentScriptDirectory();
+		<FONT color="#0000FF">let</FONT> imgEffect = current~<FONT color="#FF0000">"YukariSpell.png"</FONT>;
+		@Initialize
+		{
+			LoadGraphic(imgEffect);
+			SetPlayerInvincibility(<FONT color="#FF0000">360</FONT>);<FONT color="#008040">//無敵時間を設定</FONT>
+			
+			<FONT color="#008040">//四重結界タスクを起動</FONT>
+			run();
+		}
+		@MainLoop
+		{
+			<FONT color="#0000FF">yield</FONT>;
+		}
+		@Finalize
+		{
+			DeleteGraphic(imgEffect);
+		}	
+		<FONT color="#0000FF">task</FONT> run()
+		{
+			<FONT color="#0000FF">ascent</FONT>(i <FONT color="#0000FF">in</FONT> <FONT color="#FF0000">0.</FONT>.<FONT color="#FF0000">4</FONT>)
+			{
+				<FONT color="#008040">//4つの結界を、ループでずらしながら作成</FONT>
+				border(i);
+				<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">32</FONT>){<FONT color="#0000FF">yield</FONT>;}
+			}
+			<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">224</FONT>){<FONT color="#0000FF">yield</FONT>;}
+			End();
+		}	
+		
+		<FONT color="#0000FF">task</FONT> border(<FONT color="#0000FF">let</FONT> num)
+		{
+			<FONT color="#008040">//結界1個分のタスク</FONT>
+			<FONT color="#008040">//合計4つ起動されます</FONT>
+			<FONT color="#0000FF">let</FONT> obj = Obj_Create(OBJ_SPELL);<FONT color="#008040">//スペルオブジェクトを作成</FONT>
+			ObjEffect_SetTexture(obj, imgEffect);<FONT color="#008040">//テクスチャを設定</FONT>
+			ObjEffect_SetRenderState(obj, ADD);<FONT color="#008040">//描画方法を設定</FONT>
+			ObjEffect_SetPrimitiveType(obj, PRIMITIVE_TRIANGLESTRIP);<FONT color="#008040">//プリミティブタイプを設定</FONT>
+			ObjEffect_CreateVertex(obj, <FONT color="#FF0000">18</FONT>);<FONT color="#008040">//頂点を18個つくる</FONT>
+			Obj_SetPosition(obj, playerX, playerY);<FONT color="#008040">//座標を設定	</FONT>
+			ObjEffect_SetAngle(obj, <FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">45</FONT>+(num)*<FONT color="#FF0000">22.5</FONT>);<FONT color="#008040">//角度を設定</FONT>
+			
+			<FONT color="#008040">//色設定</FONT>
+			<FONT color="#0000FF">let</FONT> red =   [<FONT color="#FF0000">255</FONT>,   <FONT color="#FF0000">0</FONT>, <FONT color="#FF0000">255</FONT>, <FONT color="#FF0000">255</FONT>];
+			<FONT color="#0000FF">let</FONT> green = [<FONT color="#FF0000">255</FONT>,   <FONT color="#FF0000">0</FONT>,   <FONT color="#FF0000">0</FONT>,   <FONT color="#FF0000">0</FONT>];
+			<FONT color="#0000FF">let</FONT> blue =  [<FONT color="#FF0000">255</FONT>, <FONT color="#FF0000">255</FONT>, <FONT color="#FF0000">255</FONT>,   <FONT color="#FF0000">0</FONT>];
+			<FONT color="#0000FF">let</FONT> color= num;
+		
+			<FONT color="#0000FF">task</FONT> vertex(<FONT color="#0000FF">let</FONT> vrtx)
+			{
+				<FONT color="#008040">//頂点を制御するタスク</FONT>
+				<FONT color="#008040">//頂点の半分は内側の辺を表す</FONT>
+				<FONT color="#0000FF">let</FONT> x = <FONT color="#FF0000">0</FONT>;<FONT color="#008040">//頂点のx座標</FONT>
+				<FONT color="#0000FF">let</FONT> y = <FONT color="#FF0000">0</FONT>;<FONT color="#008040">//頂点のy座標</FONT>
+				<FONT color="#0000FF">let</FONT> u = <FONT color="#FF0000">32</FONT> * truncate(vrtx/<FONT color="#FF0000">2</FONT>);
+				<FONT color="#0000FF">let</FONT> v = <FONT color="#FF0000">16</FONT> * (vrtx%<FONT color="#FF0000">2</FONT>);
+				<FONT color="#0000FF">let</FONT> angle = <FONT color="#FF0000">45</FONT>*truncate(vrtx/<FONT color="#FF0000">2</FONT>);<FONT color="#008040">//八角形にするための角度設定</FONT>
+				<FONT color="#0000FF">let</FONT> alpha=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">task</FONT> alphaState
+				{	<FONT color="#008040">//α値を変更するためのタスク</FONT>
+					alpha=<FONT color="#FF0000">0</FONT>;
+					<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">60</FONT>){alpha+=<FONT color="#FF0000">5</FONT>; <FONT color="#0000FF">yield</FONT>;}
+					<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">150</FONT>){<FONT color="#0000FF">yield</FONT>;}
+					<FONT color="#0000FF">loop</FONT>{alpha-=<FONT color="#FF0000">5</FONT>; <FONT color="#0000FF">yield</FONT>;}
+				}
+				alphaState;		
+					
+				<FONT color="#0000FF">task</FONT> xy
+				{	<FONT color="#008040">//xy座標を変更するためのタスク</FONT>
+					<FONT color="#0000FF">let</FONT> radius = <FONT color="#FF0000">128</FONT>;
+					x = radius * cos(angle);
+					y = radius * sin(angle);
+					
+					<FONT color="#008040">//図形の内側と外側を分けるため頂点の半分は少し待機</FONT>
+					<FONT color="#0000FF">if</FONT>(vrtx%<FONT color="#FF0000">2</FONT> == <FONT color="#FF0000">0</FONT>){<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">16</FONT>){<FONT color="#0000FF">yield</FONT>;}}
+					
+					<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">16</FONT>)
+					{	<FONT color="#008040">//最初は少しずつ小さくなる</FONT>
+						radius -= <FONT color="#FF0000">128</FONT>/<FONT color="#FF0000">16</FONT>;
+						x = radius * cos(angle);
+						y = radius * sin(angle);
+						<FONT color="#0000FF">yield</FONT>;
+					}
+					<FONT color="#0000FF">if</FONT>(vrtx%<FONT color="#FF0000">2</FONT> != <FONT color="#FF0000">0</FONT>){<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">16</FONT>){<FONT color="#0000FF">yield</FONT>;}}	
+					<FONT color="#0000FF">if</FONT>(vrtx%<FONT color="#FF0000">2</FONT> == <FONT color="#FF0000">0</FONT>){<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">32</FONT>){<FONT color="#0000FF">yield</FONT>;}}			
+					<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">64</FONT>)
+					{	<FONT color="#008040">//結界が広がる</FONT>
+						<FONT color="#0000FF">if</FONT>(vrtx%<FONT color="#FF0000">2</FONT> == <FONT color="#FF0000">0</FONT>)
+						{	<FONT color="#008040">//内側</FONT>
+							radius += <FONT color="#FF0000">224</FONT>/<FONT color="#FF0000">64</FONT>-<FONT color="#FF0000">0.75</FONT>;
+						}
+						<FONT color="#0000FF">else</FONT>
+						{	<FONT color="#008040">//外側</FONT>
+							radius += <FONT color="#FF0000">224</FONT>/<FONT color="#FF0000">64</FONT>;
+						}
+						x = radius * cos(angle);
+						y = radius * sin(angle);
+						<FONT color="#0000FF">yield</FONT>;
+					}
+					
+					<FONT color="#0000FF">if</FONT>(vrtx%<FONT color="#FF0000">4</FONT>==<FONT color="#FF0000">2</FONT> || vrtx%<FONT color="#FF0000">4</FONT>==<FONT color="#FF0000">3</FONT>)
+					{	
+						<FONT color="#008040">//最終的に四角形にするため、</FONT>
+						<FONT color="#008040">//八角形の内の半分を四角形の辺上の頂点にする</FONT>
+						<FONT color="#0000FF">while</FONT>(!Obj_BeDeleted(obj))
+						{
+							<FONT color="#0000FF">let</FONT> tx = (radius * cos(angle-<FONT color="#FF0000">45</FONT>) + radius * cos(angle+<FONT color="#FF0000">45</FONT>) )/<FONT color="#FF0000">2</FONT>;
+							<FONT color="#0000FF">let</FONT> ty = (radius * sin(angle-<FONT color="#FF0000">45</FONT>) + radius * sin(angle+<FONT color="#FF0000">45</FONT>) )/<FONT color="#FF0000">2</FONT>;
+							x += (tx-x) / <FONT color="#FF0000">8</FONT>;
+							y += (ty-y) / <FONT color="#FF0000">8</FONT>;
+							<FONT color="#0000FF">yield</FONT>;
+						}
+					}
+				}
+				xy;
+				
+				<FONT color="#0000FF">task</FONT> uv
+				{
+					<FONT color="#008040">//UV値を制御するタスク</FONT>
+					<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">64</FONT>){<FONT color="#0000FF">yield</FONT>;}
+					<FONT color="#0000FF">while</FONT>(!Obj_BeDeleted(obj))
+					{
+						u-=<FONT color="#FF0000">2</FONT>;
+						<FONT color="#0000FF">yield</FONT>;
+					}
+				}
+				uv;
+				
+				<FONT color="#0000FF">while</FONT>(!Obj_BeDeleted(obj))
+				{
+					<FONT color="#008040">//頂点の座標を設定</FONT>
+					ObjEffect_SetVertexXY(obj, vrtx, x, y);
+					
+					<FONT color="#008040">//頂点のUV値を設定</FONT>
+					ObjEffect_SetVertexUV(obj, vrtx, u, v);
+					
+					<FONT color="#008040">//頂点カラーを設定</FONT>
+					ObjEffect_SetVertexColor(obj, vrtx, alpha, red[color],green[color],blue[color]);	
+					<FONT color="#0000FF">yield</FONT>;
+				}
+			}
+			
+			<FONT color="#0000FF">ascent</FONT>(i <FONT color="#0000FF">in</FONT> <FONT color="#FF0000">0.</FONT>.<FONT color="#FF0000">18</FONT>)
+			{	
+				<FONT color="#008040">//18個の頂点のタスクを開始する</FONT>
+				vertex(i);
+			}
+	
+			<FONT color="#0000FF">task</FONT> intersection
+			{	<FONT color="#008040">//あたり判定タスク</FONT>
+				<FONT color="#0000FF">let</FONT> radius=<FONT color="#FF0000">0</FONT>;
+				<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">60</FONT>){<FONT color="#0000FF">yield</FONT>;}
+				<FONT color="#0000FF">while</FONT>(!Obj_BeDeleted(obj))
+				{		
+					<FONT color="#008040">//当たり判定を適当に広げていく</FONT>
+					radius+=<FONT color="#FF0000">4</FONT>;
+					<FONT color="#0000FF">if</FONT>(radius&gt;<FONT color="#FF0000">192</FONT>){radius=<FONT color="#FF0000">192</FONT>;}
+					SetIntersectionCircle(playerX, playerY, radius, <FONT color="#FF0000">2</FONT>, <FONT color="#0000FF">true</FONT>);<FONT color="#008040">//当たり判定を登録</FONT>
+					<FONT color="#0000FF">yield</FONT>;
+				}
+			}
+			intersection;
+	
+			<FONT color="#0000FF">while</FONT>(!Obj_BeDeleted(obj))
+			{
+				<FONT color="#0000FF">yield</FONT>;
+			}
+		}
+	}
+	</PRE></TD></TABLE>
+   </TD>
+  </TR></TABLE>
+ </P><BR>   
+ 
+ <BR>
+ </BODY></HTML>

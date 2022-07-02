@@ -1,0 +1,72 @@
+script_enemy Shield01
+                    {
+        let on_cnt = false;
+                     @Initialize
+                     {
+               let imgEnemy = GetCurrentScriptDirectory~"\img\Shield03.png";  
+                   SetLife(5000);
+                LoadGraphic(imgEnemy);
+                SetTexture(imgEnemy);
+                SetGraphicRect(0,0,300,300);
+                      MainTask;
+                      TurnTask;
+                     }
+                     @MainLoop
+                     {
+               if(GetLife < 1000 && on_cnt == false){
+                  DeathTask;
+                   on_cnt = true;
+                 }else{
+                     SetCollisionA(GetX,GetY,100);
+                     SetCollisionB(GetX,GetY,100);
+                       }
+                     yield;
+                     }
+                     @DrawLoop
+                     {
+                      DrawGraphic(GetX,GetY);
+                     }
+                     @Finalize
+                     {
+       loop(rand(1,5)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Wave.txt",GetX,GetY,0,0,0);
+                     }
+
+task MainTask{
+    SetGraphicScale(1,1);
+    SetAlpha(0);
+    SetRenderState(ADD);
+  let alpha = 0;
+   loop(128){
+  SetAlpha(alpha);
+    alpha += 2;
+   Wait(1);
+   }
+}
+task TurnTask{
+  let angle = 0;
+  loop{
+     SetGraphicAngle(0,0,angle);
+    angle -= 0.05;
+   Wait(1);
+  }
+}
+
+task DeathTask{
+ let scale = 0.7;
+ loop(7){
+   SetGraphicScale(scale,scale);
+   scale -= 0.1;
+  Wait(1);
+   }
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Wave.txt",GetX,GetY,0,0,0);
+    VanishEnemy;
+}
+
+  function Wait(let x){
+ loop(x){yield;}
+      }
+
+}//enemy ShieldI—¹

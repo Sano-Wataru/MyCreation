@@ -1,0 +1,662 @@
+#東方弾幕風[Player]
+#ScriptVersion[2]
+#Menu[Space_Ship]
+#Text[]
+#Image[]
+#ReplayName[Space_Ship]
+
+script_player_main
+{
+     let Easy = false;
+     let Normal = true;
+
+     let Gcsd = GetCurrentScriptDirectory;
+     let Pimg = Gcsd~"img\Player.png";
+     let frame = 0;
+     let frame2 = 0;
+     let G_obj = 0;
+     let LaserSwitch = false;
+     let Lcnt = false;
+     let Lend = true;
+     let AutoShield = false;
+     let Default_Bomb = 2; //デフォルトのボムの数//
+
+     SetCommonData("Shield_on", 0);
+
+     let Shield_Consumption = 50;//シールド消費//
+     let Laser_Consumption = 150;
+
+    //共通データ
+     let Shield_Gage = 0;
+     
+    @Initialize
+    {
+           LoadGraphic(Pimg);
+           SetSpeed(4, 1.6);
+           LoadPlayerShotData(Gcsd~"\PlayerShotData.txt");
+           SetGraphicScale(0.3, 0.3);
+           SetInitialBombCount(Default_Bomb);
+           SetAutoEffect(false);
+
+       LoadGraphic(GetCurrentScriptDirectory~"img\Bcircle.png");     
+       LoadGraphic(GetCurrentScriptDirectory~"img\PlayerLaser.png");  
+       LoadGraphic(GetCurrentScriptDirectory~"img\BlueRing2.png");  
+       LoadGraphic(GetCurrentScriptDirectory~"img\electricity.png"); 
+       LoadGraphic(GetCurrentScriptDirectory~"img\electricity2.png"); 
+       LoadGraphic(GetCurrentScriptDirectory~"img\BlueEffect.png"); 
+       LoadGraphic(GetCurrentScriptDirectory~"img\WhiteCircle.png"); 
+
+         Homing_Reset;
+    }
+
+    @MainLoop
+    {
+     if(Easy == false || AutoShield == true || GetCommonData("シールドゲージ") < Shield_Consumption && GetPlayerLife > 1){
+       SetIntersectionCircle(GetPlayerX, GetPlayerY, 1);
+              }
+
+    if(GetPlayerLife <= 1){
+      SetX(GetCenterX);       SetY(GetCenterY + 160);
+   }
+  Default_Bomb = GetPlayerBomb;
+  SetInitialBombCount(Default_Bomb);//ボムの数調整//
+
+ if(GetCommonData("シールドゲージ") >= Laser_Consumption){
+   if(GetKeyState(VK_USER) == KEY_PUSH && Lcnt == false && Lend == true && GetKeyState(VK_SLOWMOVE) == KEY_HOLD){
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage -= Laser_Consumption;
+        SetCommonData("シールドゲージ", Shield_Gage);
+     LaserSwitch = true;
+     Lcnt = true;
+     Lend = false;
+    }
+  }
+
+   if(LaserSwitch == true){
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 40, 270, 0.3, 20, 255);
+    }
+
+   if(LaserSwitch == true && Lcnt == true){
+     LaserTask;
+     Lcnt = false;
+       }
+
+   if(GetCommonData("シールドゲージ") >= Shield_Consumption && GetKeyState(VK_USER) == KEY_PUSH && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && GetCommonData("Shield_on") == 0){
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage -= Shield_Consumption;
+        SetCommonData("シールドゲージ", Shield_Gage);
+         UseSpellCard("Shield",0);
+      SetPlayerInvincibility(100);
+       SetCommonData("Shield_on", 1);
+      }
+
+    if(Easy == true && GetEnemyShotCountEx(GetPlayerX, GetPlayerY, 2, ALL) > 0 && GetCommonData("シールドゲージ") >= Shield_Consumption && AutoShield == false){
+        SetPlayerInvincibility(10);
+        AutoShield = true;
+        Shield_Gage = GetCommonData("シールドゲージ");
+        Shield_Gage -= Shield_Consumption;
+        SetCommonData("シールドゲージ", Shield_Gage);
+         UseSpellCard("Shield",0);
+      SetPlayerInvincibility(100);
+      }
+
+       //ＬＶ５//
+   if(GetPoint >= 800){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 1){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+17, GetPlayerY, 18, 272, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-17, GetPlayerY, 18, 268, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+19, GetPlayerY, 18, 274, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-19, GetPlayerY, 18, 266, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 4){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 14, 275, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 14, 265, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 3){
+     CreatePlayerShot01(GetPlayerX+8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX-8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX+9, GetPlayerY, 15, 272, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX-9, GetPlayerY, 15, 268, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 275, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 265, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 14, 270, 0.2, 10+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 14, 270, 0.2, 10+GetGraze*0.05^2, 3);
+      frame = 0;
+        }
+     }
+
+   if(GetPoint >= 550 && GetPoint < 800){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 2){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+17, GetPlayerY, 18, 272, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-17, GetPlayerY, 18, 268, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+19, GetPlayerY, 18, 274, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-19, GetPlayerY, 18, 266, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 5){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 14, 275, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 14, 265, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 4){
+     CreatePlayerShot01(GetPlayerX+8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX-8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX+9, GetPlayerY, 15, 272, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX-9, GetPlayerY, 15, 268, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 275, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 265, 0.08, 5+GetGraze*0.05^2, 1);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 14, 270, 0.2, 10+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 14, 270, 0.2, 10+GetGraze*0.05^2, 3);
+      frame = 0;
+        }
+     }
+
+       //ＬＶ４//
+   if(GetPoint >= 425 && GetPoint < 550){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 2){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+17, GetPlayerY, 18, 272, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-17, GetPlayerY, 18, 268, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 5){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 3){
+     CreatePlayerShot01(GetPlayerX+8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX+9, GetPlayerY, 15, 272, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-9, GetPlayerY, 15, 268, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 275, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 265, 0.08, 5+GetGraze*0.05^2, 2);
+      frame = 0;
+        }
+     }
+
+   if(GetPoint >= 300 && GetPoint < 425){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 2){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+17, GetPlayerY, 18, 272, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-17, GetPlayerY, 18, 268, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 6){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 14, 270, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 4){
+     CreatePlayerShot01(GetPlayerX+8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-8, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX+9, GetPlayerY, 15, 272, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-9, GetPlayerY, 15, 268, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 275, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 265, 0.08, 5+GetGraze*0.05^2, 2);
+      frame = 0;
+        }
+     }
+
+       //ＬＶ３//
+   if(GetPoint >= 225 && GetPoint < 300){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 3){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+17, GetPlayerY, 18, 272, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-17, GetPlayerY, 18, 268, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 7){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 12, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 12, 270, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 5){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 275, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 265, 0.08, 5+GetGraze*0.05^2, 2);
+      frame = 0;
+        }
+     }
+
+   if(GetPoint >= 150 && GetPoint < 225){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 4){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX+17, GetPlayerY, 18, 272, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-17, GetPlayerY, 18, 268, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 8){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 12, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 12, 270, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 6){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 275, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 265, 0.08, 5+GetGraze*0.05^2, 2);
+      frame = 0;
+        }
+     }
+
+       //ＬＶ２//
+   if(GetPoint >= 100 && GetPoint < 150){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 3){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 7){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 5){
+     CreatePlayerShot01(GetPlayerX+12, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-12, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+      frame = 0;
+        }
+     }
+
+   if(GetPoint >= 50 && GetPoint < 100){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame2 > 4){
+     CreatePlayerShot01(GetPlayerX+15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+     CreatePlayerShot01(GetPlayerX-15, GetPlayerY, 18, 270, 0.25, 3+GetGraze*0.05^2, 5);
+      frame2 = 0;
+          }
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 8){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.05^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.05^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 6){
+     CreatePlayerShot01(GetPlayerX+12, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+     CreatePlayerShot01(GetPlayerX-12, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.05^2, 2);
+      frame = 0;
+        }
+     }
+
+       //ＬＶ１//
+   if(GetPoint >= 30 && GetPoint < 50){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 8){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.036^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.036^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 5){
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.036^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.036^2, 2);
+      frame = 0;
+        }
+     }
+
+   if(GetPoint >= 10 && GetPoint < 30){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 9){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.036^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.036^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 6){
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.036^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.036^2, 2);
+      frame = 0;
+        }
+     }
+
+    if(GetPoint < 10){
+     if(GetKeyState(VK_SLOWMOVE) == KEY_HOLD && GetKeyState(VK_SHOT) == KEY_HOLD && frame > 10){
+     CreatePlayerShot01(GetPlayerX+5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.036^2, 3);
+     CreatePlayerShot01(GetPlayerX-5, GetPlayerY, 10, 270, 0.05, 12+GetGraze*0.036^2, 3);
+      frame = 0;
+          }
+   if(GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) != KEY_HOLD && frame > 7){
+     CreatePlayerShot01(GetPlayerX+10, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.036^2, 2);
+     CreatePlayerShot01(GetPlayerX-10, GetPlayerY, 15, 270, 0.08, 5+GetGraze*0.036^2, 2);
+      frame = 0;
+          }
+         }//GetPoint < 10
+
+    frame++;
+    frame2++;
+     yield;
+    }
+
+    @Missed
+    {
+      AutoShield = false;
+
+    }
+
+    @SpellCard
+    {
+      UseSpellCard("Mega_Shield",0);
+
+    }
+
+    @DrawLoop
+    {
+       if(GetPlayerLife > 1){
+          SetTexture(Pimg);
+          SetGraphicRect(0, 0, 94, 92);
+          DrawGraphic(GetPlayerX,GetPlayerY);
+        }
+     }
+
+    @Finalize
+    {
+        DeleteGraphic(Pimg);
+    }
+function Wait(x){
+   loop(x){yield;}
+}
+
+task Homing_Reset{
+  let n = 0;
+  let path = GetCurrentScriptDirectory ~ "img\Bcircle.png";//パス
+  let angle = 0;
+  let num = GetCommonData("最大ファンネル");
+
+   let obj = [];
+    ascent(j in 0..num)
+    {
+       obj = obj ~ [j];
+       obj[j] = Obj_Create(OBJ_EFFECT);
+    }
+
+    loop(num){
+
+        ObjEffect_SetTexture( obj[n], path);
+        ObjEffect_SetPrimitiveType( obj[n], PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj[n], 4 );
+        ObjEffect_SetVertexUV( obj[n], 0, 0, 0);
+        ObjEffect_SetVertexUV( obj[n], 1, 0, 50);
+        ObjEffect_SetVertexUV( obj[n], 2, 50, 0);
+        ObjEffect_SetVertexUV( obj[n], 3, 50, 50);
+        ObjEffect_SetVertexXY( obj[n], 0, 0-25, 0-25);
+        ObjEffect_SetVertexXY( obj[n], 1, 0-25, 50-25);
+        ObjEffect_SetVertexXY( obj[n], 2, 50-25, 0-25);
+        ObjEffect_SetVertexXY( obj[n], 3, 50-25, 50-25);
+        ObjEffect_SetAngle( obj[n], 0, 0, 0);
+        ObjEffect_SetScale( obj[n], 0.5, 0.5);
+
+         ObjEffect_SetLayer( obj[n], 3 );
+              n++;
+       }
+    Homing_Move;
+    Homing_Process;
+
+     task Homing_Move{
+       angle = 0;
+         loop{
+       n = 0;
+      loop(num){
+          Obj_SetPosition( obj[n], GetPlayerX+30*cos(angle), GetPlayerY+30*sin(angle));
+               n++;
+            angle += 360/num;
+             }
+                angle++;
+            yield;
+         }
+    }//Homing_Move
+
+     task Homing_Process{
+        let n2 = 0; let i = 0; let i2 = 0;
+     loop{
+         n2 = 0;
+       loop(num){
+          ObjEffect_SetVertexColor( obj[n2], 0, 255, 255, 255, 255);
+          ObjEffect_SetVertexColor( obj[n2], 1, 255, 255, 255, 255);
+          ObjEffect_SetVertexColor( obj[n2], 2, 255, 255, 255, 255);
+          ObjEffect_SetVertexColor( obj[n2], 3, 255, 255, 255, 255);
+            n2++;
+        }
+          n2 = 0;
+       loop(num - GetCommonData("ファンネル")){
+          ObjEffect_SetVertexColor( obj[n2], 0, 0, 255, 255, 255);
+          ObjEffect_SetVertexColor( obj[n2], 1, 0, 255, 255, 255);
+          ObjEffect_SetVertexColor( obj[n2], 2, 0, 255, 255, 255);
+          ObjEffect_SetVertexColor( obj[n2], 3, 0, 255, 255, 255);
+            n2++;
+        }
+           if(i > 10 && GetKeyState(VK_SHOT) == KEY_HOLD){
+              n2 = num-1;
+                 loop(GetCommonData("ファンネル")){
+                    CreatePlayerShot01(Obj_GetX(obj[n2]), Obj_GetY(obj[n2]), 10, 270, 0.07, 7+GetGraze*0.06^2, 6);
+                   n2--;
+                }
+               i = 0;
+             }
+
+           if(i2 > 10 && GetKeyState(VK_SHOT) == KEY_HOLD && GetKeyState(VK_SLOWMOVE) == KEY_HOLD){
+              n2 = num-1;
+                 loop(GetCommonData("ファンネル")){
+                   Homimng_Shot(Obj_GetX(obj[n2]), Obj_GetY(obj[n2]), 10, 270, 7, 0.07, 12+GetGraze*0.06^2);
+                   n2--;
+                }
+               i2 = 0;
+             }
+
+           i++;
+           i2++;
+          yield;
+       }
+   
+     }//Homing_Process
+
+     task Homimng_Shot(x, y, speed, angle, graphic, damage, penetration){
+         let obj = Obj_Create(OBJ_SHOT); let r = rand(0,360);
+
+         Obj_SetX( obj, x);
+         Obj_SetY( obj, y);
+         Obj_SetSpeed( obj, speed);
+         Obj_SetAngle( obj, angle);
+         ObjShot_SetDelay( obj, 0);
+         ObjShot_SetGraphic( obj, graphic);
+         ObjShot_SetDamage( obj, damage);
+         ObjShot_SetPenetration( obj, penetration);
+         Obj_SetAlpha( obj, 200);
+
+     loop(3){
+            Obj_SetAngle( obj, atan2(GetEnemyY-Obj_GetY(obj), GetEnemyX-Obj_GetX(obj)));
+           yield;
+        }
+
+      }
+
+}//Homing_Reset
+
+task LaserTask{
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\PlayerLaser.png";//パス
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 512);
+        ObjEffect_SetVertexUV( obj, 2, 23, 0);
+        ObjEffect_SetVertexUV( obj, 3, 23, 512);
+        ObjEffect_SetVertexXY( obj, 0, 0, 0);
+        ObjEffect_SetVertexXY( obj, 1, 0, 512);
+        ObjEffect_SetVertexXY( obj, 2, 23, 0);
+        ObjEffect_SetVertexXY( obj, 3, 23, 512);
+        ObjEffect_SetAngle( obj, 0, 0, 0);
+         ObjEffect_SetLayer( obj, 5 );
+      G_obj = obj;
+        LaserStart;
+        LaserMovement;
+        LaserEnd;
+  }
+task LaserStart{
+    Wait(5);
+        ObjEffect_SetVertexUV( G_obj, 0, 31, 0);
+        ObjEffect_SetVertexUV( G_obj, 1, 31, 512);
+        ObjEffect_SetVertexUV( G_obj, 2, 54, 0);
+        ObjEffect_SetVertexUV( G_obj, 3, 54, 512);
+    Wait(5);
+        ObjEffect_SetVertexUV( G_obj, 0, 62, 0);
+        ObjEffect_SetVertexUV( G_obj, 1, 62, 512);
+        ObjEffect_SetVertexUV( G_obj, 2, 85, 0);
+        ObjEffect_SetVertexUV( G_obj, 3, 85, 512);
+     LaserProcess;
+ }
+task LaserMovement{
+     Obj_SetPosition( G_obj, GetPlayerX - 11.75, GetPlayerY - 525);
+    yield;
+  if(LaserSwitch == true){
+   LaserMovement;
+       }
+    }
+task LaserProcess{
+        ObjEffect_SetVertexUV( G_obj, 0, 62, 0);
+        ObjEffect_SetVertexUV( G_obj, 1, 62, 512);
+        ObjEffect_SetVertexUV( G_obj, 2, 85, 0);
+        ObjEffect_SetVertexUV( G_obj, 3, 85, 512);
+     yield;
+        ObjEffect_SetVertexUV( G_obj, 0, 92, 0);
+        ObjEffect_SetVertexUV( G_obj, 1, 92, 512);
+        ObjEffect_SetVertexUV( G_obj, 2, 116, 0);
+        ObjEffect_SetVertexUV( G_obj, 3, 116, 512);
+     yield;
+  if(LaserSwitch == true){
+  LaserProcess;
+          }
+    }
+task LaserEnd{
+
+     Wait(300);
+
+       LaserSwitch = false;
+        ObjEffect_SetVertexUV( G_obj, 0, 62, 0);
+        ObjEffect_SetVertexUV( G_obj, 1, 62, 512);
+        ObjEffect_SetVertexUV( G_obj, 2, 85, 0);
+        ObjEffect_SetVertexUV( G_obj, 3, 85, 512);
+    Wait(5);
+        ObjEffect_SetVertexUV( G_obj, 0, 31, 0);
+        ObjEffect_SetVertexUV( G_obj, 1, 31, 512);
+        ObjEffect_SetVertexUV( G_obj, 2, 54, 0);
+        ObjEffect_SetVertexUV( G_obj, 3, 54, 512);
+    Wait(5);
+       Obj_Delete(G_obj);
+       Lend = true;
+
+   }
+
+ }
+//シールド//
+script_spell Shield
+{
+  let gcsd = GetCurrentScriptDirectory;
+  let G_obj_sub = [0,0,0];
+  let G_obj = 0;
+  let G_obj2 = 0;
+   let G_obj3 = [];
+  let Gsize = 0;
+   ascent(i in 0..1000)loop
+   {
+      G_obj3 = G_obj3 ~ [i];
+      G_obj3[i] = 0;
+   }
+
+  @Initialize{
+    Shield_Task;
+  }
+
+  @MainLoop{
+        Obj_SetPosition( G_obj, GetPlayerX, GetPlayerY );
+        Obj_SetPosition( G_obj2, GetPlayerX, GetPlayerY );
+   yield;
+  }
+
+  @Finalize{
+  }
+
+ function Wait(x){
+   loop(x){yield;}
+ }
+#include_function".\Function_Shield.txt"
+}
+
+//メガシールド//
+script_spell Mega_Shield
+{
+  let gcsd = GetCurrentScriptDirectory;
+
+  @Initialize{
+   StartTask;
+  }
+
+  @MainLoop{
+    yield;
+  }
+
+  @Finalize{
+  }
+
+   function Wait(x){
+   loop(x){yield;}
+ }
+
+ task StartTask{
+  let arg = 0;
+  loop(2+GetGraze/70){
+   Mega_Shield(arg);
+    arg ++;
+  }
+}
+
+#include_function".\Function_Mega_Shield.txt"
+}
+
+//メガレーザー//
+script_spell Mega_Laser
+{
+  let gcsd = GetCurrentScriptDirectory;
+
+  @Initialize{
+   StartTask;
+  }
+
+  @MainLoop{
+    yield;
+  }
+
+  @Finalize{
+  }
+
+   function Wait(x){
+   loop(x){yield;}
+ }
+
+ task StartTask{
+   Mega_Laser;
+}
+
+#include_function".\Function_Mega_Laser.txt"
+}

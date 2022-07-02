@@ -1,0 +1,82 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let imgEnemy= gcsd~"img\enemy_all.png";
+
+    @Initialize
+    {
+       SetLife(7);
+    SetTexture(imgEnemy);
+    SetGraphicRect(138, 78, 184 ,158);
+    SetGraphicScale(0.7, 0.7);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+
+      MainShot;
+  }
+
+   @MainLoop
+   {
+       //“–‚½‚è”»’è‚ÍÁ‚·//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+    SetGraphicAngle(0, 0, GetAngle - 90);
+
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+        VanishEnemy;
+      }
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("PowerAmount", rand(0,2));
+      SetCommonData("ShieldAmount", rand(1,3));
+    }
+   }
+
+   @DrawLoop
+   {//•`‰æ
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+ task MainShot{
+    if(GetArgument == 0){
+  loop{
+   WayShot01(GetX, GetY, 3, GetAngleToPlayer, 14, 10, 5, 30);
+     Wait(60);
+    }
+   }
+
+    if(GetArgument == 1){
+  loop{
+   WayShot01(GetX, GetY, 1.6, GetAngleToPlayer, 51, 10, 6, 20);
+     Wait(30);
+    }
+  }
+
+ }
+
+function WayShot01(X,Y,Speed,Angle,Color,Delay,Way,Gap) {
+    // X     XÀ•W
+    // Y     YÀ•W
+    // Speed ’e‘¬
+    // Angle Šp“x
+    // Color ’e‚ÌF
+    // Delay ƒfƒBƒŒƒC
+    // Way   ’e‚Ì”
+    // Gap   ’e“¯m‚ÌŠÔŠu@’l‚ğ‘å‚«‚­‚·‚é‚Æ’e‚ªL‚ª‚Á‚ÄŒ‚‚½‚ê‚Ü‚·B
+    Angle -= (Way-1)/2*Gap;
+    loop(Way) {
+        CreateShot01(X,Y,Speed,Angle,Color,Delay);
+        Angle += Gap;
+    }
+}
+
+}

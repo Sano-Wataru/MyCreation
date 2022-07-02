@@ -1,0 +1,153 @@
+script_enemy Enemy04
+{
+    @Initialize
+    {
+        let imgEnemy=GetCurrentScriptDirectory~"img\all_type.png";
+       SetLife(500);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(390,59,412,83);
+  if(GetX < GetCenterX){
+    SetGraphicAngle(180,0,0);
+    }else{
+    SetGraphicAngle(0,0,0);
+    }
+   MoveTask;
+   MainTask;
+
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 600){
+         VanishEnemy;
+        }
+      if(GetEnemyX == 0 && GetEnemyY == 0){
+        VanishEnemy;
+      } 
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(0,3)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }      
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+  task MoveTask{
+   if(GetArgument == 0){
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+60,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX-60,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-60,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX+60,GetEnemyY,40,4);
+      }
+
+   if(GetArgument == 1){
+        Wait(90);
+      SetMovePosition03(GetEnemyX-60,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-60,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX+60,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+60,40,4);
+      }
+
+   if(GetArgument == 2){
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-60,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX+60,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+60,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX-60,GetEnemyY,40,4);
+      }
+
+   if(GetArgument == 3){
+        Wait(90);
+      SetMovePosition03(GetEnemyX+60,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+60,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX-60,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-60,40,4);
+      }
+
+   if(GetArgument == 4){
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-120,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX-120,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+120,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX+120,GetEnemyY,40,4);
+      }
+
+   if(GetArgument == 5){
+        Wait(90);
+      SetMovePosition03(GetEnemyX+120,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-120,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX-120,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+120,40,4);
+      }
+
+   if(GetArgument == 6){
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+120,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX+120,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-120,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX-120,GetEnemyY,40,4);
+      }
+
+   if(GetArgument == 7){
+        Wait(90);
+      SetMovePosition03(GetEnemyX-120,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY+120,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX+120,GetEnemyY,40,4);
+        Wait(90);
+      SetMovePosition03(GetEnemyX,GetEnemyY-120,40,4);
+      }
+
+    MoveTask;
+  }
+
+ task MainTask{
+   let a;
+   let cnt = 0;
+     loop{
+     a = rand(-30,30);
+  loop(4){
+    CreateLaser01(GetX,GetY,4,GetAngleToPlayer+cnt+a,70,15,5,0);
+        cnt += 90;
+         }
+      Wait(50);
+     }
+ }
+
+}

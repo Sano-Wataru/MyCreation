@@ -1,0 +1,1298 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+ <HEAD>
+  <TITLE>東方弾幕風リファレンスメイン</TITLE>
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/html;charset=Shift_JIS">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/css">
+  <META HTTP-EQUIV="Content-Type"CONTENT="text/lavascript">
+  <LINK REL="stylesheet"HREF="style.css"TYPE="text/css">
+ </HEAD>
+
+
+
+ <BODY BGCOLOR="#FFFFFF" LINK="#0000ff" ALINK="#ff00ff" VLINK="#222288">
+ <P><FONT color="#800040"><A name="Changed"><STRONG>前バージョンのスクリプトを使っていた方へ(v0.01f以前との変更点)</STRONG></A></FONT></P>
+ <P>※<STRONG>東方弾幕風v0.10a以降でもv0.01f以前のスクリプトは再生できます。</STRONG><BR>
+    (以前のバージョンでの弾幕作製をすることも問題なくできます。)<BR><BR>
+    v0.10aからサークルの知人<A href="http://hp.vector.co.jp/authors/VA028375/" target="_blank">YT氏</A>にスクリプトエンジンを提供していただきました。<BR>
+    この変更にともないスクリプト仕様に変更が加わりました。<BR>
+	主な変更点の概要を以下にかきます。<BR>
+	詳細はそれぞれの項目にのせてあります。<BR>
+	<A href="sample_v2.html">サンプル</A>を見れば大体どのように変わったかわかると思います。<BR>
+ </P>
+  <DL>
+   <DT>・ヘッダ部分</DT>
+   <DD>スクリプトファイルの最初に「#ScriptVersion[2]」とかくことで、
+       v0.10a以降のスクリプトと認識されます。</DD>
+   <DT>・予約語</DT>
+   <DD>ascent, alternative, case, descent,in, local, let, others, task, times, yield, が追加されています。</DD>
+   <DT>・変数</DT>
+   <DD>real, char, booleanまたそれらの配列が使えるようになりました。<BR>
+       realは数値です。charは文字です。charの配列が文字列です。booleanは真偽値です。<BR>
+	   ただし、型を明示的に扱うことはできません。自動で判断されます。<BR>
+	   変数宣言は「let」を用います。<BR>
+	   v0.01f以前と同様「real」でも変数を宣言できますが実体は「let」と同じです。<BR>
+	   <STRONG>文字列は「"..."」で囲む必要があります</STRONG>。</DD>
+   <DT>・演算子の優先順位</DT>
+   <DD>「( ... )」 > 「!」「+」「-」 (単項)  > 「^」>「*」「/」「%」 > 「~」「+」 「-」 (二項) <BR>
+       また「^」だけ、右結合の演算子です。3^3^3は3^(3^3)と解釈され729ではなく19683になります。</DD>
+   <DT>・ローカルスコープ(ローカル変数)</DT>
+   <DD>全ての中括弧({...})はローカルスコープを導入します。<BR>
+       全ての中括弧において、中で宣言したものは外では使えません。</DD>
+   <DT>・マイクロスレッド(task)</DT>
+   <DD>functionに似ていますが、途中で戻ってくることができます。<BR>
+       複数のマイクロスレッドを並列して存在させ、<BR>
+	   順次yieldによって切り替える事で、<BR>
+       あたかも同時に複数のスクリプトが走っているような記述ができます。<BR>
+	   詳細はマイクロスレッドの項を参照してください。</DD>
+   <DT>・脱出(return：返り値)</DT>
+   <DD>returnで最も内側のsub, function, taskから脱出します。<BR>
+	   functionの中から以外では、値を伴うreturnはエラーになります。</DD>
+   <DT>・組み込み関数</DT>
+   <DD>CreateShotA等の関数に指定していたIDが文字列ではなく<STRONG>数値</STRONG>になっています。<BR>
+       CreateShotFromScript、CreateEnemyFromScript、Event関数に指定していたIDが<STRONG>文字列</STRONG>になっています。</DD>
+   <DT>・その他動作等</DT>
+   <DD>v0.10a以降のスクリプトの方が高速動作します。</DD>
+  </DL>
+
+ <BR><BR>
+ 
+  
+ <P><FONT color="#800040"><A name="Indispensable"><STRONG>必須部分</STRONG></A></FONT></P>
+ <P>最低限必要な部分は、↓です。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風
+	#Title[]
+	#Text[]
+	#Image[]
+	#BackGround[]
+	#BGM[]
+	#PlayLevel[Normal]
+	#Player[REIMU,MARISA]
+	#ScriptVersion[2]
+	
+	script_enemy_main
+	{
+		@Initialize
+		{
+		<FONT color="#008040">//敵出現時に一度だけ実行される部分</FONT>
+		}
+			
+		@MainLoop
+		{
+		<FONT color="#008040">//敵のライフが0になるまで、この部分が1フレームに1回実行</FONT>
+		}
+		
+		@DrawLoop
+		{
+		<FONT color="#008040">//描画ループ。1フレームに1回実行</FONT>
+		}
+			
+		@Finalize
+		{
+		<FONT color="#008040">//敵が消滅した瞬間に一度だけ実行される部分</FONT>
+		}
+		@BackGround
+		{
+		<FONT color="#008040">//スペルカード時の背景部分</FONT>
+		<FONT color="#008040">//無くてもよい</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P>
+ 「#東方弾幕風」と最初にかくことで、単体の東方弾幕風用のスクリプトファイルとして認識されます。<BR>
+ 「#Title」は、スクリプト選択シーンで、表示されるタイトルです。<BR>
+ 「#Text」は、スクリプト選択シーンで、表示される解説部分です。<BR>
+ 「#Image」は、スクリプト選択シーンで、表示される画像です。<BR>
+  192×224のbmpもしくはpng画像を準備してください。<BR>
+ 「[～]」部分にかくファイルのパスは実行ファイル位置からの相対パスです。<BR>
+  ただし<STRONG>[.\～]のようにパスの最初に「.\」をかくと、スクリプトファイルのあるフォルダからのパスになります</STRONG>。<BR>
+ 「#ScriptVersion[2]」は、v0.10a以降のスクリプトであることを宣言します。<BR>
+ <BR>
+ 「#BGM」はBGMファイルへのパスをかきます。かかなければ「bgm\bgm.wav」が適用されます。<BR>
+ <BR>
+ 「#PlayLevel」を記述すると、その文字列がゲーム画面に表示されます。<BR>
+ 表示だけなので、実際の難易度調整は自分で行う必要があります。<BR>
+ <BR>
+ 「#Player」は、選択できる自機を設定します。<BR>
+ 指定しないなら自動的に「#Player[REIMU,MARISA]」が指定されます。<BR>
+ 指定する場合は、自機スクリプトファイルへのパスを書き並べます。<BR>
+ 「REIMU」と「MARISA」は組み込みの自機です。<BR>
+ 「FREE」を指定するとplayerフォルダ内の全ての自機を使えるようになります。<BR>
+ <BR>
+ 「#BackGround」は背景の指定です。
+  かかなければデフォルトの背景が適用されます。
+  以下を「[～]」内に指定できます。<BR>
+  <TABLE border="1">
+   <TR><TD>Default</TD><TD>デフォルトの背景です。</TD></TR>
+    <TR><TD>IceMountain</TD><TD>凍った山のような背景です。</TD></TR>
+	<TR><TD>User</TD>
+	<TD>自由に指定できる背景です。ただし2D背景のみです。<BR>
+	    書式はUser(画像ファイルパス,x方向の速度,y方向の速度)です。<BR>
+		例えば、<BR>
+		#BackGround[User(script\img\TestBack.png,2,2)]<BR>
+		と指定すると、「script\img\TestBack.png」を背景画像とし、
+		x方向速度2、y方向速度2の斜めスクロール背景になります。<BR>
+		読みこむ画像の大きさに指定はありません。
+		仮にSTG画面より小さければ同じ画像を繰り返します。<BR>
+		ただし大きすぎる画像はビデオカードによっては読みこめません。<BR>
+		なるべく384×448が適当と思われます。<BR>
+		<BR>
+		Userの後に何もかかなければ、背景は無し(黒)になります。
+	</TD></TR>
+   
+  </TABLE>
+ <BR>
+  「script_enemy_main{～}」の中に敵ボス動作を記述します。<BR>
+  「@Initialize{～}」は、敵が出現した瞬間に一度だけ実行される部分です。<BR>
+  「@Main{～}」は、敵動作のメインループです。敵のライフが0になるまで、この部分が1フレームに1回実行されます。<BR>
+  「@DrawLoop{～}」は、描画ループです。1フレームに1回実行されます。<BR>
+  「@Finalize{～}」は、敵が消滅した瞬間に一度だけ実行される部分です。<BR>
+  「@BackGround{～}」は、スペルカード使用時に描画される部分です。無くても問題ありません。<BR>
+  無ければ#BackGroundが適用されます。<BR>
+ <BR><BR>
+ 
+ 
+ <BODY BGCOLOR="#FFFFFF" LINK="#0000ff" ALINK="#ff00ff" VLINK="#222288">
+ <P><FONT color="#800040"><A name="Statement"><STRONG>ステートメント</STRONG></A></FONT></P>
+ <P>ステートメントとは命令のひと塊のことです。<BR>
+    制御文以外のステートメントの区切りには「;」(セミコロン)が必要です。
+    「;」は区切りですので、最後の文には不要ですが、書くことを推奨します。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#0000FF">let</FONT> r = <FONT color="#FF0000">0</FONT>;
+	
+	SetCollisionA(GetX(),GetY(),<FONT color="#FF0000">32</FONT>);
+	
+	<FONT color="#008040">//↑のようにステートメントの最後には</FONT>
+	<FONT color="#008040">//「;」が必須です。</FONT>
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="ReservedWord"><STRONG>予約語</STRONG></A></FONT></P>
+ <P>予約語に指定されている単語は、変数名やサブルーチン名に使えません。<BR>
+    以下の単語が予約語です。<BR>
+    alternative、ascend、break、case、decend、else、function、<BR>
+	if、in、local、loop、real、return、let、others、<BR>
+	sub、task、times、while、yield<BR>
+ </P>
+ <P>また、次の変数やサブルーチンが、組み込みで用意されています。<BR>
+    add、append、compare、concatenate、divide、false<BR>
+	index、length、multiply、not、negative、pi、power<BR>
+	predecessor、remainder、result、slice、<BR>
+	successor、subtract、true
+ </P>
+ <TABLE border="1">
+  <TR><TD>a ~ b</TD><TD>concatenate(a, b)</TD></TR>
+  <TR><TD>a + b</TD><TD>add(a, b)</TD></TR>
+  <TR><TD>a - b</TD><TD>subtract(a, b)</TD></TR>
+  <TR><TD>a * b</TD><TD>multiply(a, b)</TD></TR>
+  <TR><TD>a / b</TD><TD>divide(a, b)</TD></TR>
+  <TR><TD>a % b</TD><TD>remainder(a, b)</TD></TR>
+  <TR><TD>a ^ b</TD><TD>power(a, b)</TD></TR>
+  <TR><TD>a[b]</TD><TD>index(a, b), index!(a, b)←左辺値の時</TD></TR>
+  <TR><TD>a[b..c]</TD><TD>slice(a,b,c)</TD></TR>
+  <TR><TD>! a</TD><TD>not(a)</TD></TR>
+  <TR><TD>+ a</TD><TD>a</TD></TR>
+  <TR><TD>- a</TD><TD>negative(a)</TD></TR>
+  <TR><TD>a++</TD><TD>a = successor(a)</TD></TR>
+  <TR><TD>a--</TD><TD>a = predcessor(a)</TD></TR>
+  <TR><TD>(|a|)</TD><TD>a = absolute(a)</TD></TR>
+  <TR><TD>true</TD><TD>論理型の真を返す関数</TD></TR>
+  <TR><TD>false</TD><TD>論理型の偽を返す関数</TD></TR>
+  <TR><TD>pi</TD><TD>πを返す</TD></TR>
+ </TABLE>
+ <BR><BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="VariableDeclaration"><STRONG>変数宣言</STRONG></A></FONT></P>
+ <P>変数とは数値等を入れておく箱のようなものです。<BR>
+    real, char, booleanまたそれらの配列が使えます。<BR>
+    realは数値です。<BR>
+    charは文字です。charの配列が文字列です。<BR>
+    booleanは真偽値です。<BR>
+	<BR>
+	1, 1.0, 0.001, 100 …real型<BR>
+	true,false…boolean型<BR>
+    'a', 'b', 'あ' …char型(内部的にwchar_tで格納するため全角文字もOKです)<BR>
+	<BR>
+	ただし、型を明示的に扱うことはできません。自動で判断されます。<BR>
+    変数宣言は「let」を用います。<BR>
+    「real」でも変数を宣言できますが実体は「let」と同じです。<BR>
+ <PRE>
+  <FONT color="#0000FF">let</FONT> a; <FONT color="#008040">//aという変数を宣言</FONT>
+  <FONT color="#0000FF">let</FONT> a = 32; <FONT color="#008040">//aという変数を宣言(real型)して、32で初期化</FONT>
+  <FONT color="#0000FF">let</FONT> b = <FONT color="#0000FF">true</FONT>; <FONT color="#008040">//bという変数を宣言(boolean型)して、trueで初期化</FONT>
+  <FONT color="#0000FF">let</FONT> str = <FONT color="#FF0000">"もじれつ"</FONT>;<FONT color="#008040">//strという変数を宣言(char型)して、"もじれつ"で初期化</FONT>
+ </PRE>
+    なお、C言語と違い並べて宣言することはできません。<BR>
+ <PRE>
+  <FONT color="#0000FF">let</FONT> a,b; <FONT color="#008040">//×</FONT>
+ </PRE>
+ </P>
+ <BR><BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="VariableArray"><STRONG>配列</STRONG></A></FONT></P>
+ <P>変数を扱うとき、変数名1つにつき1つの値を割り当てられました。<BR>
+    ことろがこれでは10、20個など多くのデータを使うとき、<BR>
+	それだけの数の変数を準備する必要があり、宣言に手間がかかります。<BR>
+    そこで同じタイプの変数をまとめて扱うために配列というものが準備されています。<BR>
+	配列を使うときは次のように宣言します。<BR>
+ </P>
+ <PRE>
+  <FONT color="#0000FF">let</FONT> a = [<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">2</FONT>,<FONT color="#FF0000">3</FONT>];<FONT color="#008040">// …realの配列</FONT>
+  <FONT color="#0000FF">let</FONT> str = <FONT color="#FF0000">"文字列"</FONT>;<FONT color="#008040">// …charの配列</FONT>
+ </PRE>
+ <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//配列の宣言</FONT>
+	<FONT color="#0000FF">let</FONT> a = [<FONT color="#FF0000">2</FONT>, <FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">5</FONT>];<FONT color="#008040">//配列aを[2,3,5]で初期化</FONT>
+	
+	
+	<FONT color="#008040">//配列へのアクセス</FONT>
+	<FONT color="#008040">//[x]で配列のx番目の値にアクセスします</FONT>
+	<FONT color="#008040">//添え字は0からです。</FONT>
+	<FONT color="#0000FF">let</FONT> b = a[<FONT color="#FF0000">0</FONT>];<FONT color="#008040">//bは2になります</FONT>
+	a[<FONT color="#FF0000">0</FONT>] = <FONT color="#FF0000">9</FONT>;<FONT color="#008040">//配列aは[9, 3, 5]になります。</FONT>
+	<FONT color="#0000FF">let</FONT> str = <FONT color="#FF0000">"あいうえお"</FONT>[<FONT color="#FF0000">2</FONT>];<FONT color="#008040">//strは'う'になります。</FONT>
+	
+	
+	<FONT color="#008040">//配列の結合</FONT>
+	<FONT color="#008040">//「~」演算子で配列の結合を行えます</FONT>
+	<FONT color="#0000FF">let</FONT> c = [<FONT color="#FF0000">32</FONT>, <FONT color="#FF0000">64</FONT>, <FONT color="#FF0000">96</FONT>];
+	a = a ~ c;<FONT color="#008040">//aは[9, 3, 5, 32, 64, 96]になります。 </FONT>
+	
+	
+	<FONT color="#008040">//配列のテーブルをループで作成する場合</FONT>
+	<FONT color="#008040">//配列を結合しながらテーブルを作成できます</FONT>
+	<FONT color="#0000FF">let</FONT> d = [];<FONT color="#008040">//dは配列</FONT>
+	ascent(i <FONT color="#0000FF">in</FONT> <FONT color="#FF0000">0.</FONT><FONT color="#FF0000">.</FONT><FONT color="#FF0000">100</FONT>)
+	{<FONT color="#008040">//配列dを[0　1　2　…　98　99]で初期化</FONT>
+		d = d ~ [i];<FONT color="#008040">//配列の結合</FONT>
+		i++;
+	}
+	
+	
+	<FONT color="#008040">//配列のスライシング</FONT>
+	<FONT color="#008040">//配列に対して[x..y]のようにかくと、</FONT>
+	<FONT color="#008040">//要素のx番目からy番目を切り出します</FONT>
+	<FONT color="#008040">//ただしy番目の要素は含みません</FONT>
+	<FONT color="#0000FF">let</FONT> e = [<FONT color="#FF0000">0</FONT>, <FONT color="#FF0000">1</FONT>, <FONT color="#FF0000">2</FONT>, <FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">4</FONT>];
+	<FONT color="#0000FF">let</FONT> f = e[<FONT color="#FF0000">2</FONT>..<FONT color="#FF0000">4</FONT>];<FONT color="#008040">//fは[2,3]になります</FONT>
+	
+	
+	<FONT color="#008040">//配列を三項演算子の代わりに使う</FONT>
+	<FONT color="#0000FF">let</FONT> g = [<FONT color="#FF0000">7</FONT>, -<FONT color="#FF0000">5</FONT>][b == <FONT color="#FF0000">10</FONT>];<FONT color="#008040">//bが10ならgは-5になります</FONT>
+
+	<FONT color="#008040">//配列のサイズを取得する</FONT>	
+	<FONT color="#0000FF">let</FONT> h = [<FONT color="#FF0000">1</FONT>, <FONT color="#FF0000">2</FONT>, <FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">4</FONT>, <FONT color="#FF0000">5</FONT>];
+	<FONT color="#0000FF">let</FONT> i = length(h);<FONT color="#008040">//iは5になります</FONT>		
+
+	<FONT color="#008040">//配列要素の削除</FONT>
+	<FONT color="#0000FF">let</FONT> j = [<FONT color="#FF0000">10</FONT>, <FONT color="#FF0000">20</FONT>, <FONT color="#FF0000">30</FONT>, <FONT color="#FF0000">40</FONT>];
+	j = erase(j, <FONT color="#FF0000">0</FONT>);<FONT color="#008040">//最初の要素を削除します</FONT>
+	                 <FONT color="#008040">//j = [20, 30, 40]になります</FONT>
+
+ </PRE></TD></TABLE>
+ <P>
+    配列のコンストラクタは定数に限りません。 <BR>
+	if(a == 0){ b = c }else if(a == 1){ b = d }のような記述は、<BR>
+	aが0と1しか取らない場合に限り、b = [c, d][a]のように書けます。 <BR>
+	突然"["を始めた時は配列の作成で、何かの後に続けた時は要素へのアクセスです。<BR>
+	<BR>
+    JavaScript等は"+"演算子で結合も行いますが、<BR>
+	#ScriptVersion[2]では配列同士を足し算すると、<BR>
+	[1, 2, 3] + [4, 5, 6] == [5, 7, 9]のような演算になります。<BR>
+	現在は"+"と"-"(addとsubtract)に限った機能ですが、<BR>
+	そのうち他の演算子にも拡張されるかもです。 
+ </P>
+ <BR><BR>
+  
+ 
+ 
+ <P><FONT color="#800040"><A name="LocalScope"><STRONG>ローカルスコープ(ローカル変数)</STRONG></A></FONT></P>
+ <P>全ての中括弧(「{...}」)はローカルスコープを導入します。<BR>
+    全ての中括弧において、中で宣言したものは外では使えません。<BR>
+    純粋にローカルスコープ「のみ」を利用したい場合にlocal文を用います。<BR>
+    いわば、何もしない制御文です。<BR>
+    (このスクリプトでは、C言語のように、突然中括弧を開始することはできません)<BR>
+    同名の変数を宣言しない限り、親の変数は全て触れます。<BR>
+	<TABLE width="100%" border="1"><TD><PRE>
+	script_enemy_main
+	{
+		<FONT color="#008040">//ここで宣言した変数は「script_enemy_main」全域で有効</FONT>
+		<FONT color="#0000FF">let</FONT> a;<FONT color="#008040">//変数aは全ての「@～」内で有効」</FONT>
+		@Initialize
+		{
+			a = <FONT color="#FF0000">2</FONT>;<FONT color="#008040">//変数aにはアクセスできる</FONT>
+			<FONT color="#0000FF">let</FONT> x = <FONT color="#FF0000">1</FONT>;<FONT color="#008040">//ここで宣言すると@Initializeの最後まで有効</FONT>
+			<FONT color="#0000FF">local</FONT>
+			{
+				<FONT color="#008040">//ここで宣言したxはlocal文最後の「}」まで有効</FONT>
+				<FONT color="#0000FF">let</FONT> x = <FONT color="#FF0000">3</FONT>;
+				<FONT color="#008040">//ここではxは3</FONT>
+				a = x;<FONT color="#008040">//aには3が入る</FONT>
+			}
+			<FONT color="#008040">//ここではxは1</FONT>
+			<FONT color="#0000FF">let</FONT> c = x;<FONT color="#008040">//cには1が入る</FONT>
+		}
+			
+		@MainLoop
+		{
+			a = <FONT color="#FF0000">5</FONT>;<FONT color="#008040">//変数aにはアクセスできる</FONT>
+			<FONT color="#008040">//ここでは変数xにアクセスできない</FONT>
+		}
+		
+		@DrawLoop
+		{
+			<FONT color="#008040">//while、loop、ifの「{...}」も同様にローカルスコープが導入される</FONT>
+			<FONT color="#0000FF">let</FONT> d = <FONT color="#FF0000">10</FONT>;
+			<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">5</FONT>)
+			{
+				<FONT color="#0000FF">let</FONT> e = d;<FONT color="#008040">//dにはアクセス可能 </FONT>
+			}
+			<FONT color="#008040">//ここではeにアクセスできない</FONT>
+		}
+			
+		@Finalize
+		{
+	
+		}
+	}	
+	</PRE></TD></TABLE>
+ </P>
+ <BR><BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="Operator"><STRONG>式と演算子</STRONG></A></FONT></P>
+ <P>変数に値を代入したり、式を記述するときには下記の記号が使えます。<BR>
+    なお「=」は比較ではなく、代入を表します。例えば<BR>
+	　a = 2;<BR>
+	は「aは2に等しい」のではなく、「aに2を代入する」という意味です。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#0000FF">let</FONT> a;
+	<FONT color="#0000FF">let</FONT> b;
+	
+	a = <FONT color="#FF0000">32</FONT> + <FONT color="#FF0000">2</FONT>;	<FONT color="#008040">//「+」で和を表します。aは34になります。</FONT>
+	b = a - <FONT color="#FF0000">30</FONT>;	<FONT color="#008040">//「-」で差を表します。bは4になります。</FONT>
+	a = <FONT color="#FF0000">2</FONT> * <FONT color="#FF0000">3</FONT>; 	<FONT color="#008040">//「*」で積を表します。aは6になります。</FONT>
+	b = <FONT color="#FF0000">72</FONT> / a;	<FONT color="#008040">//「/」で商を表します。bは12になります。</FONT>
+	
+	a = <FONT color="#FF0000">32</FONT> % <FONT color="#FF0000">3</FONT>;	<FONT color="#008040">//「%」は商の余りです。aに32を3で割った余りを代入という意味になります。aは2になります。</FONT>
+	b = a ^ <FONT color="#FF0000">4</FONT>;	<FONT color="#008040">//「^」は累乗です。bにaの4乗を代入という意味になります。bは16になります。</FONT>
+	b = <FONT color="#FF0000">3</FONT> ^ <FONT color="#FF0000">3</FONT> ^ <FONT color="#FF0000">3</FONT>;<FONT color="#008040">	//「^」だけ、右結合の演算子です。3^3^3は3^(3^3)と解釈され729ではなく19683になります</FONT>
+	<FONT color="#008040">/*
+	演算子の優先順位は、
+	  「( ... )」 > 「^」「[]」>「!」「+」「-」 (単項)  >「*」「/」「%」 > 「~」「+」 「-」 (二項) 
+	です。
+	*/</FONT>
+	<FONT color="#0000FF">let</FONT> c = ((b * <FONT color="#FF0000">3</FONT> - <FONT color="#FF0000">2</FONT>)%(a + <FONT color="#FF0000">2</FONT> ^ <FONT color="#FF0000">2</FONT>)) / <FONT color="#FF0000">2</FONT>;<FONT color="#008040">//cは2になります。</FONT>
+	
+	<FONT color="#008040">//以下のような書き方もできます</FONT>
+	a++;<FONT color="#008040">//a = a + 1と同じ</FONT>
+	a+=<FONT color="#FF0000">5</FONT>;<FONT color="#008040">//a = a + 5と同じ</FONT>
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="LogicFormula"><STRONG>比較式、論理式</STRONG></A></FONT></P>
+ <P>比較式は、「==」 「!=」 「>」 「>=」 「<」 「<=」が使えます。<BR>
+    ただし、異なる型同士を比較した場合エラーになります。<BR>
+	<BR>
+    論理式は、「!」 「&&」 「||」が使えます。<BR>
+    「&&」と「||」はショートサーキット評価がなされます。<BR>
+	左辺だけで結果が確定した場合右辺は計算されません。<BR>
+    たとえば、0 == 1 && func(x)とすると、<BR>
+	0 == 1だけで真偽の偽なのは確定しますのでfuncは呼ばれません。<BR>
+    「!」は否定です。真なら偽、偽なら真を返します。<BR>
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="if"><STRONG>分岐「if、alternative」</STRONG></A></FONT></P>
+ <P>与えられた条件によって処理を変えたいときに使います。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">/*
+	基本的な条件式の記述
+	「a == b」	：aがbと等しい
+	「a &gt; b」	：aがbより大きい
+	「a &gt;= b」	：aがb以上
+	「a &lt; b」	：aがbより小さい
+	「a &lt;= b」	：aがb以下
+	*/</FONT>
+	
+	<FONT color="#008040">//ifの使い方</FONT>
+	<FONT color="#0000FF">if</FONT>(a == <FONT color="#FF0000">2</FONT> + b * <FONT color="#FF0000">5</FONT>)
+	{
+	<FONT color="#008040">//aが「2 + b * 5」であれば実行される部分</FONT>
+	}
+	
+	<FONT color="#008040">//「&&amp;」は論理積を表します。</FONT>
+	<FONT color="#0000FF">if</FONT>(a &gt; <FONT color="#FF0000">50</FONT> &amp;&amp; b &lt; <FONT color="#FF0000">30</FONT>)
+	{
+	<FONT color="#008040">//aが50より大きく、bが30より小さいときに実行される</FONT>
+	}
+	
+	<FONT color="#008040">//「||」は論理和を表します。</FONT>
+	<FONT color="#0000FF">if</FONT>(c &gt;= <FONT color="#FF0000">2</FONT> || b &lt;= <FONT color="#FF0000">30</FONT>)
+	{
+	<FONT color="#008040">//cが2以上またはbが30以下のときに実行される</FONT>
+	}
+	
+	<FONT color="#008040">//else は「でなければ」といったような意味です</FONT>
+	<FONT color="#0000FF">if</FONT>(c == <FONT color="#FF0000">4</FONT>)
+	{
+	<FONT color="#008040">//cが4であれば実行される</FONT>
+	}
+	<FONT color="#0000FF">else</FONT> <FONT color="#0000FF">if</FONT>(d == <FONT color="#FF0000">6</FONT>)
+	{
+	<FONT color="#008040">//cが4ではなく、dが6の時実行される</FONT>
+	}
+	
+	
+	<FONT color="#008040">//alternativeの使い方</FONT>
+	<FONT color="#008040">//C言語のswitchに似た分岐構文です</FONT>
+	<FONT color="#0000FF">alternative</FONT>(a)
+	<FONT color="#0000FF">case</FONT>(<FONT color="#FF0000">0</FONT>)
+	{
+		<FONT color="#008040">//aが0の時に実行される</FONT>
+	}
+	<FONT color="#0000FF">case</FONT>(<FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">5</FONT>)
+	{
+		<FONT color="#008040">//aが3もしくは5の時に実行される</FONT>
+	}
+	<FONT color="#0000FF">others</FONT>
+	{
+		<FONT color="#008040">//それ以外の時実行される</FONT>
+	}
+		
+	<FONT color="#008040">//C言語と違いステートメントが1つでも「{」「}」の省略はできません。</FONT>
+	<FONT color="#008040">//必ず「{」「}」で囲む必要があります。</FONT>
+  </PRE></TD></TABLE>
+ </P>
+
+ <BR><BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="while"><STRONG>ループ「loop、times、while、ascent、descent」</STRONG></A></FONT></P>
+ <P>同じ処理を繰り返したいときに使います。<BR>
+    ループは予約語loopで構成し、while, times, ascent, descentなどのループ条件を付加できます。<BR>
+ 	構文は<BR>
+	loop(n){ }<BR>
+	times(n) loop{ }<BR>
+	while(条件) loop{ }<BR>
+	ascent(let i in x..y) loop{ }<BR>
+	descent(let i in x..y) loop{ }<BR>
+	です。times、while、ascent、descentのloopは省略できます。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//loopは、()の中に繰り返したい回数を記述します。</FONT>
+	<FONT color="#0000FF">loop</FONT>(<FONT color="#FF0000">10</FONT>)
+	{
+	<FONT color="#008040">//10回繰り返します。</FONT>
+	} 
+
+	<FONT color="#008040">//回数を省略すると無限ループします。</FONT>
+	<FONT color="#008040">//必ずbreak、returnで抜けてください。</FONT>
+	<FONT color="#0000FF">let</FONT> a = <FONT color="#FF0000">5</FONT>;
+	<FONT color="#0000FF">loop</FONT>
+	{
+		<FONT color="#0000FF">if</FONT>(a == <FONT color="#FF0000">5</FONT>)
+		{
+			   <FONT color="#0000FF">break</FONT>;
+		}
+		a++;
+	}
+
+	<FONT color="#008040">//timesも()の中に繰り返したい回数を記述します。</FONT>
+	<FONT color="#0000FF">times</FONT>(<FONT color="#FF0000">5</FONT>)
+	{
+	<FONT color="#008040">//5回繰り返します。</FONT>
+	} 
+	
+	<FONT color="#008040">//whileは与えられた条件が真の間、範囲を繰り返し実行します。</FONT>
+	<FONT color="#0000FF">let</FONT> a = <FONT color="#FF0000">0</FONT>;
+	<FONT color="#0000FF">while</FONT>(a &lt; <FONT color="#FF0000">360</FONT>)
+	{<FONT color="#008040">//aが360より小さい間繰り返す。</FONT>
+		a++;
+	};
+	
+	<FONT color="#008040">//while中が無限ループになると</FONT>
+	<FONT color="#008040">//アプリケーションが動かなくなるので注意してください。</FONT>
+	<FONT color="#0000FF">while</FONT>(<FONT color="#0000FF">true</FONT>)
+	{
+	<FONT color="#008040">//常に条件が真になり、無限ループになるので危険</FONT>
+	}
+	
+	<FONT color="#008040">//インデックス付きのループもつくれます</FONT>
+	<FONT color="#008040">//ascent(let i in x..y) loop{}</FONT>
+	<FONT color="#008040">//descent(let i in x..y) loop{}</FONT>
+	<FONT color="#008040">//i が x から y まで変化します。ただし y は含みません。</FONT>
+	<FONT color="#008040">//ascentは値が増加、descentは減少します。</FONT>
+	ascent( <FONT color="#0000FF">let</FONT> a <FONT color="#0000FF">in</FONT> <FONT color="#FF0000">0.</FONT><FONT color="#FF0000">.</FONT><FONT color="#FF0000">10</FONT>) <FONT color="#0000FF">loop</FONT> 
+	{
+		<FONT color="#008040">//array[a] = xxx;配列にアクセスしたりするとき便利です</FONT>
+	}
+	
+	<FONT color="#008040">//ascent、descentともにlet とloopは省略可能です。</FONT>
+	descent(a <FONT color="#0000FF">in</FONT> <FONT color="#FF0000">0.</FONT><FONT color="#FF0000">.</FONT><FONT color="#FF0000">10</FONT>)
+	{
+		
+	}
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR>
+ 
+ 
+ <P><FONT color="#800040"><A name="break"><STRONG>脱出「break、return」</STRONG></A></FONT></P>
+ <P>breakは最も内側のwhile、loopから脱出します。<BR>
+	returnで最も内側のsub, function, taskから脱出します。<BR>
+	functionの中から以外では、値を伴うreturnはエラーになります。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#0000FF">let</FONT> a = <FONT color="#FF0000">0</FONT>;
+	<FONT color="#0000FF">while</FONT>(<FONT color="#0000FF">true</FONT>)
+	{<FONT color="#008040">//aが5になったらループを抜ける</FONT>
+		<FONT color="#0000FF">if</FONT>(a==<FONT color="#FF0000">5</FONT>){<FONT color="#0000FF">break</FONT>;};
+		a++;
+	}
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="SubRoutine"><STRONG>サブルーチン</STRONG></A></FONT></P>
+ <P>特定の動作をまとめるときに使います。<BR>
+    引数などは取れません。<BR>
+    BASICで言うGOSUB～RETURNに相当します。<BR>
+    他の制御文と同様に、必要なだけ入れ子にできます。<BR>
+    sub xxx(xxxは任意の文字)でサブルーチン部分を記述します。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//サブルーチンのかき方例</FONT>
+	<FONT color="#0000FF">sub</FONT> Shot5Way
+	{<FONT color="#008040">//5WAYサブルーチン</FONT>
+		SetShotDirectionType(PLAYER);
+		<FONT color="#0000FF">let</FONT> angle=-<FONT color="#FF0000">30</FONT>;
+		<FONT color="#0000FF">while</FONT>(angle&lt;=<FONT color="#FF0000">30</FONT>)
+		{<FONT color="#008040">//(angle=-30, -15, 0, 15, 30)</FONT>
+			CreateShot01(GetX(),GetY(),<FONT color="#FF0000">3</FONT>,angle,BLUE11,<FONT color="#FF0000">30</FONT>);
+			angle+=<FONT color="#FF0000">15</FONT>;
+		}
+	}
+	
+	
+	<FONT color="#008040">//サブルーチン呼び出し例</FONT>
+	@MainLoop()
+	{
+		<FONT color="#0000FF">if</FONT>(timer == <FONT color="#FF0000">0</FONT>)
+		{
+			Shot5Way;<FONT color="#008040">//5WAYサブルーチン呼び出し</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR>  
+ 
+ 
+ <P><FONT color="#800040"><A name="Function"><STRONG>ユーザー定義関数</STRONG></A></FONT></P>
+ <P>ユーザー定義関数を導入します。<BR>
+	subとよく似ていますが、違いは、引数によって値を渡し、返値によって結果を返せることです。<BR>
+	返り値は「retuen 値;」で記述します。<BR>
+	もしくは「result」という名前の変数に特別な代入してください。<BR>
+	「result」変数は予め用意されていますので宣言の必要はありません。<BR>
+	やはり、他の制御文と同様に、必要なだけ入れ子にできます。<BR>
+	引数の無い関数を呼ぶ時は、括弧は付けても付けなくてもよいです。<BR>
+	仮引数のletは省略可能です。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//関数のかき方例</FONT>
+	<FONT color="#0000FF">function</FONT> nWayToPlayer(<FONT color="#0000FF">let</FONT> nWayNum,<FONT color="#0000FF">let</FONT> nWayInterval,<FONT color="#0000FF">let</FONT> nWaySpeed,<FONT color="#0000FF">let</FONT> nWayGraphic)
+	{<FONT color="#008040">//自機方向へのnWay関数</FONT>
+		<FONT color="#008040">//nWayNum：nWay</FONT>
+		<FONT color="#008040">//nWayInterval：弾の間隔(弾間隔ってIntervalで本当にいいのだろうか…)</FONT>
+		<FONT color="#008040">//nWaySpeed：弾の速度</FONT>
+		<FONT color="#008040">//nWayGraphic：弾の画像</FONT>
+		SetShotDirectionType(PLAYER);
+		<FONT color="#0000FF">let</FONT> sAngle=-nWayInterval*<FONT color="#0000FF">int</FONT>(nWayNum/<FONT color="#FF0000">2</FONT>);
+		<FONT color="#0000FF">let</FONT> eAngle=nWayInterval*<FONT color="#0000FF">int</FONT>(nWayNum/<FONT color="#FF0000">2</FONT>);
+		<FONT color="#0000FF">while</FONT>(sAngle&lt;=eAngle)
+		{
+			CreateShot01(GetX(),GetY(),nWaySpeed,sAngle,nWayGraphic,<FONT color="#FF0000">30</FONT>);
+			sAngle+=nWayInterval;
+		}
+	}
+	
+	<FONT color="#008040">//関数の呼び出し例</FONT>
+	@MainLoop()
+	{
+		<FONT color="#0000FF">if</FONT>(timer == <FONT color="#FF0000">0</FONT>)
+		{<FONT color="#008040">//関数呼び出し</FONT>
+			<FONT color="#008040">//5Way、弾間隔10°、弾速5、画像BLUE11</FONT>
+			nWayToPlayer(<FONT color="#FF0000">5</FONT>,<FONT color="#FF0000">10</FONT>,<FONT color="#FF0000">5</FONT>,BLUE11);
+		}
+	}
+  </PRE></TD></TABLE>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//返り値の例</FONT>
+	<FONT color="#0000FF">function</FONT> Double(<FONT color="#0000FF">let</FONT> x)
+	{
+		<FONT color="#0000FF">return</FONT> x * <FONT color="#FF0000">2</FONT>;
+	}
+	
+	<FONT color="#008040">//～～～</FONT>
+	
+	a = Double(<FONT color="#FF0000">10</FONT>); <FONT color="#008040">//a = 20</FONT>
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR>  
+ 
+ 
+ <P><FONT color="#800040"><A name="MicroThread"><STRONG>マイクロスレッド</STRONG></A></FONT></P> 
+ <P>functionに似ていますが、途中で戻ってくることができます。<BR>
+	複数のマイクロスレッドを並列して存在させ、順次yieldによって切り替える事で、<BR>
+	あたかも同時に複数のスクリプトが走っているような記述ができます。<BR>
+ <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#0000FF">task</FONT> X(<FONT color="#0000FF">let</FONT> A)
+	{
+		<FONT color="#008040">//(1)起動された直後</FONT>
+		<FONT color="#0000FF">yield</FONT>; <FONT color="#008040">//一旦終わる</FONT>
+		<FONT color="#008040">//(3)復帰した</FONT>
+		<FONT color="#008040">//最後に到達すると完全に終了</FONT>
+	}
+	
+	X(<FONT color="#FF0000">"ひきすう"</FONT>); <FONT color="#008040">//起動</FONT>
+	<FONT color="#008040">//(2)Xの中のyieldにより帰ってきた</FONT>
+	<FONT color="#0000FF">yield</FONT>;<FONT color="#008040">//現在まだ終わっていないマイクロスレッドの続きを実行</FONT>
+	<FONT color="#008040">//(4)Xが終わったので帰ってきた</FONT>
+ </PRE></TD></TABLE>
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="Comment"><STRONG>コメントアウト</STRONG></A></FONT></P> 
+ <P>コメントアウト部分のスクリプトは、実行時に無視されます。<BR>
+    「//」は行末までコメントアウト、<BR>
+	また、「/*」～「*/」では、その間がコメントアウトされます。
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//←行末までコメントアウト</FONT>
+	
+	
+	<FONT color="#008040">/*
+	この部分は実行されない
+	*/</FONT>
+  </PRE></TD></TABLE> 
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="Include"><STRONG>ファイル取り込み「#include_script、#include_function」</STRONG></A></FONT></P> 
+ <P>ファイルを読みこんで置換する機能です。<BR>
+    ただ、とりあえず付けた的機能で、現状では制限が強いです。<BR>
+	内部でやっていることは単なる置換だけなのでエラー行数がずれます。<BR>
+	行数がずれても問題無いようにテキストの最後に追加することをすすめます。<BR>
+	<BR>
+	「#include_script」は「script_enemy、script_shot、script_event」等がかかれているファイルを読みこみます。<BR>
+	全ての「script_enemy_main、script_enemy」等の外側に記述してください。<BR>
+	<BR>
+	「#include_function」は「sub、function、task」がかかれているファイルを読みこみます。<BR>
+	「script_enemy、script_shot、script_event」等の内側に記述してください。<BR>
+	<BR>
+	「#include_script」「#include_function」はどちらとも構文解析前に実行されるので、<BR>
+	ファイルパスに変数は使えません。<BR>
+	<TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//#include_scriptの例</FONT>
+	script_enemy_main
+	{
+		<FONT color="#008040">//～～～</FONT>
+	}
+	
+	<FONT color="#008040">//この部分に「script\test.txt」の内容をそのまま持ってくる</FONT>
+	<FONT color="#008040">//なるべくファイルの最後にかくことをすすめます</FONT>
+	#include_script<FONT color="#FF0000">"script\test.txt"</FONT>
+	</PRE></TD></TABLE>
+	
+	<TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//#include_fuctionの例</FONT>
+	script_enemy_main
+	{
+		@Initialize{}
+		@MainLoop{}
+		@DrawLoop{}
+		@Finalize{}
+	
+		<FONT color="#008040">//この部分に「.\funciton.txt」の内容をそのまま持ってくる</FONT>
+		<FONT color="#008040">//「.\」でそのファイルのディレクトリからのパスになります</FONT>
+		<FONT color="#008040">//なるべくブロックの最後にかくことをすすめます</FONT>
+		#include_function<FONT color="#FF0000">".\function.txt"</FONT>
+	}
+	</PRE></TD></TABLE>
+ </P>
+ <BR><BR>  
+ 
+ <FONT color="#800040"><A name="ShotImage"><STRONG>弾の画像について</STRONG></A></FONT><BR>
+ <P>RED、GREEN、BLUE、YELLOW、PURPLE、AQUA、ORANGE、WHITEを準備しています。<BR>
+    CreateShot等の関数に用います。<BR>
+	レーザーの画像にも指定できます。<BR>
+    ↓にREDの例だけ示します。<BR>
+  <TABLE border="1">
+   <TR>
+    <TD>RED01</TD>
+	<TD><IMG src="Shot_RED01.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED02</TD>
+	<TD><IMG src="Shot_RED02.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED03</TD>
+	<TD><IMG src="Shot_RED03.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED04</TD>
+	<TD><IMG src="Shot_RED04.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED05</TD>
+	<TD><IMG src="Shot_RED05.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED11</TD>
+	<TD><IMG src="Shot_RED11.jpg"></TD>
+   </TR>
+    <TD>RED12</TD>
+	<TD><IMG src="Shot_RED12.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED21</TD>
+	<TD><IMG src="Shot_RED21.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED22</TD>
+	<TD><IMG src="Shot_RED22.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED23</TD>
+	<TD><IMG src="Shot_RED23.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED31</TD>
+	<TD><IMG src="Shot_RED31.jpg"></TD>
+   </TR>
+   <TR>
+    <TD>RED32</TD>
+	<TD><IMG src="Shot_RED32.jpg"></TD>
+   </TR>
+  </TABLE>
+ </P> 
+ <BR><BR>  
+ 
+ <FONT color="#800040"><A name="AddShotImage"><STRONG>弾画像の追加</STRONG></A></FONT><BR>
+ <P>弾幕風で定義されている弾画像だけでは、足りない場合も有ると思います。<BR>
+ 	そんなときは、<A href="function_v2.html#FuncLoadUserShotData">LoadUserShotData</A>関数で弾画像の追加を行えます。<BR>
+	追加した弾画像の重さは、組み込みの弾画像と同じです。<BR>
+	アニメーションする弾も定義することができます。<BR>
+	LoadUserShotDataで読み込むためのファイルの書き方を以下に示します。<BR>
+	<TABLE width="100%" border="1"><TD><PRE>
+	#UserShotData
+	
+	ShotImage = <FONT color="#FF0000">".\UserShot.png"</FONT>
+	
+	<FONT color="#008040">//ShotDataに弾の定義を書きます</FONT>
+	ShotData
+	{
+		id = <FONT color="#FF0000">1</FONT> <FONT color="#008040">//ID</FONT>
+		rect = (<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">32</FONT>,<FONT color="#FF0000">32</FONT>) <FONT color="#008040">//描画元矩形</FONT>
+		render = ALPHA <FONT color="#008040">//描画方法</FONT>
+		delay_color = (<FONT color="#FF0000">255</FONT>,<FONT color="#FF0000">128</FONT>,<FONT color="#FF0000">255</FONT>) <FONT color="#008040">//遅延時間時の光の色</FONT>
+		angular_velocity = rand(-<FONT color="#FF0000">5</FONT>,<FONT color="#FF0000">5</FONT>) <FONT color="#008040">//画像の回転速度</FONT>
+	}
+	
+	<FONT color="#008040">//改行無し1行で記述することもできます</FONT>
+	ShotData{id = <FONT color="#FF0000">2</FONT> 	 rect = (<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">16</FONT>,<FONT color="#FF0000">16</FONT>)}
+	
+	<FONT color="#008040">//アニメーションする弾</FONT>
+	ShotData
+	{
+		id = <FONT color="#FF0000">3</FONT>
+		render = ADD
+		delay_color = (<FONT color="#FF0000">255</FONT>,<FONT color="#FF0000">128</FONT>,<FONT color="#FF0000">255</FONT>)
+		AnimationData
+		{
+			<FONT color="#008040">//16フレーム(0,0,12,12)</FONT>
+			<FONT color="#008040">//→8フレーム(12,0,24,12)</FONT>
+			<FONT color="#008040">//→24フレーム(12,12,24,24)</FONT>
+			<FONT color="#008040">//→最初に戻る</FONT>
+			animation_data = (<FONT color="#FF0000">16</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">12</FONT>,<FONT color="#FF0000">12</FONT>)
+			animation_data = (<FONT color="#FF0000">8</FONT>,<FONT color="#FF0000">12</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">24</FONT>,<FONT color="#FF0000">12</FONT>)
+			animation_data = (<FONT color="#FF0000">24</FONT>,<FONT color="#FF0000">12</FONT>,<FONT color="#FF0000">12</FONT>,<FONT color="#FF0000">24</FONT>,<FONT color="#FF0000">24</FONT>)
+		}
+	}
+	
+	
+	</PRE></TD></TABLE>
+  最初の「#UserShotData」で弾データを定義したファイルと認識されます。<BR>
+  続く「ShotImage」に画像ファイルのパスを記述します。<BR>
+  パスは実行ファイルからの相対パスです。<BR>
+  ただし<STRONG>[.\～]のようにパスの最初に「.\」をかくと、この定義ファイルのあるフォルダからのパスになります</STRONG>。<BR>
+  <B>ファイル名に「shot.png」は使えません</B>。<BR>
+  ("shot.png"は、組み込み弾画像のファイル名で使ってしまっているんです…)<BR>
+  <BR>
+  画像ファイル内の弾画像の向きには注意してください。<BR>
+  <A href="reference_v2.html#ShotImage" target="right">弾の画像について</A>にある画像と同じ向き(上向き)である必要があります。<BR>
+  <BR>
+  「ShotData」には弾画像のIDや、描画元の矩形を記述します。<BR>
+  IDには1-255が指定できるので、ShotDataは最大255個並べて書けます。<BR>
+  <TABLE border="1">
+   <TR><TD>id</TD><TD>CraateShot等に渡すIDです。"RED01"等の代わりに渡します。<BR><B>1-255までの値を使います</B>。</TD></TR>
+    <TR><TD valign="TOP">rect</TD><TD>描画もとの矩形を設定します(左、上、右、下)。<BR>アニメーションがある場合は無視されます。</TD></TR>
+	<TR><TD>render</TD><TD>ALPHA：通常描画。ADD：加算合成描画。指定しなければALPHAになります。</TD></TR>
+	<TR><TD>delay_color</TD><TD>遅延時間時の光の色です。指定しなければ(128,128,128)になります。</TD></TR>
+	<TR><TD>angular_velocity</TD><TD>画像が回転する速度を指定します。<BR>ランダムを指定したい場合はrandを用います。<BR>指定しなければ0になります。<BR>レーザーの場合は無視されます。</TD></TR>
+	<TR><TD valign="TOP">AnimationData</TD><TD>アニメーションする弾を定義します。<BR>
+												アニメーションはanimation_dataで定義していきます。	<BR>
+												animation_data=(継続フレーム, 描画元左, 描画元上, 描画元右, 描画元下)<BR>
+												になっています。<BR>
+												連続してanimation_dataを記述することで次々描画元矩形が変化するようにできます。</TD></TR>
+  </TABLE>
+  <BR>
+  追加した弾の画像は、CreateShot等の関数にそのまま渡せます。<BR>
+  またレーザーや、弾オブジェクトにも用いることができます。<BR>
+	<TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//追加した画像で弾を作成するときは、</FONT>
+	<FONT color="#008040">//RED01等を渡す代わりに、定義した値を直に渡します。</FONT>
+
+	CreateShot01(GetX(), GetY(), <FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">0</FONT>, RED01, <FONT color="#FF0000">30</FONT>);<FONT color="#008040">//組み込みの弾</FONT>
+	CreateShot01(GetX(), GetY(), <FONT color="#FF0000">3</FONT>, <FONT color="#FF0000">0</FONT>, <FONT color="#FF0000">1</FONT>, <FONT color="#FF0000">30</FONT>);<FONT color="#008040">//追加した弾</FONT>
+	</PRE></TD></TABLE>  
+ <BR><BR>    
+ 
+ 
+ <P><FONT color="#800040"><A name="ScriptShot"><STRONG>弾動作スクリプト</STRONG></A></FONT></P> 
+ <P>スクリプトで動作させる弾です。<BR>
+    組み込み関数で対処できない軌道の弾を記述できます。<BR>
+	画面端で反射する弾、画面逆端から出てくる弾、ホーミング弾、<BR>
+	当たり判定のないコウモリ等のオブジェクトにも使えます。<BR>
+	組み込まれてない画像の弾も可能です<BR>
+	(組み込まれていない画像の弾を表示すると、内部で一括描画できないので重くなります)。<BR>
+	<BR>
+	ただし、スクリプト動作なので組み込みの弾に比べて重いという欠点があります。<BR>
+	また、画面外に出たら弾が消える等、<BR>
+	自動的に行われていた部分も自分で記述する必要があります。<BR>
+	<STRONG>弾として動かすより、敵と独立に動く魔法陣等に使ったほうがいいかもしれません。</STRONG><BR>
+	(弾を出しつづける魔法陣の設置等)<BR>
+ </P>
+ <P>弾動作スクリプト内の変数は弾それぞれ独自に持たれています。<BR>
+    弾同士の変数を参照することはできません。<BR>
+	また、敵変数とも独立なので、敵と弾が相互に変数を参照することはできません。<BR>
+	関数も同様です。<BR>
+	弾スクリプトは文字列として登録されています。<BR>
+	呼び出しは「CreateShotFromScript」の引数に登録してある文字列を指定します。
+ </P>
+ <P>
+ 以下にホーミング弾の作成例を示します。<BR>
+ 組み込みの弾ではホーミングは困難ですが、スクリプトなら楽に実装できます。
+  <TABLE width="100%" border="1"><TD><PRE>
+	script_shot Homing
+	{<FONT color="#008040">//ホーミング弾を定義</FONT>
+		<FONT color="#0000FF">let</FONT> count=<FONT color="#FF0000">0</FONT>;
+		<FONT color="#0000FF">let</FONT> angle=GetAngle();<FONT color="#008040">//進行角度取得</FONT>
+		@Initialize
+		{	
+			SetDefault(BLUE12);<FONT color="#008040">//組み込みの弾をセット</FONT>
+		}
+		@MainLoop
+		{
+			<FONT color="#0000FF">let</FONT> toAngle=GetAngleToPlayer();<FONT color="#008040">//自機方向の角度取得</FONT>
+			<FONT color="#008040">//dAngle：1フレームあたりの角度変化量限界</FONT>
+			<FONT color="#008040">//dAngleを増加させるほどホーミング性能が増す</FONT>
+			<FONT color="#0000FF">let</FONT> dAngle=<FONT color="#FF0000">2</FONT>;
+			<FONT color="#0000FF">let</FONT> ret=toAngle-angle;
+			<FONT color="#0000FF">if</FONT>((ret&gt;<FONT color="#FF0000">0</FONT>&&ret&lt;=<FONT color="#FF0000">180</FONT>)||(ret&lt;<FONT color="#FF0000">0</FONT>&&ret&lt;=-<FONT color="#FF0000">180</FONT>)){angle+=dAngle;}
+			<FONT color="#0000FF">else</FONT> <FONT color="#0000FF">if</FONT>((ret&gt;<FONT color="#FF0000">0</FONT>&&ret&gt;<FONT color="#FF0000">180</FONT>)||(ret&lt;<FONT color="#FF0000">0</FONT>&&ret&gt;-<FONT color="#FF0000">180</FONT>)){angle-=dAngle;}
+			<FONT color="#0000FF">if</FONT>(angle&gt;=<FONT color="#FF0000">360</FONT>){angle-=<FONT color="#FF0000">360</FONT>;}<FONT color="#008040">//360°以上なら0～360内に補正</FONT>
+			<FONT color="#0000FF">if</FONT>(angle&lt;<FONT color="#FF0000">0</FONT>){angle+=<FONT color="#FF0000">360</FONT>;}<FONT color="#008040">//0°未満なら0～360内に補正</FONT>
+			SetAngle(angle);
+			SetCollisionBDefault();<FONT color="#008040">//組み込みの弾の当たり判定を登録</FONT>
+			<FONT color="#0000FF">if</FONT>(count==<FONT color="#FF0000">300</FONT>){End();}<FONT color="#008040">//300フレームで消滅</FONT>
+			count++;	
+		}
+		@DrawLoop
+		{
+			DrawGraphicDefault();<FONT color="#008040">//組み込みの弾を描画</FONT>
+		}
+		@Finalize
+		{
+	
+		}	
+	}
+	
+	
+	<FONT color="#008040">//弾スクリプト呼び出し例</FONT>
+	script_enemy_main
+	{
+		@Initialize
+		{
+			<FONT color="#008040">//～～～</FONT>
+		}
+		@MainLoop
+		{
+			<FONT color="#008040">//～～～</FONT>
+			CreateShotFromScript(<FONT color="#FF0000">"Homing"</FONT>,GetX(),GetY(),<FONT color="#FF0000">3</FONT>,GetAngleToPlayer(),<FONT color="#FF0000">60</FONT>,<FONT color="#FF0000">0</FONT>);
+			<FONT color="#008040">//～～～</FONT>
+		}
+		@DrawLoop
+		{
+			<FONT color="#008040">//～～～</FONT>
+		}
+		@Finalize
+		{
+			<FONT color="#008040">//～～～</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="ScriptEnemy"><STRONG>複数の敵を出現させる場合</STRONG></A></FONT></P> 
+ <P>複数の敵を出現させる時の手順です。<BR>
+    ほとんどは弾スクリプトと同じです。<BR>
+	弾スクリプトは「script_shot 名前」で記述しますが、<BR>
+    敵のスクリプトは「script_enemy 名前」で記述します。<BR>
+	呼び出しは「CreateEnemyFromScript」を用います。<BR>
+ </P> 
+ <P>弾スクリプトと異なるのは呼び出せる組み込み関数が異なる点と、
+    弾幕風内部での扱いが「弾」ではなく「敵」になることくらいです。<BR>
+	ライフを設定できるので破壊もできます。
+	ライフが設定されなかったら出現と同時に消滅します。
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="ScriptEvent"><STRONG>会話イベント</STRONG></A></FONT></P> 
+ <P>東方弾幕風は弾幕シミュレータですが、会話イベントも実装可能です。<BR>
+    下図のようになります。<BR>
+  <IMG src="Event.jpg" ALT="Event"><BR>
+  イベントスクリプトは「script_event 名前」で記述します。<BR>
+  呼び出しは「CreateEventFromScript」関数です。<BR>
+  イベントスクリプトは他の部分と違い特殊です。<BR>
+  イベントスクリプトには<STRONG>「@DrawLoop」は存在しません</STRONG>。<BR>
+  従って共通の描画用関数を呼び出すことはできません。<BR>
+  呼び出せるのは、ほぼ<A href="function_v2.html#IEventFunction" target="right"><STRONG>会話イベント専用関数</STRONG></A>のみです。<BR>
+  <STRONG>「@MainLoop」の最後に「End()」も必須</STRONG>です。<BR>
+ </P>
+ <P>会話イベントが呼び出されると全ての敵弾が消滅します。<BR>
+    また自機の当たり判定は消滅します。<BR>
+	<STRONG>会話イベント中も敵は動作</STRONG>するので
+	「OnEvent」関数や「GetEventStep」関数で敵の動きを制御する必要があります。<BR>
+	イベント専用のファイルをつくった方がいいかもしれません。<BR>
+  ↓が例です。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	<FONT color="#008040">//イベント</FONT>
+	script_event EventTest
+	{
+		@Initialize
+		{
+			LoadGraphic(<FONT color="#FF0000">"script\img\Event_Reimu01.png"</FONT>);
+			LoadGraphic(<FONT color="#FF0000">"script\img\Event_Rumia01.png"</FONT>);
+		}
+		
+		@MainLoop
+		{
+			SetChar(LEFT,<FONT color="#FF0000">"script\img\Event_Reimu01.png"</FONT>);<FONT color="#008040">//左側キャラクタの画像を設定</FONT>
+			SetGraphicRect(LEFT,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">255</FONT>,<FONT color="#FF0000">255</FONT>);<FONT color="#008040">//左側キャラクタの表示画像矩形を設定</FONT>
+			MoveChar(LEFT,FRONT);<FONT color="#008040">//左側のキャラクタを前に移動</FONT>
+			Wait(<FONT color="#FF0000">30</FONT>);<FONT color="#008040">//30フレーム待つ</FONT>
+			TextOut(<FONT color="#FF0000">"\c[BLUE]全く。\n
+				こんなにロマンチックな夜は初めてだわ。\n
+				お化けもこんなに出てくるわけよね。\n
+				さて、そこの暗いの。"</FONT>);<FONT color="#008040">//文字描画</FONT>
+		
+			SetChar(RIGHT,<FONT color="#FF0000">"script\img\Event_Rumia01.png"</FONT>);<FONT color="#008040">//右側キャラクタの画像を設定</FONT>
+			SetGraphicRect(RIGHT,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">1</FONT>,<FONT color="#FF0000">255</FONT>,<FONT color="#FF0000">255</FONT>);
+			MoveChar(LEFT,BACK);<FONT color="#008040">//左側のキャラクタを後に移動</FONT>
+			MoveChar(RIGHT,FRONT);<FONT color="#008040">//右側のキャラクタを前に移動</FONT>
+			Wait(<FONT color="#FF0000">30</FONT>);<FONT color="#008040">//30フレーム待つ</FONT>
+			TextOut(<FONT color="#FF0000">"\c[RED]何か？"</FONT>);<FONT color="#008040">//文字描画</FONT>
+		
+			MoveChar(LEFT,FRONT);<FONT color="#008040">//左側のキャラクタを前に移動</FONT>
+			MoveChar(RIGHT,BACK);<FONT color="#008040">//右側のキャラクタを後に移動</FONT>
+			TextOut(<FONT color="#FF0000">"\c[BLUE]あてずっぽうで言ったのに当たったわ…"</FONT>);<FONT color="#008040">//文字描画</FONT>
+			End();<FONT color="#008040">//最後にEnd()は必須</FONT>
+		}
+		
+		@Finalize
+		{
+			DeleteGraphic(<FONT color="#FF0000">"script\img\Event_Reimu01.png"</FONT>);
+			DeleteGraphic(<FONT color="#FF0000">"script\img\Event_Rumia01.png"</FONT>);
+		}
+	}
+	
+	<FONT color="#008040">//呼び出し例</FONT>
+	script_enemy_main
+	{
+		@Initialize()
+		{
+			<FONT color="#008040">//～～～</FONT>
+			CreateEventFromScript(<FONT color="#FF0000">"EventTest"</FONT>);<FONT color="#008040">//EventTestイベントを呼び出す</FONT>
+			<FONT color="#008040">//～～～</FONT>
+		}
+		@MainLoop()
+		{
+			<FONT color="#0000FF">if</FONT>(OnEvent()==<FONT color="#0000FF">true</FONT>){<FONT color="#0000FF">break</FONT>;};<FONT color="#008040">//イベント中は敵の動きを停止する</FONT>
+			<FONT color="#008040">//～～～</FONT>
+		}
+		@DrawLoop()
+		{
+			<FONT color="#008040">//～～～</FONT>
+		}
+		@Finalize()
+		{
+			<FONT color="#008040">//～～～</FONT>
+		}
+	}
+  </PRE></TD></TABLE>
+ </P> 
+ <BR><BR>  
+ 
+ 
+ <P><FONT color="#800040"><A name="Plural"><STRONG>スクリプトの連続再生</STRONG></A></FONT></P> 
+ <P>スクリプトを連続再生させることもできます。<BR>
+    連続再生で、雰囲気をさらに東方本家のボスに近づかせることができます。<BR>
+	連続再生はタイトル画面の「Plural」から行うことができます。<BR>
+    以下の例で連続再生用ファイルの説明をします。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風[Plural]
+	#Title[Exルーミアスクリプト連続再生]
+	#Text[Exルーミアスペルカード×５]
+	#Image[.\img\ExRumia(星符「ミッドナイトレヴァリエ」).png]
+	#BackGround[Default]
+	#BGM[]
+	#ScriptVersion[2]
+	
+	#ScriptPathData
+	#ScriptPath[.\ExRumia01.txt]
+	#ScriptPath[.\ExRumiaSpell01.txt]
+	#ScriptPath[.\ExRumiaSpell02.txt]
+	#ScriptNextStep
+	#ScriptPath[.\ExRumia02.txt]
+	#ScriptPath[.\ExRumiaSpell03.txt]
+	#ScriptPath[.\ExRumiaSpell05.txt]
+	#ScriptNextStep
+	#ScriptPath[.\ExRumiaSpell04.txt]
+	
+	#EndScriptPathData
+  </PRE></TD></TABLE>
+  「#東方弾幕風[Pulral]」で連続再生用ファイルと認識されます。<BR>
+  「#Title」、「#Text」「#Image」「#BackGround」「#BGM」の意味は個々のスクリプトファイルと同じ意味です。<BR>
+  続く「#ScriptPathData」から個々のスクリプトファイルのパスを「#ScriptPath[]」に記述します。<BR>
+  パスは実行ファイルからの相対パスです。<BR>
+  ただし<STRONG>[.\～]のようにパスの最初に「.\」をかくと、このファイルのあるフォルダからのパスになります</STRONG>。<BR>
+  <BR>
+  「#ScriptNextStep」は、敵ライフの段階を示します。<BR>
+  ↑の例では「script\ExRumia01.txt」～「[script\ExRumiaSpell02.txt]」の3スクリプトで、
+  一本のライフを共有します。<BR>
+  この例では結果的にライフゲージは3本になります。<BR>
+  一本のライフゲージ内の個々のライフの割合は、<BR>
+  それぞれのスクリプト内でSetLifeとSetDamageRateを駆使して設定してください。<BR>
+  <BR>
+  ライフはスクリプト内の最初のSetLifeを先読みして設定されます。<BR>
+  ライフゲージの割合を決めるためにSetLifeとSetDamageRateを変更しても、<BR>
+  「BackSpace」でのリトライでは反映されずに変になるので注意してください。<BR>
+  (作成以外の通常プレイにおけるリトライには影響はありません)<BR>
+  <BR>
+  <STRONG>通常弾幕等、単発の再生リストに登録されたくない場合</STRONG><BR>
+  単発の再生リストに登録したくないスクリプトファイルに「#東方弾幕風」をかかなければ、
+  連続再生専用になります。<BR>
+  <BR>
+  
+ </P>
+ <BR><BR> 
+ 
+ 
+ <P><FONT color="#800040"><A name="Stage"><STRONG>ステージの作製</STRONG></A></FONT></P> 
+ <P>弾幕風はステージの作製も可能です(本来は弾幕シミュレータですが要望があったので実装しました)。<BR>
+    ただし、C言語似のスクリプトなので多少記述が面倒かもしれません。<BR>
+	敵の出現などはステージスクリプト専用の関数を用います。<BR>
+	下の例ではマイクロスレッドを用いてステージを制御しています。<BR>
+	マイクロスレッドを使うのは、「@MainLoop」内でif文を使ってタイミングを計る必要が無いからです
+	(@MainLoop内でif(frame==60){...}みたいなかきかたをしていたら面倒です)。<BR>
+	<BR>
+	ステージスクリプトでもCreateShot系の関数を呼ぶことはできます。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風[Stage]
+	#Title[ExRumiaステージ]
+	#Text[ExRumiaステージ]
+	#Image[.\img\ExRumia(星符「ミッドナイトレヴァリエ」).png]
+	#BackGround[Default]
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]
+	
+	script_stage_main
+	{
+		<FONT color="#0000FF">let</FONT> cx=GetCenterX();<FONT color="#008040">//STGシーンの中心x座標を取得</FONT>
+		<FONT color="#0000FF">let</FONT> imgEnemy=GetCurrentScriptDirectory~<FONT color="#FF0000">"img\Enemy.png"</FONT>;<FONT color="#008040">//Enemy.pngへのパス</FONT>
+		<FONT color="#0000FF">task</FONT> StageTask
+		{<FONT color="#008040">//ステージタスク</FONT>
+			<FONT color="#0000FF">function</FONT> Wait(<FONT color="#0000FF">let</FONT> frame)
+			{<FONT color="#008040">//待機関数</FONT>
+				<FONT color="#0000FF">loop</FONT>(frame){<FONT color="#0000FF">yield</FONT>};
+			}
+			<FONT color="#0000FF">function</FONT> WaitForZeroEnemy()
+			{<FONT color="#008040">//敵数が0になるまで待機する関数</FONT>
+				<FONT color="#0000FF">while</FONT>(GetEnemyNum() != <FONT color="#FF0000">0</FONT>){<FONT color="#0000FF">yield</FONT>;}
+			}
+			
+			Wait(<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//60フレーム待つ</FONT>
+			<FONT color="#008040">//敵をファイルから読みこんで出現</FONT>
+			CreateEnemyFromFile(GetCurrentScriptDirectory~<FONT color="#FF0000">"Enemy01.txt"</FONT>,cx,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>);
+			WaitForZeroEnemy();<FONT color="#008040">//敵が消えるまで停止</FONT>
+			Wait(<FONT color="#FF0000">240</FONT>);<FONT color="#008040">//240フレーム待つ</FONT>
+			<FONT color="#008040">//ExRumia出現</FONT>
+			CreateEnemyBossFromFile(GetCurrentScriptDirectory~<FONT color="#FF0000">"ExRumia.txt"</FONT>,cx,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>,<FONT color="#FF0000">0</FONT>);
+			WaitForZeroEnemy();<FONT color="#008040">//敵が消えるまで停止</FONT>
+			Wait(<FONT color="#FF0000">60</FONT>);<FONT color="#008040">//60フレーム待つ</FONT>
+			ClearStage();<FONT color="#008040">//ステージクリア</FONT>
+		}
+		@Initialize()
+		{
+			LoadGraphic(imgEnemy);<FONT color="#008040">//敵画像読みこみ</FONT>
+			StageTask();<FONT color="#008040">//ステージタスク起動</FONT>
+		}
+		
+		@MainLoop()
+		{
+			<FONT color="#0000FF">yield</FONT>;<FONT color="#008040">//毎フレームタスク復帰</FONT>
+		}
+		
+		@Finalize()
+		{
+			DeleteGraphic(imgEnemy);
+		}
+	<FONT color="#008040">/*
+		@BackGround()
+		{
+		 //@BackGround{...}が存在すると
+		 //#BackGround[...]より優先されて描画される
+		 //なくても問題ありません
+		}
+	*/</FONT>
+	<FONT color="#008040">/*
+		@DrawBottomObject
+		{
+		 //敵や弾以外で背景のすぐ上にオブジェクトを表示する
+		 //なくても問題ありません
+		}
+	*/</FONT>	
+	<FONT color="#008040">/*
+		@DrawTopObject
+		{
+		 //敵や弾以外で最も全面にオブジェクトを表示する
+		 //なくても問題ありません
+		}
+	*/</FONT>
+	}
+  </PRE></TD></TABLE>
+  「#東方弾幕風[Stage]」とかくことでステージスクリプトファイルと認識されます。<BR>
+  「#Title」、「#Text」「#Image」「#BackGround」「#BGM」の意味は個々のスクリプトファイルと同じ意味です。<BR>
+  ステージの動作は「<STRONG>script_stage_main</STRONG>」内に記述します。<BR>
+  あと「@BackGround{...}」を記述すると、「#BackGround[...]」は無視されます。<BR>
+ </P>
+ <BR><BR>  
+ 
+ 
+ <P><FONT color="#800040"><A name="ScriptPlayer"><STRONG>自機の作製</STRONG></A></FONT></P> 
+ <P>自機は霊夢と魔理沙が組み込まれていますが、<BR>
+    それ以外のキャラクタで遊びたくなるかもしれません。<BR>
+	そんな時は、自機を作成してください。<BR>
+	敵スクリプト側の「#Player」にプレイヤースクリプトへのパスを記述することで<BR>
+	遊べる自機の種類を変更できます。<BR>
+	(全てのスクリプトで、追加した自機を選択できるようにしないのは、<BR>
+	会話イベントつきのスクリプトなどで困るからです。)<BR>
+	本体に自機スクリプトサンプル「Rumia.txt」を付属させています。<BR>
+  <TABLE width="100%" border="1"><TD><PRE>
+	#東方弾幕風[Player]	<FONT color="#008040">//自機スクリプトであることを示します</FONT>
+	#ScriptVersion[<FONT color="#FF0000">2</FONT>]	<FONT color="#008040">//スクリプトバージョン2が必須です</FONT>
+	#Menu[ルーミア]		<FONT color="#008040">//自機選択画面で表示されるメニューです</FONT>
+	#Text[プレイヤーサンプルです。闇符]<FONT color="#008040">//自機選択画面で表示されるテキストです</FONT>
+	#Image[.\RumiaSelect.png]<FONT color="#008040">//自機選択画面で表示される画像ファイルへのパスです</FONT>
+	#ReplayName[Rumia]<FONT color="#008040">//リプレイ選択時に表示される文字です。8文字以内です。</FONT>
+	
+	script_player_main
+	{
+		@Initialize
+		{
+			<FONT color="#008040">//自機の初期化時に一回だけ呼び出される部分です</FONT>
+		}
+		
+		@MainLoop
+		{
+			<FONT color="#008040">//毎フレーム実行される部分です</FONT>
+		}
+		@Missed
+		{
+			<FONT color="#008040">//自機撃墜時に"@MainLoop"の代わりに呼ばれます</FONT>
+			<FONT color="#008040">//MainLoopと同じでよければ</FONT>
+			<FONT color="#008040">//@Missed{MainLoop}</FONT>
+			<FONT color="#008040">//とかけば、@MainLoopと同じになります。</FONT>
+			<FONT color="#008040">//ただし、撃墜時に動けたり弾が撃てると変なので</FONT>
+			<FONT color="#008040">//OnMissed関数で撃墜中かを判断してください</FONT>
+		}
+		@SpellCard
+		{
+			<FONT color="#008040">//スペルカードを発動した瞬間に呼ばれる部分です</FONT>
+			<FONT color="#008040">//ここでGetKeyStateで移動状態を判断したりして</FONT>
+			<FONT color="#008040">//呼び出すスペルを選びます</FONT>
+		}
+		
+		@DrawLoop
+		{
+			<FONT color="#008040">//描画ループ。スキップされない限り1フレームに1回実行されます</FONT>
+		}
+		
+		@Finalize
+		{
+			<FONT color="#008040">//スクリプト終了時に一回だけ呼び出される部分です</FONT>
+		}
+	}
+	
+	script_spell Demarcation
+	{
+		@Initialize
+		{
+			<FONT color="#008040">//スペルカードの初期化時に一回だけ呼び出される部分です</FONT>
+		}
+		@MainLoop
+		{
+			<FONT color="#008040">//スペルカード発動時に毎フレーム呼び出される部分です</FONT>
+		}
+		@Finalize
+		{
+			<FONT color="#008040">//スペルカード終了時に一回だけ呼び出される部分です</FONT>
+		}
+	}
+
+  </PRE></TD></TABLE>
+
+ </P>
+ <BR><BR>   
+ 
+ 
+ <P><FONT color="#800040"><A name="EnjoyClear"><STRONG>クリアする楽しみを加える</STRONG></A></FONT></P> 
+ <P>弾幕風はコンティニューを何度でも行うことができますし、<BR>
+    スクリプトファイルの改変も自由です。<BR>
+	ただこれでは、クリアするという楽しみが消えてしまうかもしれません。<BR>
+    東方本家でもクリア時の達成感は相当なものだったと思います。<BR>
+	はやく次の段階の弾幕を見たいと思ったこともあるでしょう。<BR>
+	そこで、そんな楽しみを少しでも加える方法をかいておきます。<BR>
+	ただし、連続再生必須です。
+ </P>
+ <P>まず、スクリプトでExpert関数を呼びましょう。<BR>
+    この関数は、コンティニュー、デバッグキーの使用を不可にします。<BR>
+	続いて、全てのスクリプトを連続再生専用にするために、「#東方弾幕風」を消します。<BR>
+	加えて、弾幕風用アーカイバで、配布ファイルを圧縮付きで1つにまとめましょう。<BR>
+	これでスクリプトの改変が行いづらくなります。<BR><BR>
+ </P>
+ 
+ 
+ </BODY>
+</HTML>

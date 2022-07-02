@@ -1,0 +1,583 @@
+task DrawProgress{
+    if(GetPlayerLife == 7){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 213, 48);
+    }
+    if(GetPlayerLife == 6){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 213-35, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 213-35, 48);
+    }
+    if(GetPlayerLife == 5){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 213-35*2, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 213-35*2, 48);
+    }
+    if(GetPlayerLife == 4){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 213-35*3, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 213-35*3, 48);
+    }
+    if(GetPlayerLife == 3){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 213-35*4, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 213-35*4, 48);
+    }
+    if(GetPlayerLife == 2){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 213-35*5, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 213-35*5, 48);
+    }
+    if(GetPlayerLife == 1){
+                  ObjEffect_SetVertexUV( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexUV( Obj_life, 2, 213, 31);
+                  ObjEffect_SetVertexUV( Obj_life, 3, 213, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 0, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 1, 11, 48);
+                  ObjEffect_SetVertexXY( Obj_life, 2, 11, 31);
+                  ObjEffect_SetVertexXY( Obj_life, 3, 11, 48);
+    }
+
+    if(GetPlayerBomb == 7){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213, 82);
+    }
+    if(GetPlayerBomb == 6){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213-30, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213-30, 82);
+    }
+    if(GetPlayerBomb == 5){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213-30*2, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213-30*2, 82);
+    }
+    if(GetPlayerBomb == 4){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213-30*3, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213-30*3, 82);
+    }
+    if(GetPlayerBomb == 3){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213-30*4, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213-30*4, 82);
+    }
+    if(GetPlayerBomb == 2){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213-30*5, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213-30*5, 82);
+    }
+    if(GetPlayerBomb == 1){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 213-30*6, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 213-30*6, 82);
+    }
+    if(GetPlayerBomb == 0){
+                  ObjEffect_SetVertexUV( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexUV( Obj_energy, 2, 213, 65);
+                  ObjEffect_SetVertexUV( Obj_energy, 3, 213, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 0, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 1, 11, 82);
+                  ObjEffect_SetVertexXY( Obj_energy, 2, 11, 65);
+                  ObjEffect_SetVertexXY( Obj_energy, 3, 11, 82);
+    }
+//スコア
+score_x = 8;
+score_a = 0;
+  loop(9){
+    if(score_x == 8){
+     score_cnt[score_x] = GetScore % 10;
+    }
+    if(score_x == 7){
+     score_cnt[score_x] = GetScore / 10;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 6){
+     score_cnt[score_x] = GetScore / 100;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 5){
+     score_cnt[score_x] = GetScore / 1000;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 4){
+     score_cnt[score_x] = GetScore / 10000;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 3){
+     score_cnt[score_x] = GetScore / 100000;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 2){
+     score_cnt[score_x] = GetScore / 1000000;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 1){
+     score_cnt[score_x] = GetScore / 10000000;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+    if(score_x == 0){
+     score_cnt[score_x] = GetScore / 100000000;
+     score_cnt[score_x] = truncate(score_cnt[score_x]);
+     score_cnt[score_x] = score_cnt[score_x] % 10;
+    }
+
+     if(score_cnt[score_x] == 0){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 0, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 0, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 25, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 25, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 0, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 0, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 25, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 25, 25);
+                 Obj_SetPosition( Obj_score[score_x], 605-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 1){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 25, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 25, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 50, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 50, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 25, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 25, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 50, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 50, 25);
+                 Obj_SetPosition( Obj_score[score_x], 580-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 2){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 50, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 50, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 75, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 75, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 50, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 50, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 75, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 75, 25);
+                 Obj_SetPosition( Obj_score[score_x], 555-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 3){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 75, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 75, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 100, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 100, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 75, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 75, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 100, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 100, 25);
+                 Obj_SetPosition( Obj_score[score_x], 530-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 4){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 100, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 100, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 125, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 125, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 100, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 100, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 125, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 125, 25);
+                 Obj_SetPosition( Obj_score[score_x], 505-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 5){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 125, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 125, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 150, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 150, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 125, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 125, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 150, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 150, 25);
+                 Obj_SetPosition( Obj_score[score_x], 480-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 6){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 150, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 150, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 175, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 175, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 150, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 150, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 175, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 175, 25);
+                 Obj_SetPosition( Obj_score[score_x], 455-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 7){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 175, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 175, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 200, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 200, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 175, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 175, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 200, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 200, 25);
+                 Obj_SetPosition( Obj_score[score_x], 430-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 8){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 200, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 200, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 225, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 225, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 200, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 200, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 225, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 225, 25);
+                 Obj_SetPosition( Obj_score[score_x], 405-score_a, 70 );   
+          }else{
+     if(score_cnt[score_x] == 9){
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 0, 225, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 1, 225, 25);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 2, 250, 0);
+                  ObjEffect_SetVertexUV( Obj_score[score_x], 3, 250, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 0, 225, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 1, 225, 25);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 2, 250, 0);
+                  ObjEffect_SetVertexXY( Obj_score[score_x], 3, 250, 25);
+                 Obj_SetPosition( Obj_score[score_x], 380-score_a, 70 );   
+          }
+}}}}}}}}}
+    
+score_x --;
+score_a += 22;
+}
+//グレイズ
+graze_x = 3;
+graze_a = 0;
+  loop(4){
+    if(graze_x == 3){
+     graze_cnt[graze_x] = GetGraze % 10;
+    }
+    if(graze_x == 2){
+     graze_cnt[graze_x] = GetGraze / 10;
+     graze_cnt[graze_x] = truncate(graze_cnt[graze_x]);
+     graze_cnt[graze_x] = graze_cnt[graze_x] % 10;
+    }
+    if(graze_x == 1){
+     graze_cnt[graze_x] = GetGraze / 100;
+     graze_cnt[graze_x] = truncate(graze_cnt[graze_x]);
+     graze_cnt[graze_x] = graze_cnt[graze_x] % 10;
+    }
+    if(graze_x == 0){
+     graze_cnt[graze_x] = GetGraze / 1000;
+     graze_cnt[graze_x] = truncate(graze_cnt[graze_x]);
+     graze_cnt[graze_x] = graze_cnt[graze_x] % 10;
+    }
+     if(graze_cnt[graze_x] == 0){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 0, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 0, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 25, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 25, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 0, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 0, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 25, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 25, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 496-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 1){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 25, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 25, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 50, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 50, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 25, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 25, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 50, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 50, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 471-graze_a, 145 );  
+          }
+     if(graze_cnt[graze_x] == 2){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 50, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 50, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 75, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 75, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 50, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 50, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 75, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 75, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 446-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 3){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 75, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 75, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 100, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 100, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 75, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 75, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 100, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 100, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 421-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 4){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 100, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 100, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 125, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 125, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 100, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 100, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 125, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 125, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 396-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 5){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 125, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 125, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 150, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 150, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 125, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 125, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 150, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 150, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 371-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 6){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 150, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 150, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 175, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 175, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 150, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 150, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 175, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 175, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 346-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 7){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 175, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 175, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 200, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 200, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 175, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 175, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 200, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 200, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 321-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 8){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 200, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 200, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 225, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 225, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 200, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 200, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 225, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 225, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 296-graze_a, 145 );   
+          }
+     if(graze_cnt[graze_x] == 9){
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 0, 225, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 1, 225, 25);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 2, 250, 0);
+                  ObjEffect_SetVertexUV( Obj_graze[graze_x], 3, 250, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 0, 225, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 1, 225, 25);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 2, 250, 0);
+                  ObjEffect_SetVertexXY( Obj_graze[graze_x], 3, 250, 25);
+                 Obj_SetPosition( Obj_graze[graze_x], 271-graze_a, 145 );   
+          }
+graze_x --;
+graze_a += 22;
+     }
+//パワー
+power_x = 2;
+power_a = 0;
+  loop(3){
+    if(power_x == 2){
+     power_cnt[power_x] = GetPoint % 10;
+    }
+    if(power_x == 1){
+     power_cnt[power_x] = GetPoint / 10;
+     power_cnt[power_x] = truncate(power_cnt[power_x]);
+     power_cnt[power_x] = power_cnt[power_x] % 10;
+    }
+    if(power_x == 0){
+     power_cnt[power_x] = GetPoint / 100;
+     power_cnt[power_x] = truncate(power_cnt[power_x]);
+     power_cnt[power_x] = power_cnt[power_x] % 10;
+    }
+     if(power_cnt[power_x] == 0){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 0, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 0, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 25, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 25, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 0, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 0, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 25, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 25, 25);
+                 Obj_SetPosition( Obj_power[power_x], 475-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 1){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 25, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 25, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 50, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 50, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 25, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 25, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 50, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 50, 25);
+                 Obj_SetPosition( Obj_power[power_x], 450-power_a, 225 );  
+          }
+     if(power_cnt[power_x] == 2){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 50, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 50, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 75, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 75, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 50, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 50, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 75, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 75, 25);
+                 Obj_SetPosition( Obj_power[power_x], 425-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 3){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 75, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 75, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 100, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 100, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 75, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 75, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 100, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 100, 25);
+                 Obj_SetPosition( Obj_power[power_x], 400-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 4){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 100, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 100, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 125, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 125, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 100, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 100, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 125, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 125, 25);
+                 Obj_SetPosition( Obj_power[power_x], 375-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 5){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 125, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 125, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 150, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 150, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 125, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 125, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 150, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 150, 25);
+                 Obj_SetPosition( Obj_power[power_x], 350-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 6){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 150, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 150, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 175, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 175, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 150, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 150, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 175, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 175, 25);
+                 Obj_SetPosition( Obj_power[power_x], 325-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 7){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 175, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 175, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 200, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 200, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 175, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 175, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 200, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 200, 25);
+                 Obj_SetPosition( Obj_power[power_x], 300-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 8){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 200, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 200, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 225, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 225, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 200, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 200, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 225, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 225, 25);
+                 Obj_SetPosition( Obj_power[power_x], 275-power_a, 225 );   
+          }
+     if(power_cnt[power_x] == 9){
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 0, 225, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 1, 225, 25);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 2, 250, 0);
+                  ObjEffect_SetVertexUV( Obj_power[power_x], 3, 250, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 0, 225, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 1, 225, 25);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 2, 250, 0);
+                  ObjEffect_SetVertexXY( Obj_power[power_x], 3, 250, 25);
+                 Obj_SetPosition( Obj_power[power_x], 250-power_a, 225 );   
+          }
+power_x --;
+power_a += 22;
+     }
+ loop(5){yield;}
+ DrawProgress;
+}

@@ -1,0 +1,45 @@
+script_enemy_main//’P”­’e
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let imgEnemy= gcsd~"img\meteor.png";
+    @Initialize
+    {
+       SetLife(30);
+    SetTexture(imgEnemy);
+    SetGraphicRect(7, 7 ,73 ,74);
+    SetGraphicAngle(0, 0, 0);
+    SetGraphicScale(1, 1);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    SetCollisionA(GetX,GetY,37);
+	SetCollisionB(GetX,GetY,37);
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+        VanishEnemy;
+      }
+       yield;
+  }
+    @Finalize
+    {
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+      }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+     }
+      SetCommonData("PowerAmount", rand(0,2));
+      SetCommonData("ShieldAmount", rand(1,3));
+     loop(rand_int(2,3)){
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Meteor02.txt", GetX, GetY, 0, 0, 1);
+      }
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

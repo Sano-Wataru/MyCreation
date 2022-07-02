@@ -1,0 +1,30 @@
+task Mega_Laser{
+  let obj = Obj_Create(OBJ_EFFECT);
+  let path = gcsd ~ "img\PlayerLaser.png";
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 114, 1);
+        ObjEffect_SetVertexUV( obj, 1, 114, 535+1);
+        ObjEffect_SetVertexUV( obj, 2, 114+64, 0);
+        ObjEffect_SetVertexUV( obj, 3, 114+64, 535+1);
+        ObjEffect_SetVertexXY( obj, 0, 114-64/2, 0-536/2);
+        ObjEffect_SetVertexXY( obj, 1, 114-64/2, 536-536/2);
+        ObjEffect_SetVertexXY( obj, 2, 114+64-64/2, 0-536/2);
+        ObjEffect_SetVertexXY( obj, 3, 114+64-64/2, 536-536/2);
+         Obj_SetPosition(obj, GetPlayerX, GetPlayerY);
+         ObjEffect_SetScale( obj, 1, 1);
+         ObjEffect_SetRenderState( obj, ADD);
+         ObjEffect_SetLayer( obj, 5 );
+
+     Position_Task;
+
+ task Position_Task{
+  while(Obj_BeDeleted(obj) == false){
+   Obj_SetPosition(obj, GetPlayerX, GetPlayerY);
+    yield;
+  }
+}
+
+}

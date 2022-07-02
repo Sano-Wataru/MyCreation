@@ -1,0 +1,66 @@
+script_enemy_main
+{//DeathEffect
+    @Initialize
+    {
+        let imgPath=GetCurrentScriptDirectory~"\img\effect.png";
+       SetLife(200);
+    LoadGraphic(imgPath);
+    SetTexture(imgPath);
+    MainTask;
+  }
+    @MainLoop
+    {
+
+       yield;
+  }
+    @Finalize
+    {
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+
+task MainTask {
+ let size = 15;
+ let alpha = 255;
+  SetGraphicRect(144,128,176,160);
+  SetGraphicScale(size,size);
+  SetRenderState(ALPHA);
+  SetAlpha(100);
+
+ loop(10){
+  loop(7){
+  SetGraphicScale(size,size);
+      size -= 2.15;
+     yield;
+    }
+    yield;
+  size = 15;
+  }
+   let imgPath=GetCurrentScriptDirectory~"\img\NuclearSpark.png";
+       LoadGraphic(imgPath);
+    SetTexture(imgPath);
+    SetGraphicRect(0,0,256,256);
+      SetAlpha(255);
+     
+    size = 0.05;
+    loop(20){
+      SetGraphicScale(size,size);
+        size += 0.5;
+      yield;
+      }
+       Wait(50);
+   loop(120){
+      SetAlpha(alpha);
+     alpha -= 255/120;
+       yield;
+     }
+    VanishEnemy;
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

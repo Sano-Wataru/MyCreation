@@ -1,0 +1,138 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let level = 0;
+    @Initialize
+    {
+        let imgEnemy= GetCurrentScriptDirectory~"img\enemy_all.png";
+       SetLife(70);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(3, 86 ,65 ,134);
+    SetGraphicAngle(0, 0, 0);
+    SetGraphicScale(0.6, 0.6);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+  MoveTask;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+       yield;
+  }
+    @Finalize
+    {
+      let angle = 0;
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("MPowerAmount", 1);
+      SetCommonData("PowerAmount", 10);
+
+      SetCommonData("ShieldAmount", rand(10,20));
+      SetCommonData("K_ShieldAmount", rand(6,3));
+      CreateEnemyFromFile(GetCurrentScriptDirectory~"Life.txt", GetX, GetY, 0, 90, 0);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+ task MoveTask{
+   SetMovePosition03(GetX, GetY + 200, 30, 5);
+     Wait(80);
+   MainShot;
+ }
+
+ task MainShot{
+    SubShot;
+   task SubShot{
+     loop{
+             let angle = GetAngleToPlayer;
+      loop(5){
+       loop(10){
+        LineShot01(GetX+30*cos(angle), GetY+30*sin(angle), 4, angle, 32, 10, 5, 0.5, 0);
+           angle += 360/10;
+         }
+           angle += 45;
+          Wait(10);
+        }
+
+          Wait(200);
+        angle = GetAngleToPlayer;
+      loop(5){
+       loop(10){
+        LineShot01(GetX+30*cos(angle), GetY+30*sin(angle), 4, angle, 32, 10, 5, 0.5, 0);
+           angle -= 360/10;
+         }
+           angle -= 45;
+          Wait(10);
+        }
+
+          Wait(200);
+         }
+      }//SubShot
+  loop{
+     Wait(100);
+             let a = 0;
+    loop(10){
+  WayShot01(GetX, GetY, 4, GetAngleToPlayer, 24, 20, a, 30);
+      a += 1;
+      Wait(5);
+    }
+     Wait(100);
+
+   }//ここまで
+
+ }
+
+function RoundShot01(X,Y,Speed,Angle,Color,Delay,Way) {
+    // X     X座標
+    // Y     Y座標
+    // Speed 弾速
+    // Angle 角度
+    // Color 弾の色
+    // Delay ディレイ
+    // Way   弾の数
+    loop(Way) {
+        CreateShot01(X,Y,Speed,Angle,Color,Delay);
+        Angle += 360/Way;
+    }
+}
+
+function LineShot01(X,Y,Speed,Angle,Color,Delay,Way,Speed2,Delay2) {
+    // X      X座標
+    // Y      Y座標
+    // Speed  弾速
+    // Angle  角度
+    // Color  弾の色
+    // Delay  ディレイ
+    // Way    弾の数
+    // Speed2 弾速の差
+    // Delay2 ディレイの差
+    loop(Way) {
+        CreateShot01(X,Y,Speed,Angle,Color,Delay);
+        Speed += Speed2;
+        Delay += Delay2;
+    }
+}
+
+function WayShot01(X,Y,Speed,Angle,Color,Delay,Way,Gap) {
+    // X     X座標
+    // Y     Y座標
+    // Speed 弾速
+    // Angle 角度
+    // Color 弾の色
+    // Delay ディレイ
+    // Way   弾の数
+    // Gap   弾同士の間隔　値を大きくすると弾が広がって撃たれます。
+    Angle -= (Way-1)/2*Gap;
+    loop(Way) {
+        CreateShot01(X,Y,Speed,Angle,Color,Delay);
+        Angle += Gap;
+    }
+}
+
+}

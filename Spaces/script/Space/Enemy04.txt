@@ -1,0 +1,56 @@
+script_enemy_main
+{//Enemy04(Gun)
+  //’¼i Ž©‹@‘_‚¢(’P”­)
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(80);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(59,0,82,20);
+    SetGraphicAngle(0,180,0);
+     ShotMain;
+  }
+    @MainLoop
+    {
+       //“–‚½‚è”»’è//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+      if(GetY > 700){
+         VanishEnemy;
+        }
+       yield;
+  }
+    @Finalize
+    {
+       loop(rand(0,2)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+         task ShotMain{
+  LoadUserShotData(GetCurrentScriptDirectory~"\ShotData");
+    let angle = 0;
+       loop {
+       if(GetArgument == 0){
+          angle = 180;
+          }
+
+       if(GetArgument == 1){
+          angle = 0;
+          }
+
+       CreateShot01(GetX,GetY,6,angle,7,0);
+       CreateShot01(GetX,GetY+10,6,angle,7,0);
+       CreateShot01(GetX,GetY-10,6,angle,7,0);
+         Wait(20);
+          }
+        }
+     function Wait(let x){
+    loop(x){yield;}
+        }
+}

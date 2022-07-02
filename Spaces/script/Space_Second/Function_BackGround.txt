@@ -1,0 +1,156 @@
+ task Reset_BackGround{
+ //îwåièâä˙âª//
+
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BackGround_01.png";//ÉpÉX
+
+        LoadGraphic(path);
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj, 0, x_min, y_min);
+        ObjEffect_SetVertexXY( obj, 1, x_min, y_max);
+        ObjEffect_SetVertexXY( obj, 2, x_max, y_min);
+        ObjEffect_SetVertexXY( obj, 3, x_max, y_max);
+         Obj_SetPosition( obj, x_min, y_min );
+         ObjEffect_SetLayer( obj, 0 );
+
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path2 = GetCurrentScriptDirectory ~ "img\BackGround_02.png";//ÉpÉX
+
+        LoadGraphic(path2);
+        ObjEffect_SetTexture( obj2, path2);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj2, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj2, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj2, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj2, 0, x_min, y_min);
+        ObjEffect_SetVertexXY( obj2, 1, x_min, y_max);
+        ObjEffect_SetVertexXY( obj2, 2, x_max, y_min);
+        ObjEffect_SetVertexXY( obj2, 3, x_max, y_max);
+        ObjEffect_SetVertexColor( obj2, 0, 200, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj2, 1, 200, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj2, 2, 200, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj2, 3, 200, 255, 255, 255);
+        ObjEffect_SetRenderState( obj2, ADD);
+         Obj_SetPosition( obj2, x_min, y_min );
+         ObjEffect_SetLayer( obj2, 4 );
+
+        let obj3 = Obj_Create( OBJ_EFFECT);
+        let path3 = GetCurrentScriptDirectory ~ "img\BackGround_03.png";//ÉpÉX
+
+        LoadGraphic(path3);
+        ObjEffect_SetTexture( obj3, path3);
+        ObjEffect_SetPrimitiveType( obj3, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj3, 4 );
+        ObjEffect_SetVertexUV( obj3, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj3, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj3, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj3, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj3, 0, x_min, y_min);
+        ObjEffect_SetVertexXY( obj3, 1, x_min, y_max);
+        ObjEffect_SetVertexXY( obj3, 2, x_max, y_min);
+        ObjEffect_SetVertexXY( obj3, 3, x_max, y_max);
+        ObjEffect_SetVertexColor( obj3, 0, 100, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj3, 1, 100, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj3, 2, 100, 255, 255, 255);
+        ObjEffect_SetVertexColor( obj3, 3, 100, 255, 255, 255);
+        ObjEffect_SetRenderState( obj3, ADD);
+         Obj_SetPosition( obj3, x_min, y_min );
+         ObjEffect_SetLayer( obj3, 1 );
+
+         BG_frame = 1;
+         G_obj[0] = obj;
+         G_obj[1] = obj2;
+         G_obj[2] = obj3;
+
+           BackGround_Move;
+          }//îwåièâä˙âªÇ±Ç±Ç‹Ç≈//
+
+    task BackGround_Move//îwåià⁄ìÆ//
+     {
+       loop{
+        ObjEffect_SetVertexUV( G_obj[1], 0, x_min + MoveX, y_min + MoveY);
+        ObjEffect_SetVertexUV( G_obj[1], 1, x_min + MoveX, y_max + MoveY);
+        ObjEffect_SetVertexUV( G_obj[1], 2, x_max + MoveX, y_min + MoveY);
+        ObjEffect_SetVertexUV( G_obj[1], 3, x_max + MoveX, y_max + MoveY);
+
+        ObjEffect_SetVertexUV( G_obj[2], 0, x_min + MoveX_2, y_min + MoveY_2);
+        ObjEffect_SetVertexUV( G_obj[2], 1, x_min + MoveX_2, y_max + MoveY_2);
+        ObjEffect_SetVertexUV( G_obj[2], 2, x_max + MoveX_2, y_min + MoveY_2);
+        ObjEffect_SetVertexUV( G_obj[2], 3, x_max + MoveX_2, y_max + MoveY_2);
+          MoveY -= 2;
+          MoveY_2 -= 1;
+       yield;
+         }
+      }
+
+ task Reset_Satelite{//âqêØèâä˙âª//
+
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path2 = GetCurrentScriptDirectory ~ "img\Satellite02.png";//ÉpÉX
+
+        LoadGraphic(path2);
+        ObjEffect_SetTexture( obj2, path2);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj2, 1, 0, 1114);
+        ObjEffect_SetVertexUV( obj2, 2, 1114, 0);
+        ObjEffect_SetVertexUV( obj2, 3, 1114, 1114);
+        ObjEffect_SetVertexXY( obj2, 0, 0, 0);
+        ObjEffect_SetVertexXY( obj2, 1, 0, 1114);
+        ObjEffect_SetVertexXY( obj2, 2, 1114, 0);
+        ObjEffect_SetVertexXY( obj2, 3, 1114, 1114);
+         Obj_SetPosition( obj2, GetCenterX-111, -25 );
+         ObjEffect_SetScale( obj2, 0.2, 0.2);
+         ObjEffect_SetRenderState( obj2, ALPHA);
+         ObjEffect_SetLayer( obj2, 0 );
+
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\Satellite01.png";//ÉpÉX
+
+        LoadGraphic(path);
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj, 1, 0, 1114);
+        ObjEffect_SetVertexUV( obj, 2, 1114, 0);
+        ObjEffect_SetVertexUV( obj, 3, 1114, 1114);
+        ObjEffect_SetVertexXY( obj, 0, 0, 0);
+        ObjEffect_SetVertexXY( obj, 1, 0, 1114);
+        ObjEffect_SetVertexXY( obj, 2, 1114, 0);
+        ObjEffect_SetVertexXY( obj, 3, 1114, 1114);
+         Obj_SetPosition( obj, GetCenterX-84, 0 );
+         ObjEffect_SetScale( obj, 0.15, 0.15);
+         ObjEffect_SetRenderState( obj, ALPHA);
+         ObjEffect_SetLayer( obj, 0 );
+
+       S_obj[0] = obj;
+       S_obj[1] = obj2;
+
+   ST_frame = 1;
+     Satellite_Move;
+   }//âqêØèâä˙âªÇ±Ç±Ç‹Ç≈//
+
+    task Satellite_Move//âqêØà⁄ìÆ//
+     {
+  let x = 0;
+  let y = 0;
+  let angle = 0;
+  loop {
+    Obj_SetPosition( S_obj[0], GetCenterX-84 + x, 0 + y );
+    Obj_SetPosition( S_obj[1], GetCenterX-111 + x, -25 + y );
+     x += 0.1;
+     y += 0.2;
+     angle += 1;
+    yield;
+      }
+   }

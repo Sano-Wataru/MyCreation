@@ -1,0 +1,734 @@
+script_enemy_main
+{
+   let gcsd = GetCurrentScriptDirectory;
+   let G_laser = 0;
+   let G_obj_frame = 0;
+   let G_obj_gage = 0;
+   let G_obj_gage2 = 0;
+   let G_obj_gage3 = 0;
+   let LifeP;
+
+  //シールドに必要な変数定義// 
+   let G_obj = 0;
+   let cnt = 0;
+   let Life = 3300; //敵本体のライフ
+   let ShieldLife = 1000; //シールドのライフ
+  //ここまで//
+
+   let LifeMax = Life+ShieldLife;
+
+    @Initialize
+    {
+        let imgEnemy= gcsd~"img\enemy_all.png";
+       SetLife(Life + ShieldLife);//シールドに必要なもの//
+    SetTexture(imgEnemy);
+    SetGraphicRect(65, 144 ,131 ,190);
+    SetGraphicScale(0.85, 0.85);
+
+   SetCommonData("ドローン死亡数", 0);
+
+   LoadUserShotData(gcsd~"ShotData_01.txt");
+
+   SetMovePosition01(GetX, GetCenterY, 1);
+   ShieldMiniTask(1.3, 24, 48);//シールドに必要なもの//
+   MainTask;
+    //AddLife(-2580);
+   //SecondTask;
+   //ThirdTask;
+   BossGage;
+  }
+
+   @MainLoop
+   {
+   SetCommonData("Boss02Life", GetLife);
+   SetCommonData("Boss02LifeMax", LifeMax);
+
+  let x_min = 0; let y_min = 45; let x_max = 500; let y_max = 60;
+   if(GetLife >= Life){
+    LifeP = 1;
+    }
+
+   if(GetLife >= Life*2/3 && GetLife < Life){
+    LifeP = (GetLife-(Life)*2/3)/((Life)-(Life)*2/3);
+    }
+
+   if(GetLife < Life*2/3 && GetLife >= Life*1/3){
+    LifeP = 1 + (GetLife-(Life)*2/3)/((Life)-(Life)*2/3);
+    }
+
+   if(GetLife < Life*1/3){
+    LifeP = 2 + (GetLife-(Life)*2/3)/((Life)-(Life)*2/3);
+    }
+
+       //当たり判定は消す//
+    SetGraphicAngle(0, 0, GetAngle - 90);
+
+         Obj_SetPosition( G_obj, GetX, GetY );
+
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+        VanishEnemy;
+      }
+  OutputDebugString(2, "", GetLife);
+         Obj_SetPosition( G_obj_frame, GetX, GetY - 40  );
+         Obj_SetPosition( G_obj_gage, GetX, GetY - 40  );
+         Obj_SetPosition( G_obj_gage2, GetX, GetY - 40  );
+         Obj_SetPosition( G_obj_gage3, GetX, GetY - 40  );
+
+   if(GetLife >= Life*2/3){//敵体力3/3~2/3
+        ObjEffect_SetVertexUV( G_obj_gage3, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage3, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage3, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage3, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage3, 0, x_min - x_max/2, (y_min -7*3) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 1, x_min - x_max/2, (y_max -7*3) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 2, x_max*LifeP - x_max/2, (y_min -7*3) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 3, x_max*LifeP - x_max/2, (y_max -7*3) - y_max/2);
+
+    x_min = 0; y_min = 30; x_max = 500; y_max = 45;
+        ObjEffect_SetVertexUV( G_obj_gage2, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage2, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage2, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage2, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage2, 0, (x_min+500-8)*LifeP - x_max/2, (y_min -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 1, (x_min+500-8)*LifeP - x_max/2, (y_max -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 2, x_max - x_max/2, (y_min -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 3, x_max - x_max/2, (y_max -7*2) - y_max/2);
+
+    x_min = 0; y_min = 15; x_max = 500; y_max = 30;
+        ObjEffect_SetVertexUV( G_obj_gage, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage, 0, x_min - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 1, x_min - x_max/2, (y_max -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 2, x_max*0 - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 3, x_max*0 - x_max/2, (y_max -7*1) - y_max/2);
+        }
+
+    if(GetLife < Life*2/3 && GetLife >= Life*1/3){//敵体力2/3~1/3
+    x_min = 0; y_min = 30; x_max = 500; y_max = 45;
+        ObjEffect_SetVertexUV( G_obj_gage2, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage2, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage2, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage2, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage2, 0, x_min - x_max/2, (y_min -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 1, x_min - x_max/2, (y_max -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 2, x_max*LifeP - x_max/2, (y_min -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 3, x_max*LifeP - x_max/2, (y_max -7*2) - y_max/2);
+
+    x_min = 0; y_min = 15; x_max = 500; y_max = 30;
+        ObjEffect_SetVertexUV( G_obj_gage, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage, 0, (x_min+500-8)*LifeP - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 1, (x_min+500-8)*LifeP - x_max/2, (y_max -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 2, x_max - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 3, x_max - x_max/2, (y_max -7*1) - y_max/2);
+
+    x_min = 0; y_min = 45; x_max = 500; y_max = 60;
+        ObjEffect_SetVertexUV( G_obj_gage3, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage3, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage3, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage3, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage3, 0, x_min - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 1, x_min - x_max/2, (y_max -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 2, x_max*0 - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 3, x_max*0 - x_max/2, (y_max -7*1) - y_max/2);
+
+       }
+
+    if(GetLife < Life*1/3){//敵体力1/3
+    x_min = 0; y_min = 45; x_max = 500; y_max = 60;
+        ObjEffect_SetVertexUV( G_obj_gage3, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage3, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage3, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage3, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage3, 0, x_min - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 1, x_min - x_max/2, (y_max -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 2, x_max*0 - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage3, 3, x_max*0 - x_max/2, (y_max -7*1) - y_max/2);
+
+    x_min = 0; y_min = 30; x_max = 500; y_max = 45;
+        ObjEffect_SetVertexUV( G_obj_gage2, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage2, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage2, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage2, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage2, 0, x_min - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 1, x_min - x_max/2, (y_max -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 2, x_max*0 - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage2, 3, x_max*0 - x_max/2, (y_max -7*1) - y_max/2);
+
+    x_min = 0; y_min = 15; x_max = 500; y_max = 30;
+        ObjEffect_SetVertexUV( G_obj_gage, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( G_obj_gage, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( G_obj_gage, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( G_obj_gage, 0, x_min - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 1, x_min - x_max/2, (y_max -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 2, x_max*LifeP - x_max/2, (y_min -7*1) - y_max/2);
+        ObjEffect_SetVertexXY( G_obj_gage, 3, x_max*LifeP - x_max/2, (y_max -7*1) - y_max/2);
+     }
+
+       yield;
+   }
+
+   @Finalize
+   {
+     if(GetX < GetClipMinX - 70 || GetX > GetClipMaxX + 70 || GetY < GetClipMinY - 70 || GetY > GetClipMaxY + 70){
+   }else{
+     CreateEnemyFromFile(gcsd~"EnemyDeath01.txt", GetX, GetY, 0, 0, 0);
+      SetCommonData("Power", rand(8,14));
+      SetCommonData("GPower", 1);
+      SetCommonData("K_ShieldAmount", rand(10,12));
+      SetCommonData("M_ShieldAmount", rand(5,6));
+
+    }
+   }
+
+   @DrawLoop
+   {//描画
+     DrawGraphic(GetX, GetY);
+   }
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+function WayLaser01(X,Y,Speed,Angle,Length,Width,Color,Delay,Way,Gap) {
+    // X     X座標
+    // Y     Y座標
+    // Speed 弾速
+    // Angle 角度
+    // Color 弾の色
+    // Delay ディレイ
+    // Way   弾の数
+    // Gap   弾同士の間隔　値を大きくすると弾が広がって撃たれます。
+    Angle -= (Way-1)/2*Gap;
+    loop(Way) {
+        CreateLaser01(X,Y,Speed,Angle,Length,Width,Color,Delay);
+        Angle += Gap;
+    }
+}
+
+ task MainTask{
+
+     SetDamageRate(0,0);
+   let angle = 0;
+     Wait(300);
+     SetDamageRate(100,100);
+
+   CreateEnemyFromScript("Family", GetX, GetY, 0, 0, 0);
+   CreateEnemyFromScript("Family", GetX, GetY, 0, 0, 90);
+   CreateEnemyFromScript("Family", GetX, GetY, 0, 0, 180);
+   CreateEnemyFromScript("Family", GetX, GetY, 0, 0, 270);
+  Wait(100);
+
+  loop(10){
+   Obj_Shot(GetX, GetY, angle, 10, 60, 120, 0.3, 30, 1, 0.5, 0, 3, 300);
+       angle += 360/10;
+    }
+   Wait(50);
+  loop(10){
+   Obj_Shot(GetX, GetY, angle, 10, 60, 120, 0.3, 30, 1, -0.5, 0, 3, 300);
+       angle += 360/10;
+    }
+   Wait(50);
+  loop(10){
+   Obj_Shot(GetX, GetY, angle, 10, 60, 160, 0.8, 60, 0.4, 0.5, 0, 3, 300);
+       angle += 360/10;
+    }
+
+  Wait(300);
+
+  loop(3){
+   angle = GetAngleToPlayer;
+    loop(10){
+   loop(4){
+     CreateShot01(GetX, GetY, 2.5, angle, 40, 0);
+          angle += 90;
+         }
+         angle += 3;
+         Wait(3);
+       }
+    Wait(10); 
+      angle += 30;
+
+    loop(10){
+   loop(4){
+     CreateShot01(GetX, GetY, 2.5, angle, 40, 0);
+          angle += 90;
+         }
+         angle -= 3;
+         Wait(3);
+       }
+    Wait(10); 
+      angle -= 30;
+    }
+
+  LaserTask(0);
+   Wait(50);
+ loop(10){
+  loop(8){
+   Obj_Shot(GetX, GetY, angle, 10, 60, 300, -1.2, 300, -1.2, 0.4, 0, 3, 270);
+       angle += 360/8;
+    }
+   Wait(10);
+   }
+  Wait(100);
+ loop(10){
+  loop(8){
+   Obj_Shot(GetX, GetY, angle, 10, 60, 300, -1.2, 300, -1.2, -0.4, 0, 3, 270);
+       angle += 360/8;
+    }
+   Wait(10);
+   }
+
+}
+
+ task LaserTask(n){
+    let angle = 0;
+  if(n == 0){
+  loop(20){
+   loop(4){
+    Obj_Laser(GetX, GetY, angle, 0.5, 100, 14, 10, 100, 1, 200);
+    Obj_Laser(GetX, GetY, angle, -0.5, 100, 14, 10, 400, -1, 200);
+      angle += 90;
+    }
+   Wait(10);
+   }
+  }
+
+ if(n == 1){
+  loop(20){
+   loop(4){
+    Obj_Laser(GetX, GetY, angle, -0.5, 100, 14, 10, 100, 1, 200);
+    Obj_Laser(GetX, GetY, angle, 0.5, 100, 14, 10, 400, -1, 200);
+      angle += 90;
+    }
+   Wait(10);
+   }
+  }
+
+  if(n == 2){
+  loop(20){
+   loop(4){
+    Obj_Laser(GetX, GetY, angle, 0.5, 100, 14, 10, 0, 1, 200);
+    Obj_Laser(GetX, GetY, angle, -0.5, 100, 14, 10, 500, -1, 200);
+      angle += 90;
+    }
+   Wait(10);
+   }
+  }
+
+ if(n == 3){
+  loop(20){
+   loop(4){
+    Obj_Laser(GetX, GetY, angle, 0.5, 100, 14, 10, -100, 1, 200);
+    Obj_Laser(GetX, GetY, angle, -0.5, 100, 14, 10, 300, -1, 200);
+      angle += 90;
+    }
+   Wait(10);
+   }
+ }
+
+  Wait(200);
+   SetMovePosition03(GetX, GetY-70, 15, 3);
+  Wait(500);
+ loop(2){
+ Sub_LaserTask;
+
+  let a = 0;
+loop(20){
+ loop(3){
+   loop(4){
+     CreateShot01(GetX+30*cos(angle), GetY+30*sin(angle), 1.5, angle+a, 71, 10);
+     a += 90;
+   }
+     angle += 5;
+    Wait(2);
+  }
+    angle += 30;
+   Wait(2);
+ }
+   Wait(500);
+  }
+
+ task Sub_LaserTask{
+  Wait(30);
+  let angle2;
+  let angle3;
+   angle2 = GetAngleToPlayer; let distance = 100; let len = 150; let cnt = 30; let wait = 10; let clen = 20;
+   angle3 = GetAngleToPlayer; let distance2 = 100;
+   //cnt = 距離変化量
+   //wait = レーザー設置の速度
+  loop(10){
+     loop(4){
+    LineLaser(GetX, GetY, angle2, 14, len, clen, 15, distance, 140);
+      angle2 += 360/4;
+      Wait(wait);
+    }
+      Line_SinuateTask;
+  task Line_SinuateTask{
+      Wait(50);//曲がるレーザーの間隔
+    Line_SinuateLaser(GetX+distance2*cos(angle3+135), GetY+distance2*sin(angle3+135), 20, angle3, 0, 14, 30, 10, distance2*0.0681955, 3, 90);
+      distance2 += cnt; angle3 += 30;
+           }
+      distance += cnt; angle2 += 30; len += cnt*3/2; clen += cnt*0.2;
+  }
+
+}
+   SetMovePosition03(GetX, GetCenterY, 15, 3);
+
+   if(GetLife > LifeMax*3/4){//体力判定//
+      MainTask;
+    }
+   if(GetLife <= LifeMax*3/4 && GetLife > LifeMax*3/5){
+     SecondTask;
+   }
+  if(GetLife <= LifeMax*3/5){
+     ThirdTask;
+ }
+
+}
+
+task SecondTask{//セカンドタスク//
+  let angle = 0;
+ Wait(120);
+   loop(8){
+     CreateEnemyFromScript("Family2", GetX, GetY, 0, 0, angle);
+       angle += 360/8;
+    }
+   Wait(60);
+  SMove;
+   Wait(200);
+  SShot;
+}
+
+ task SMove{
+   SetMovePosition01(GetCenterX, GetCenterY-120, 0.3);
+     Wait(500);
+  while(GetLife > LifeMax*2/5){
+   SetMovePosition01(GetCenterX+rand(-100,100), GetCenterY-120+rand(0,100), 0.3);
+     Wait(500);
+   SetMovePosition01(GetCenterX, GetCenterY-120, 0.3);
+     Wait(500);
+   }
+
+}
+
+ task SShot{
+  let angle = 0; let angle2 = 180;
+ loop(100){
+      loop(3){
+     CreateLaser01(GetX+120*cos(angle), GetY+30*sin(angle), 3, angle, 60, 5, 18, 10);
+   angle += 360/3;
+  }
+     Wait(3);
+     angle += 5;
+      }
+
+ loop(50){
+      loop(3){
+     CreateLaser01(GetX+120*cos(angle), GetY+30*sin(angle), 3, angle, 60, 5, 18, 10);
+     CreateLaser01(GetX+120*0.7*cos(angle2), GetY+30*0.7*sin(angle2), 3, angle2, 60, 5, 18, 10);
+   angle2 += 360/3;
+   angle += 360/3;
+  }
+     Wait(3);
+     angle2 -= 10+1;
+     angle += 5;
+      }
+    Wait(80);
+  SLaserTask;
+
+  if(GetLife <= LifeMax*3/5){
+     SShot2;
+ }
+
+}
+
+ task SLaserTask{
+  let angle2;
+  let angle3;
+   angle2 = GetAngleToPlayer; let distance = 100; let len = 150; let cnt = 30; let wait = 2; let clen = 20;
+   angle3 = GetAngleToPlayer; let distance2 = 100;
+   //cnt = 距離変化量
+   //wait = レーザー設置の速度
+  loop(10){
+     loop(4){
+    LineLaser(GetX, GetY, angle2, 14, len, clen, 15, distance, 140);
+      angle2 += 360/4;
+      Wait(wait);
+    }
+      Line_SinuateTask;
+  task Line_SinuateTask{
+      Wait(50);//曲がるレーザーの間隔
+    Line_SinuateLaser(GetX+distance2*cos(angle3+135), GetY+distance2*sin(angle3+135), 20, angle3, 0, 14, 30, 10, distance2*0.0681955, 3, 90);
+      distance2 += cnt; angle3 += 30;
+           }
+      distance += cnt; angle2 += 30; len += cnt*3/2; clen += cnt*0.2;
+  }
+}
+
+ task SShot2{
+  let angle;
+   while(GetLife <= LifeMax*3/5 && GetLife >= LifeMax*2/5){
+     angle = GetAngleToPlayer;
+      Wait(600);
+       loop(40){
+        CreateShot01(GetX, GetY, 2, angle, 44, 10);
+             angle += 360/40;
+           }
+         Wait(15);
+        loop(30){
+        CreateShot01(GetX, GetY, 3, angle, 44, 10);
+             angle += 360/30;
+           }
+         Wait(15);
+         loop(50){
+        CreateShot01(GetX, GetY, 1.8, angle, 44, 10);
+            angle += 360/50;
+            }
+         Wait(15);
+  }
+  ThirdTask;
+}
+
+ task ThirdTask{//サードタスク//
+ let angle;
+    SetCoordinateType(COODINATE_TYPE_ABSOLUTE);
+  Wait(20);
+    SetMovePosition03(GetCenterX, GetCenterY-120, 15, 3);
+  Wait(100);
+    SetAngle(90);
+   angle = 0;
+    loop(6){
+     CreateEnemyFromScript("Family3", GetX, GetY, 0, 0, angle);
+       angle += 360/6;
+     }
+  angle = 0;
+    loop(10){
+     CreateEnemyFromScript("Family4", GetX, GetY, 0, 0, angle);
+       angle += 360/10;
+     }
+}
+
+ task Obj_Laser(x, y, angle, Aangle, delay, graphic, wid, distance, cnt, time){
+   let obj = Obj_Create(OBJ_LASER); let len;
+
+    Obj_SetAngle(obj, angle);
+    ObjShot_SetDelay(obj, delay);
+    ObjShot_SetGraphic(obj, graphic);
+    ObjLaser_SetWidth(obj, wid);
+    Obj_SetAutoDelete(obj, false);
+
+   loop(time){
+     angle += Aangle; len = distance*200/150; distance += cnt;
+    Obj_SetX(obj, x+distance*cos(angle+135));
+    Obj_SetY(obj, y+distance*sin(angle+135));
+    ObjLaser_SetLength(obj, len);
+    Obj_SetAngle(obj, angle);
+      yield;
+    }
+  let alpha = 255;
+   loop(10){
+
+     angle += Aangle; len = distance*200/150; distance += cnt;
+    Obj_SetX(obj, x+distance*cos(angle+135));
+    Obj_SetY(obj, y+distance*sin(angle+135));
+    ObjLaser_SetLength(obj, len);
+    Obj_SetAngle(obj, angle);
+
+      Obj_SetAlpha(obj, alpha);
+        alpha -= 255/10;
+      yield;
+     }
+   Obj_Delete(obj);
+}
+
+ task Obj_Shot(x, y, angle, delay, graphic, distance, dc, distance2, dc2, cnt, cad, speed, time){
+  let obj = Obj_Create(OBJ_SHOT);
+
+   Obj_SetX(obj, x);
+   Obj_SetY(obj, y);
+   Obj_SetAngle(obj, angle);
+   ObjShot_SetDelay(obj, delay);
+   ObjShot_SetGraphic(obj, graphic);
+   Obj_SetAutoDelete(obj, false);
+
+   loop(time){
+     Obj_SetX(obj, x+distance*cos(angle));
+     Obj_SetY(obj, y+distance2*sin(angle));
+        angle += cnt; cnt += cad;
+        distance += dc; distance2 += dc2;
+       yield;
+      }
+  let alpha = 255;
+   loop(10){
+    Obj_SetAlpha(obj, alpha);
+       alpha -= 255/10; yield;
+     }
+     Obj_Delete(obj);
+}
+
+ task LineLaser(x, y, angle, graphic, setlen, clen, wid, distance, time){
+   let obj = Obj_Create(OBJ_LASER); let len;
+
+    Obj_SetAngle(obj, angle);
+    ObjShot_SetDelay(obj, 99999);
+    ObjShot_SetGraphic(obj, graphic);
+    ObjLaser_SetWidth(obj, wid);
+    ObjLaser_SetLength(obj, 0);
+    Obj_SetAutoDelete(obj, false);
+    ObjLaser_SetSource(obj, false);
+
+  LengthTask;
+ task LengthTask{
+   let len = 0;
+    while(len < setlen){
+      ObjLaser_SetLength(obj, len);
+     len += clen;
+     yield;
+   }
+}
+
+   loop(time){
+    Obj_SetX(obj, x+distance*cos(angle+135));
+    Obj_SetY(obj, y+distance*sin(angle+135));
+    Obj_SetAngle(obj, angle+270);
+      yield;
+    }
+  let alpha = 255;
+
+   loop(10){
+      Obj_SetAlpha(obj, alpha);
+        alpha -= 255/10;
+      yield;
+     }
+
+   Obj_Delete(obj);
+}
+
+ task Line_SinuateLaser(x, y, speed, angle, delay, graphic, len, wid, wait, cnt, curb){
+   let obj = Obj_Create(OBJ_SINUATE_LASER);
+
+    Obj_SetX(obj, x);
+    Obj_SetY(obj, y);
+    Obj_SetSpeed(obj, speed);
+    Obj_SetAngle(obj, angle);
+    ObjShot_SetDelay(obj, delay);
+    ObjShot_SetGraphic(obj, graphic);
+    ObjSinuateLaser_SetLength(obj, len);
+    ObjSinuateLaser_SetWidth(obj, wid);
+    Obj_SetAutoDelete(obj, false);
+
+ let i = 1;
+ loop(cnt){
+   Wait(wait);
+     Obj_SetAngle(obj, angle-curb*i);
+    i++;
+   }
+   Wait(wait);
+  Obj_SetSpeed(obj, 0);
+   Wait(wait*3);
+  Obj_Delete(obj);
+}
+
+//ボスゲージ//
+task BossGage{ 
+  let x_min = 0; let y_min = 0; let x_max = 500; let y_max = 15; let size = 0.4;
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BossGage.png";//パス
+
+        LoadGraphic(path);
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj, 0, x_min - x_max/2, y_min - y_max/2);
+        ObjEffect_SetVertexXY( obj, 1, x_min - x_max/2, y_max - y_max/2);
+        ObjEffect_SetVertexXY( obj, 2, x_max - x_max/2, y_min - y_max/2);
+        ObjEffect_SetVertexXY( obj, 3, x_max - x_max/2, y_max - y_max/2);
+
+         ObjEffect_SetScale( obj, size, size);
+         Obj_SetPosition( obj, GetX, GetY - 40 );
+         ObjEffect_SetLayer( obj, 5 );
+
+  x_min = 0; y_min = 15; x_max = 500; y_max = 30;
+        let obj2 = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BossGage.png";//パス
+
+        LoadGraphic(path);
+        ObjEffect_SetTexture( obj2, path);
+        ObjEffect_SetPrimitiveType( obj2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj2, 4 );
+        ObjEffect_SetVertexUV( obj2, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj2, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj2, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj2, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj2, 0, x_min - x_max/2, (y_min -7) - y_max/2);
+        ObjEffect_SetVertexXY( obj2, 1, x_min - x_max/2, (y_max -7) - y_max/2);
+        ObjEffect_SetVertexXY( obj2, 2, x_max - x_max/2, (y_min -7) - y_max/2);
+        ObjEffect_SetVertexXY( obj2, 3, x_max - x_max/2, (y_max -7) - y_max/2);
+
+         ObjEffect_SetScale( obj2, size, size);
+         ObjEffect_SetRenderState( obj2, ADD);
+         Obj_SetPosition( obj2, GetX, GetY - 40  );
+         ObjEffect_SetLayer( obj2, 5 );
+
+  x_min = 0; y_min = 30; x_max = 500; y_max = 45;
+        let obj3 = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BossGage.png";//パス
+
+        ObjEffect_SetTexture( obj3, path);
+        ObjEffect_SetPrimitiveType( obj3, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj3, 4 );
+        ObjEffect_SetVertexUV( obj3, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj3, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj3, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj3, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj3, 0, x_min - x_max/2, (y_min -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( obj3, 1, x_min - x_max/2, (y_max -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( obj3, 2, x_max - x_max/2, (y_min -7*2) - y_max/2);
+        ObjEffect_SetVertexXY( obj3, 3, x_max - x_max/2, (y_max -7*2) - y_max/2);
+
+         ObjEffect_SetScale( obj3, size, size);
+         ObjEffect_SetRenderState( obj3, ADD);
+         Obj_SetPosition( obj3, GetX, GetY - 40  );
+         ObjEffect_SetLayer( obj3, 5 );
+
+  x_min = 0; y_min = 45; x_max = 500; y_max = 60;
+        let obj4 = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\BossGage.png";//パス
+
+        ObjEffect_SetTexture( obj4, path);
+        ObjEffect_SetPrimitiveType( obj4, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj4, 4 );
+        ObjEffect_SetVertexUV( obj4, 0, x_min, y_min);
+        ObjEffect_SetVertexUV( obj4, 1, x_min, y_max);
+        ObjEffect_SetVertexUV( obj4, 2, x_max, y_min);
+        ObjEffect_SetVertexUV( obj4, 3, x_max, y_max);
+        ObjEffect_SetVertexXY( obj4, 0, x_min - x_max/2, (y_min -7*3) - y_max/2);
+        ObjEffect_SetVertexXY( obj4, 1, x_min - x_max/2, (y_max -7*3) - y_max/2);
+        ObjEffect_SetVertexXY( obj4, 2, x_max - x_max/2, (y_min -7*3) - y_max/2);
+        ObjEffect_SetVertexXY( obj4, 3, x_max - x_max/2, (y_max -7*3) - y_max/2);
+
+         ObjEffect_SetScale( obj4, size, size);
+         ObjEffect_SetRenderState( obj4, ADD);
+         Obj_SetPosition( obj4, GetX, GetY - 40  );
+         ObjEffect_SetLayer( obj4, 5 );
+
+    G_obj_frame = obj; G_obj_gage = obj2; G_obj_gage2 = obj3; G_obj_gage3 = obj4;
+ }
+
+#include_function".\Function_ShieldMini2.txt"
+#include_function".\Function_PointItem.txt"
+}
+#include_script".\Boss02_Familiar.txt"
+#include_script".\Boss02_Familiar2.txt"
+#include_script".\Boss02_Familiar3.txt"
+#include_script".\Boss02_Familiar4.txt"

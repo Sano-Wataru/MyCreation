@@ -1,0 +1,52 @@
+ task ShieldMiniTask(size, x, px){
+    //シールドの画像サイズ--size
+    //自機の当たり判定--x(デフォルト24)
+    //シールドの当たり判定--y(デフォルト45)
+
+        let obj = Obj_Create( OBJ_EFFECT);
+        let path = GetCurrentScriptDirectory ~ "img\Enemy_Appear2.png";//パス
+
+    let min = 0; let max = 236; let alpha = 120;
+
+        ObjEffect_SetTexture( obj, path);
+        ObjEffect_SetPrimitiveType( obj, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj, 4 );
+        ObjEffect_SetVertexUV( obj, 0, min, min);
+        ObjEffect_SetVertexUV( obj, 1, min, max);
+        ObjEffect_SetVertexUV( obj, 2, max, min);
+        ObjEffect_SetVertexUV( obj, 3, max, max);
+        ObjEffect_SetVertexXY( obj, 0, min - max/2, min - max/2);
+        ObjEffect_SetVertexXY( obj, 1, min - max/2, max - max/2);
+        ObjEffect_SetVertexXY( obj, 2, max - max/2, min - max/2);
+        ObjEffect_SetVertexXY( obj, 3, max - max/2, max - max/2);
+         Obj_SetPosition( obj, GetX, GetY );
+         ObjEffect_SetLayer( obj, 3 );
+         ObjEffect_SetScale( obj, 0.3 * size, 0.3 * size);
+         ObjEffect_SetVertexColor( obj, 0, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj, 1, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj, 2, alpha, 255, 255, 255);
+         ObjEffect_SetVertexColor( obj, 3, alpha, 255, 255, 255);
+         ObjEffect_SetRenderState( obj, ADD);
+    G_obj = obj;
+   ShieldMiniProcess;
+
+ task ShieldMiniProcess{
+ loop{
+  if(GetLife > Life - ShieldLife){
+    SetCollisionA(GetX,GetY,px);
+	SetCollisionB(GetX,GetY,x);
+             }else{
+    SetCollisionA(GetX,GetY,x);
+	SetCollisionB(GetX,GetY,x);
+         }
+
+  if(GetLife <= Life && cnt == 0){
+     Obj_Delete(G_obj);
+     CreateEnemyFromFile(gcsd~"EnemyDeath02.txt", GetX, GetY, 0, 0, 0);
+      cnt = 1;
+   }
+     yield;
+     }
+ }//ShieldMiniProcess
+
+ }

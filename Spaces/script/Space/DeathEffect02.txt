@@ -1,0 +1,43 @@
+script_enemy_main
+{//DeathEffect
+    @Initialize
+    {
+        let imgPath=GetCurrentScriptDirectory~"\img\effect.png";
+       SetLife(200);
+    LoadGraphic(imgPath);
+    SetTexture(imgPath);
+    MainTask;
+  }
+    @MainLoop
+    {
+
+       yield;
+  }
+    @Finalize
+    {
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetX,GetY);
+  }
+
+task MainTask {
+ let a = 0; 
+ let b = 48;
+ let size = 1;
+  loop(6){
+        SetGraphicRect(a,64,b,112);
+        SetGraphicScale(size,size);
+      Wait(2);
+      a += 48;
+      b += 48;
+      size += 1;
+      }
+    VanishEnemy;
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

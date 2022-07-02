@@ -1,0 +1,73 @@
+script_enemy_main
+{//Circle
+    @Initialize
+    {
+        let imgPath=GetCurrentScriptDirectory~"Jet\Magic_Circle.png";
+       SetLife(200);
+    LoadGraphic(imgPath);
+    SetTexture(imgPath);
+    SetGraphicRect(0,0,480,480);
+    SetGraphicScale(0.1, 0.1);
+    MainTask;
+    EndTask;
+  }
+    @MainLoop
+    {
+
+       yield;
+  }
+    @Finalize
+    {
+  }
+    @DrawLoop
+    {//•`‰æ
+    DrawGraphic(GetPlayerX,GetPlayerY);
+  }
+
+task MainTask {
+  let size = 0.1;
+  let alpha = 255;
+ loop(30){
+    SetGraphicScale(size, size);
+    SetAlpha(alpha);
+  size += 0.1;
+  alpha -= 8.7;
+  yield;
+  }
+   alpha = 0;
+    SetGraphicScale(0.3,0.3);
+      AngleTask;
+     loop(30){
+    SetAlpha(alpha);
+    alpha += 8.7;
+   yield;
+      }
+}
+
+task AngleTask{
+     let angle = 0;
+     let cnt = 10;
+     loop{
+         SetGraphicAngle(0, 0, angle);
+     angle += cnt;
+       cnt += 0.7;
+  yield;
+  }
+}
+
+task EndTask{
+  Wait(250);
+  let alpha = 255;
+       loop(30){
+    SetAlpha(alpha);
+    alpha -= 8.7;
+   yield;
+      }
+  VanishEnemy;
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+}

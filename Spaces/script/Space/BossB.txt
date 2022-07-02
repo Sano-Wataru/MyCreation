@@ -1,0 +1,538 @@
+script_enemy_main
+{//BossB(Gun)
+  //中ボス
+      let G_on = false;
+    @Initialize
+    {
+        let imgEnemy="script\Space\img\all_type.png";
+       SetLife(4000);
+    LoadGraphic(imgEnemy);
+    SetTexture(imgEnemy);
+    SetGraphicRect(358,0,381,22);
+    SetGraphicAngle(0,180,0);
+    SetGraphicScale(1.5,1.5);
+    LoadUserShotData(GetCurrentScriptDirectory~"ShotData.txt");
+     StartMove;
+  }
+    @MainLoop
+    {
+       //当たり判定//
+    	SetCollisionA(GetX,GetY,24);
+	SetCollisionB(GetX,GetY,24);
+     
+       yield;
+  }
+    @Finalize
+    {
+    let angle = 0;
+       loop(10){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+40*cos(angle),GetY+40*sin(angle),0,0,0);
+             angle += 360/10
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect02.txt",GetX,GetY,0,0,0);
+  }
+    @DrawLoop
+    {//描画
+    DrawGraphic(GetX,GetY);
+  }
+  
+ task StartMove{
+   SetMovePosition03(GetCenterX,GetCenterY-50,10,4);
+   Wait(60);
+   FirstShot;
+  Wait(500);
+   MainShot;
+   }
+  
+ function CreateEnemy(x) {
+  if(x == 0){
+   CreateEnemyFromScript("Missile",GetX,GetY,0,0,0);
+   CreateEnemyFromScript("Missile",GetX,GetY,0,0,1);
+     }
+  if(x == 1){
+   CreateEnemyFromScript("Missile",GetX,GetY,0,0,2);
+   CreateEnemyFromScript("Missile",GetX,GetY,0,0,3);
+     }
+   if(x == 2){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-100,GetClipMinY,0,0,1);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+100,GetClipMinY,0,0,1);
+      }
+   if(x == 3){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX-120,GetClipMinY-50,0,0,1);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy03.txt",GetCenterX+120,GetClipMinY-50,0,0,1);
+      }
+   if(x == 4){
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX-80,GetClipMinY-20,0,0,1);
+    CreateEnemyFromFile(GetCurrentScriptDirectory~"Enemy01.txt",GetCenterX+80,GetClipMinY-20,0,0,1);
+      }
+   if(x == 5){
+   CreateEnemyFromScript("Triangle",GetX,GetY,0,0,0);
+   CreateEnemyFromScript("Triangle",GetX,GetY,0,0,1);
+   CreateEnemyFromScript("Triangle",GetX,GetY,0,0,2);
+   CreateEnemyFromScript("Triangle",GetX,GetY,0,0,3);
+     }
+  }
+
+ task FirstShot {
+  let angle = GetAngleToPlayer-60;
+  let angle2 = GetAngleToPlayer+60;
+  G_on = false;
+  CreateLaserB(0,300,25,6,60);
+  SetLaserDataB(0,0,0,30,0,angle,0,angle,0);
+  SetLaserDataB(0,60,0,30,0,angle,0.2,angle,0.2);
+  CreateLaserB(1,300,25,6,60);
+  SetLaserDataB(1,0,0,30,0,angle2,0,angle2,0);
+  SetLaserDataB(1,60,0,30,0,angle2,-0.2,angle2,-0.2);
+  SetShotKillTime(0,300);
+  SetShotKillTime(1,300);
+     FireShot(0);
+     FireShot(1);
+          Wait(400);
+      SubShot01;
+      Wait(100);
+      CreateEnemy(0);
+      Wait(150);
+      CreateEnemy(1);
+      Wait(200);
+      CreateEnemy(2);
+      Wait(50);
+      CreateEnemy(3);
+      Wait(50);
+      CreateEnemy(4);
+      Wait(250);
+      CreateEnemy(5);
+      Wait(120);
+      CreateEnemyFromScript("Shield",GetX,GetY,0,0,0);
+      CreateEnemyFromScript("Shield_Sub",GetX,GetY,0,0,0);
+    Wait(200);
+    G_on = true;
+    Wait(800);
+     FirstShot;
+      
+ }
+  task SubShot01{
+ let angle = GetAngleToPlayer;
+    loop(45){
+      CreateReflectShot(GetX,GetY,7,angle+rand(-10,10),8,0,1);
+     Wait(2);
+         }
+  }
+
+    task MainShot{
+ 
+  let angle = GetAngleToPlayer;
+  let cnt = 0;
+
+  loop(4){
+  angle = GetAngleToPlayer;
+
+  cnt = -10;
+  loop(5){
+  CreateShot01(GetX,GetY,4.6,angle+cnt,12,20);
+     cnt += 5;
+   }
+  cnt = -6;
+  loop(5){
+  CreateShot01(GetX,GetY,4.8,angle+cnt,12,15);
+     cnt += 3;
+   }
+  cnt = -3;
+  loop(5){
+  CreateShot01(GetX,GetY,5,angle+cnt,12,10);
+     cnt += 1;
+   }
+
+  CreateLaser01(GetX,GetY,5,angle,70,20,12,0);
+
+   Wait(150);
+   }
+  SecondMain;
+}
+
+task SecondMain{
+ let angle1 = GetAngleToPlayer;
+ let angle2 = GetAngleToPlayer;
+ if(G_on == true){
+  loop(30){
+   CreateShot01(GetX+10*cos(angle1),GetY+10*sin(angle1),5,angle1,10,0);
+   CreateShot01(GetX+10*cos(angle2),GetY+10*sin(angle2),5,angle2,10,0);
+      angle1 += 360/20-1;
+      angle2 -= 360/20-1;
+  Wait(1);
+     }
+  loop(30){
+   CreateShot01(GetX+20*cos(angle1),GetY+20*sin(angle1),5,angle1,10,0);
+   CreateShot01(GetX+20*cos(angle2),GetY+20*sin(angle2),5,angle2,10,0);
+      angle1 -= 360/25+1;
+      angle2 += 360/25+1;
+  Wait(1);
+     }
+  loop(60){
+   CreateShot01(GetX+30*cos(angle1),GetY+30*sin(angle1),5,angle1,10,0);
+   CreateShot01(GetX+30*cos(angle2),GetY+30*sin(angle2),5,angle2,10,0);
+      angle1 -= 360/25+1;
+      angle2 += 360/25+1;
+  Wait(1);
+     }
+  }
+  Wait(150);
+   MainShot;
+}
+
+     function Wait(let x){
+    loop(x){yield;}
+        }
+
+	//反射弾の例
+    //count回反射します
+    task CreateReflectShot(let x, let y, let speed,
+                 let angle, let graphic, let delay, let count) {
+        
+        //オブジェクト弾の作成
+        let obj = Obj_Create(OBJ_SHOT);
+        
+        //パラメータの設定
+        Obj_SetPosition(obj, x, y);
+        Obj_SetSpeed(obj, speed);
+        Obj_SetAngle(obj, angle);
+        ObjShot_SetGraphic(obj, graphic);
+        ObjShot_SetDelay(obj, delay);
+        
+        loop(delay){ yield; }
+        
+        while(!Obj_BeDeleted(obj)) {
+
+            //左端反射
+            if(Obj_GetX(obj)<GetClipMinX){
+                Obj_SetX(obj, GetClipMinX*2 - Obj_GetX(obj));
+                Obj_SetAngle(obj, 180 - Obj_GetAngle(obj));
+                count--;
+            }
+            //右端反射
+            if(Obj_GetX(obj)>GetClipMaxX){
+                Obj_SetX(obj, GetClipMaxX*2 - Obj_GetX(obj));
+                Obj_SetAngle(obj, 180 - Obj_GetAngle(obj));
+                count--;
+            }
+            //上端反射
+            if(Obj_GetY(obj)<GetClipMinY){
+                Obj_SetY(obj, GetClipMinY*2 - Obj_GetY(obj));
+                Obj_SetAngle(obj, 360 - Obj_GetAngle(obj));
+                count--;
+            }
+            //下端反射
+            if(Obj_GetY(obj)>GetClipMaxY){
+                Obj_SetY(obj, GetClipMaxY*2 - Obj_GetY(obj));
+                Obj_SetAngle(obj, 360 - Obj_GetAngle(obj));
+                count--;
+            }
+            
+            if(count<=0){ break; }
+        
+            yield;
+        }
+    }//反射弾終了
+
+}//enemy_main終了
+
+                      script_enemy Missile
+                    {
+                     @Initialize
+                     {
+               let imgEnemy = GetCurrentScriptDirectory~"\img\all_type.png";  
+                   SetLife(200);
+                LoadGraphic(imgEnemy);
+                SetTexture(imgEnemy);
+                SetGraphicRect(300,59,321,82);
+                 StartTask;
+                     }
+                     @MainLoop
+                     {
+                     SetCollisionA(GetX,GetY,20);
+                     SetCollisionB(GetX,GetY,20);
+                     yield;
+                     }
+                     @DrawLoop
+                     {
+                      DrawGraphic(GetX,GetY);
+                     }
+                     @Finalize
+                     {
+             CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+                     }
+    task StartTask 
+      {
+   if(GetArgument == 0){
+    SetMovePosition03(GetX+60,GetY,30,4);
+          }
+   if(GetArgument == 1){
+    SetMovePosition03(GetX-60,GetY,30,4);
+          }
+   if(GetArgument == 2){
+    SetMovePosition03(GetX+80,GetY-50,30,4);
+          }
+   if(GetArgument == 3){
+    SetMovePosition03(GetX-80,GetY-50,30,4);
+          }
+    Wait(150);
+        MainShot;
+      }
+  task MainShot{
+   BombShot(GetX,GetY,6,GetAngleToPlayer,11,0,20);
+  }
+
+	task BombShot(let x, let y, let speed,
+             let angle, let graphic, let delay, let delay_bomb) {
+    
+        //オブジェクト弾の作成
+        let x; let y;
+        let obj = Obj_Create(OBJ_SHOT);
+        
+        //パラメータの設定
+        Obj_SetPosition(obj, x, y);
+        Obj_SetSpeed(obj, speed);
+        Obj_SetAngle(obj, angle);
+        ObjShot_SetGraphic(obj, graphic);
+        ObjShot_SetDelay(obj, delay);
+        
+        loop(delay){ yield; }
+        
+        loop(delay_bomb){yield;};
+        loop(35){
+         CreateShot02(Obj_GetX(obj),Obj_GetY(obj),rand(4,10),rand(0,360),-0.05,rand(1,2),10,0);
+           }
+               Obj_Delete(obj);
+    }//炸裂弾終了
+  function Wait(let x){
+ loop(x){yield;}
+      }
+
+}//enemy Missile終了
+
+                      script_enemy Triangle
+                    {
+                     @Initialize
+                     {
+               let imgEnemy = GetCurrentScriptDirectory~"\img\all_type.png";  
+                   SetLife(400);
+                LoadGraphic(imgEnemy);
+                SetTexture(imgEnemy);
+                SetGraphicRect(390,59,412,83);
+                      StartTask;
+                     }
+                     @MainLoop
+                     {
+                     SetCollisionA(GetX,GetY,20);
+                     SetCollisionB(GetX,GetY,20);
+                     yield;
+                     }
+                     @DrawLoop
+                     {
+                      DrawGraphic(GetX,GetY);
+                     }
+                     @Finalize
+                     {
+             CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+                     }
+
+  function Wait(let x){
+ loop(x){yield;}
+      }
+
+task StartTask{
+  if(GetArgument == 0){
+    SetMovePositionHermite(GetX+50,GetY+50,200,0,80,90,120);
+           }
+  if(GetArgument == 1){
+    SetMovePositionHermite(GetX-50,GetY+50,200,90,80,180,120);
+           }
+  if(GetArgument == 2){
+    SetMovePositionHermite(GetX+50,GetY-50,200,270,80,0,120);
+           }
+  if(GetArgument == 3){
+    SetMovePositionHermite(GetX-50,GetY-50,200,180,80,270,120);
+           }
+      Wait(120);
+                CreateEnemyFromFile(GetCurrentScriptDirectory~"Wave.txt",GetX,GetY,0,0,0);
+    MainTask;
+}
+
+task MainTask{
+let angle = GetAngleToPlayer;
+  loop(3){
+   CreateLaserB(0,0,15,6,100);
+   SetLaserDataB(0,0,4,0,0,angle-150/3,0,angle-150/3,0);
+   SetShotKillTime(0,200);
+   FireShot(0);
+      angle += 150/3;
+  }
+Wait(300);
+         angle = GetAngleToPlayer;
+   CreateLaserB(0,0,30,6,100);
+   SetLaserDataB(0,0,4,0,0,angle,0,angle,0);
+   SetLaserDataB(0,100,4,0,0,angle,0,angle,0);
+   SetShotKillTime(0,200);
+   FireShot(0);
+     Wait(300);
+    MainTask;
+  }
+}
+
+}//enemy Triangle終了
+
+script_enemy Shield
+                    {
+        let on_cnt = false;
+                     @Initialize
+                     {
+               let imgEnemy = GetCurrentScriptDirectory~"\img\Shield01.png";  
+                   SetLife(3000);
+                LoadGraphic(imgEnemy);
+                SetTexture(imgEnemy);
+                SetGraphicRect(0,0,230,230);
+                      MainTask;
+                      TurnTask;
+                     }
+                     @MainLoop
+                     {
+               if(GetLife < 1000 && on_cnt == false){
+                  DeathTask;
+                   on_cnt = true;
+                 }else{
+                     SetCollisionA(GetX,GetY,80);
+                     SetCollisionB(GetX,GetY,80);
+                       }
+                     yield;
+                     }
+                     @DrawLoop
+                     {
+                      DrawGraphic(GetX,GetY);
+                     }
+                     @Finalize
+                     {
+       loop(rand(1,5)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+                     }
+
+task MainTask{
+    SetGraphicScale(0.7,0.7);
+    SetAlpha(0);
+    SetRenderState(ADD);
+  let alpha = 0;
+   loop(128){
+  SetAlpha(alpha);
+    alpha += 2;
+   Wait(1);
+   }
+}
+task TurnTask{
+  let angle = 0;
+  loop{
+     SetGraphicAngle(0,0,angle);
+    angle += 0.1;
+   Wait(1);
+  }
+}
+
+task DeathTask{
+ let scale = 0.7;
+ loop(7){
+   SetGraphicScale(scale,scale);
+   scale -= 0.1;
+  Wait(1);
+   }
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+    VanishEnemy;
+}
+
+  function Wait(let x){
+ loop(x){yield;}
+      }
+
+}//enemy Shield終了
+
+script_enemy Shield_Sub
+                    {
+             let on_cnt = false;
+                     @Initialize
+                     {
+               let imgEnemy = GetCurrentScriptDirectory~"\img\Shield02.png";  
+                   SetLife(1800);
+                LoadGraphic(imgEnemy);
+                SetTexture(imgEnemy);
+                SetGraphicRect(0,0,230,230);
+                      MainTask;
+                      TurnTask;
+                     }
+                     @MainLoop
+                     {
+               if(GetLife < 1000 && on_cnt == false){
+                  DeathTask;
+                   on_cnt = true;
+                 }else{
+                     SetCollisionA(GetX,GetY,60);
+                     SetCollisionB(GetX,GetY,60);
+                       }
+                     yield;
+                     }
+                     @DrawLoop
+                     {
+                      DrawGraphic(GetX,GetY);
+                     }
+                     @Finalize
+                     {
+   let a;
+       loop(rand(1,5)){
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"Power.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+          }   
+    a = rand(1,5);
+    if(a == 1){
+        CreateEnemyFromFile(GetCurrentScriptDirectory~"BigPower.txt",GetX+rand(-30,30),GetY+rand(-30,30),0,0,0);
+      }
+    a = rand(1,15);
+    if(a == 1){
+        CreateEnemyFromFile(GetCurrentScriptDirectory~"Skill.txt",GetX,GetY,0,0,0);
+      }
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+                     }
+
+task MainTask{
+    SetGraphicScale(0.7,0.7);
+    SetAlpha(0);
+    SetRenderState(ADD);
+  let alpha = 0;
+   loop(128){
+  SetAlpha(alpha);
+    alpha += 2;
+   Wait(1);
+   }
+}
+task TurnTask{
+  let angle = 0;
+  loop{
+     SetGraphicAngle(0,0,angle);
+    angle -= 0.2;
+   Wait(1);
+  }
+}
+
+task DeathTask{
+ let scale = 0.7;
+ loop(7){
+   SetGraphicScale(scale,scale);
+   scale -= 0.1;
+  Wait(1);
+   }
+       CreateEnemyFromFile(GetCurrentScriptDirectory~"DeathEffect.txt",GetX,GetY,0,0,0);
+    VanishEnemy;
+}
+
+  function Wait(let x){
+ loop(x){yield;}
+      }
+
+}//enemy Shield終了

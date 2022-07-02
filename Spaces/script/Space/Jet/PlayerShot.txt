@@ -1,0 +1,15 @@
+#PlayerShotData
+      ShotImage= ".\shot_all.png"
+
+        ShotData{//Â•Ä’e
+           id = 1
+           rect = (51, 82, 58, 98)
+           render = ADD
+           alpha = 255
+        }  
+        ShotData{//ò‘å•Ä’e
+           id = 2
+           rect = (13, 101, 22, 115)
+           render = ADD
+           alpha = 255
+        }  

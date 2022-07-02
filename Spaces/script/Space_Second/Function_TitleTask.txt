@@ -1,0 +1,223 @@
+task TitleTask{
+  let obj_title = Obj_Create(OBJ_EFFECT);
+  let path_title = gcsd ~ "img\title.png";
+
+        LoadGraphic(path_title);
+        ObjEffect_SetTexture( obj_title, path_title);
+        ObjEffect_SetPrimitiveType( obj_title, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_title, 4 );
+        ObjEffect_SetVertexUV( obj_title, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_title, 1, 0, 480);
+        ObjEffect_SetVertexUV( obj_title, 2, 640, 0);
+        ObjEffect_SetVertexUV( obj_title, 3, 640, 480);
+        ObjEffect_SetVertexXY( obj_title, 0, 0, 0);
+        ObjEffect_SetVertexXY( obj_title, 1, 0, 480);
+        ObjEffect_SetVertexXY( obj_title, 2, 640, 0);
+        ObjEffect_SetVertexXY( obj_title, 3, 640, 480);
+         Obj_SetPosition( obj_title, 0, 0 );
+         ObjEffect_SetLayer( obj_title, 8 );
+
+  let obj_title2 = Obj_Create(OBJ_EFFECT);
+  let path_title2 = gcsd ~ "img\title_name.png";
+
+        LoadGraphic(path_title2);
+        ObjEffect_SetTexture( obj_title2, path_title2);
+        ObjEffect_SetPrimitiveType( obj_title2, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_title2, 4 );
+        ObjEffect_SetVertexUV( obj_title2, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_title2, 1, 0, 92);
+        ObjEffect_SetVertexUV( obj_title2, 2, 516, 0);
+        ObjEffect_SetVertexUV( obj_title2, 3, 516, 92);
+        ObjEffect_SetVertexXY( obj_title2, 0, 0-516/2, 0-92/2);
+        ObjEffect_SetVertexXY( obj_title2, 1, 0-516/2, 92-92/2);
+        ObjEffect_SetVertexXY( obj_title2, 2, 516-516/2, 0-92/2);
+        ObjEffect_SetVertexXY( obj_title2, 3, 516-516/2, 92-92/2);
+         ObjEffect_SetScale( obj_title2, 0, 0);
+         Obj_SetPosition( obj_title2, 300, 80 );
+         ObjEffect_SetLayer( obj_title2, 8 );
+
+  let obj_title2_indo = Obj_Create(OBJ_EFFECT);
+
+        ObjEffect_SetTexture( obj_title2_indo, path_title2);
+        ObjEffect_SetPrimitiveType( obj_title2_indo, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_title2_indo, 4 );
+        ObjEffect_SetVertexUV( obj_title2_indo, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_title2_indo, 1, 0, 92);
+        ObjEffect_SetVertexUV( obj_title2_indo, 2, 516, 0);
+        ObjEffect_SetVertexUV( obj_title2_indo, 3, 516, 92);
+        ObjEffect_SetVertexXY( obj_title2_indo, 0, 0-516/2, 0-92/2);
+        ObjEffect_SetVertexXY( obj_title2_indo, 1, 0-516/2, 92-92/2);
+        ObjEffect_SetVertexXY( obj_title2_indo, 2, 516-516/2, 0-92/2);
+        ObjEffect_SetVertexXY( obj_title2_indo, 3, 516-516/2, 92-92/2);
+
+       ObjEffect_SetVertexColor(obj_title2_indo, 0, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title2_indo, 1, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title2_indo, 2, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title2_indo, 3, 0, 255, 255, 255);
+
+         ObjEffect_SetScale( obj_title2_indo, 1.1, 1.1);
+         ObjEffect_SetRenderState( obj_title2_indo, ADD);
+         Obj_SetPosition( obj_title2_indo, 300, 80 );
+         ObjEffect_SetLayer( obj_title2_indo, 8 );
+
+  let obj_title3 = Obj_Create(OBJ_EFFECT);
+  let path_title3 = gcsd ~ "img\title_name_2.png";
+
+        LoadGraphic(path_title3);
+        ObjEffect_SetTexture( obj_title3, path_title3);
+        ObjEffect_SetPrimitiveType( obj_title3, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_title3, 4 );
+        ObjEffect_SetVertexUV( obj_title3, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_title3, 1, 0, 89);
+        ObjEffect_SetVertexUV( obj_title3, 2, 139, 0);
+        ObjEffect_SetVertexUV( obj_title3, 3, 139, 89);
+        ObjEffect_SetVertexXY( obj_title3, 0, 0-139/2, 0-89/2);
+        ObjEffect_SetVertexXY( obj_title3, 1, 0-139/2, 89-89/2);
+        ObjEffect_SetVertexXY( obj_title3, 2, 139-139/2, 0-89/2);
+        ObjEffect_SetVertexXY( obj_title3, 3, 139-139/2, 89-89/2);
+
+       ObjEffect_SetVertexColor(obj_title3, 0, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3, 1, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3, 2, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3, 3, 0, 255, 255, 255);
+
+         ObjEffect_SetScale( obj_title3, 5, 5);
+         Obj_SetPosition( obj_title3, 310, 150 );
+         ObjEffect_SetLayer( obj_title3, 8 );
+
+  let obj_title3_indo = Obj_Create(OBJ_EFFECT);
+  let path_title3 = gcsd ~ "img\title_name_2.png";
+
+        ObjEffect_SetTexture( obj_title3_indo, path_title3);
+        ObjEffect_SetPrimitiveType( obj_title3_indo, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_title3_indo, 4 );
+        ObjEffect_SetVertexUV( obj_title3_indo, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_title3_indo, 1, 0, 89);
+        ObjEffect_SetVertexUV( obj_title3_indo, 2, 139, 0);
+        ObjEffect_SetVertexUV( obj_title3_indo, 3, 139, 89);
+        ObjEffect_SetVertexXY( obj_title3_indo, 0, 0-139/2, 0-89/2);
+        ObjEffect_SetVertexXY( obj_title3_indo, 1, 0-139/2, 89-89/2);
+        ObjEffect_SetVertexXY( obj_title3_indo, 2, 139-139/2, 0-89/2);
+        ObjEffect_SetVertexXY( obj_title3_indo, 3, 139-139/2, 89-89/2);
+
+       ObjEffect_SetVertexColor(obj_title3_indo, 0, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3_indo, 1, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3_indo, 2, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3_indo, 3, 0, 255, 255, 255);
+
+         ObjEffect_SetRenderState( obj_title3_indo, ADD);
+         ObjEffect_SetScale( obj_title3_indo, 0.9, 0.9);
+         Obj_SetPosition( obj_title3_indo, 310, 150 );
+         ObjEffect_SetLayer( obj_title3_indo, 8 );
+
+  let obj_title4 = Obj_Create(OBJ_EFFECT);
+  let path_title4 = gcsd ~ "img\title_name_3.png";
+
+        LoadGraphic(path_title4);
+        ObjEffect_SetTexture( obj_title4, path_title4);
+        ObjEffect_SetPrimitiveType( obj_title4, PRIMITIVE_TRIANGLESTRIP);
+        ObjEffect_CreateVertex( obj_title4, 4 );
+        ObjEffect_SetVertexUV( obj_title4, 0, 0, 0);
+        ObjEffect_SetVertexUV( obj_title4, 1, 0, 32);
+        ObjEffect_SetVertexUV( obj_title4, 2, 504, 0);
+        ObjEffect_SetVertexUV( obj_title4, 3, 504, 32);
+        ObjEffect_SetVertexXY( obj_title4, 0, 0, 0);
+        ObjEffect_SetVertexXY( obj_title4, 1, 0, 32);
+        ObjEffect_SetVertexXY( obj_title4, 2, 504, 0);
+        ObjEffect_SetVertexXY( obj_title4, 3, 504, 32);
+
+       ObjEffect_SetVertexColor(obj_title4, 0, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title4, 1, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title4, 2, 0, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title4, 3, 0, 255, 255, 255);
+
+         Obj_SetPosition( obj_title4, 60, 300 );
+         ObjEffect_SetLayer( obj_title4, 8 );
+
+  TitleProcess;
+
+   while(Obj_BeDeleted(obj_title) == false && TitleStart == false){
+     if(GetKeyState(VK_SHOT) == KEY_PUSH){
+       TitleStart = true;
+       TitleDelete;
+  Obj_Delete(obj_title2);
+  Obj_Delete(obj_title2_indo);
+  Obj_Delete(obj_title3);
+  Obj_Delete(obj_title3_indo);
+      loop(3){
+         Effect_Level_up;
+         Wait(20);
+       }
+    ForbidShot(false);
+    ForbidBomb(false);
+     }
+    yield;
+   }//while
+
+task TitleProcess{
+  let size = 0; let alpha = 200;
+  loop(50){
+      ObjEffect_SetScale( obj_title2, size, size);
+     size += 1/50;
+    yield;
+  }
+
+    loop(120){
+       ObjEffect_SetVertexColor(obj_title2_indo, 0, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title2_indo, 1, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title2_indo, 2, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title2_indo, 3, alpha, 255, 255, 255);
+       yield;
+          alpha -= 360/120;
+     }
+
+       ObjEffect_SetVertexColor(obj_title3, 0, 255, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3, 1, 255, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3, 2, 255, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3, 3, 255, 255, 255, 255);
+let angle = 0;
+   size = 5;
+    loop(140){
+      ObjEffect_SetScale( obj_title3, size, size);
+       ObjEffect_SetAngle(obj_title3, 0, 0, angle);
+       yield; size -= 4/140; angle += 360*8/140;
+     }
+
+       ObjEffect_SetAngle(obj_title3, 0, 0, 0);
+
+  alpha = 0;
+   loop(70){
+       ObjEffect_SetVertexColor(obj_title3_indo, 0, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3_indo, 1, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3_indo, 2, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title3_indo, 3, alpha, 255, 255, 255);
+         yield; alpha += 255/70;
+      }
+
+   while(TitleStart == false){
+     alpha = 255;
+   loop(100){
+       ObjEffect_SetVertexColor(obj_title4, 0, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title4, 1, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title4, 2, alpha, 255, 255, 255);
+       ObjEffect_SetVertexColor(obj_title4, 3, alpha, 255, 255, 255);
+         yield; alpha -= 255/100;
+      }
+
+  }
+
+}
+
+task TitleDelete{
+ let alpha = 255;
+  loop(50){
+   ObjEffect_SetVertexColor(obj_title, 0, alpha, 255, 255, 255);
+   ObjEffect_SetVertexColor(obj_title, 1, alpha, 255, 255, 255);
+   ObjEffect_SetVertexColor(obj_title, 2, alpha, 255, 255, 255);
+   ObjEffect_SetVertexColor(obj_title, 3, alpha, 255, 255, 255);
+   yield; alpha -= 255/50;
+   }
+  Obj_Delete(obj_title);
+ }
+
+}

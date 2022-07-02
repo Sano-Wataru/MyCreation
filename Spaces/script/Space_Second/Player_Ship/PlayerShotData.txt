@@ -1,0 +1,51 @@
+#PlayerShotData
+      ShotImage= ".\img\PlayerShot.png"
+
+        ShotData{//ê‘íe
+           id = 1
+           rect = (24, 8, 32, 40)
+           render = ADD
+           alpha = 255
+        }  
+        ShotData{//ê¬íe
+           id = 2
+           rect = (24, 48, 32, 80)
+           render = ADD
+           alpha = 255
+        } 
+        ShotData{//ûÚí∑íe
+           id = 3
+           rect = (216, 176, 224, 224)
+           render = ADD
+           alpha = 255
+        } 
+        ShotData{//ê¬í∑íe
+           id = 4
+           rect = (216, 64, 224, 112)
+           render = ADD
+           alpha = 255
+        } 
+        ShotData{//ûÚíZíe
+           id = 5
+           rect = (21, 352, 27, 376)
+           render = ADD
+           alpha = 255
+        } 
+        ShotData{//ê‘íZíe
+           id = 6
+           rect = (421, 8, 433, 32)
+           render = ADD
+           alpha = 255
+        } 
+        ShotData{//ê‘åıíe
+           id = 7
+           rect = (405, 411, 432, 438)
+           render = ADD
+           alpha = 255
+        } 
+        ShotData{//ìßñæíe
+           id = 255
+           rect = (200, 370, 210, 380)
+           render = ADD
+           alpha = 255
+        } 
